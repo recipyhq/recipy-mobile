@@ -10,12 +10,18 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix ",
     "prettier": "prettier --single-quote --write \"*.js\"",
-    "format-code": "yarn run prettier && yarn run lint:fix",
+    "format-code": "yarn run prettier && yarn run lint:fix"
   },
   "husky": {
     "hooks": {
-      "pre-commit": ["yarn run format-code", "git add"],
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.js": [
+      "yarn run format-code",
+      "git add"
+    ]
   },
   "dependencies": {
     "expo": "^30.0.1",
