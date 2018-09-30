@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StatusBar } from 'react-native';
 import { PropTypes } from 'prop-types';
 
+import { connect } from 'react-redux';
 import ContainerAuthentication from '../components/ContainerAuthentication/ContainerAuthentication';
 import Logo from '../components/Logo/Logo';
 import HomeButton from '../components/Buttons/HomeButton';
@@ -43,4 +44,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default connect()(Home);
