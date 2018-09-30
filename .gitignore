@@ -2,6 +2,9 @@ node_modules/**/*
 .expo/*
 npm-debug.*
 
+# Log files
+yarn-error.log
+*.log
 
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
