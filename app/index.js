@@ -6,6 +6,7 @@ import Navigator from './config/routes';
 import colors from './config/colors';
 import store from './config/store';
 
+
 EStyleSheet.build({
   $primaryWhite: colors.primaryWhite,
   $primaryOrange: colors.primaryOrange,

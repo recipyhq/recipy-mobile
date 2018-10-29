@@ -7,20 +7,22 @@ import ContainerAuthentication from '../components/ContainerAuthentication/Conta
 import InputWithLabelAndIcon from '../components/TextInputs/InputWithLabelAndIcon';
 import HomeButton from '../components/Buttons/HomeButton';
 import {
-  ChangeEmail, ChangePassword, ChangePasswordConfirmation,
+  ChangeEmail, ChangePassword, ChangePasswordConfirmation, SignUpUser,
 } from '../actions/user';
-
 
 class SignUp extends Component {
   static get propTypes() {
     return {
       // eslint-disable-next-line react/forbid-prop-types
       dispatch: PropTypes.func.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
+      user: PropTypes.object.isRequired,
     };
   }
 
-  handlePressSend() {
-    this.ign = 1;
+  handlePressSend(user) {
+    const { dispatch } = this.props;
+    dispatch(SignUpUser(user));
   }
 
   handleChangeEmail(email) {
@@ -45,10 +47,26 @@ class SignUp extends Component {
         <InputWithLabelAndIcon label="Courriel" iconName="envelope" onChangeText={(text) => { this.handleChangeEmail(text); }} keyboardType="email-address" />
         <InputWithLabelAndIcon label="Mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePassword(text); }} secureTextEntry />
         <InputWithLabelAndIcon label="Confirmation de mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }} secureTextEntry />
-        <HomeButton text="Envoyer" onPress={() => this.handlePressSend()} />
+        <HomeButton
+          text="Envoyer"
+          onPress={
+            () => {
+              const { user } = this.props;
+              this.handlePressSend(user);
+            }
+          }
+        />
       </ContainerAuthentication>
     );
   }
 }
 
-export default connect()(SignUp);
+const mapStateToProps = state => ({
+  user: {
+    email: state.user.user.email,
+    password: state.user.user.password,
+    password_confirmation: state.user.user.password_confirmation,
+  },
+});
+
+export default connect(mapStateToProps)(SignUp);

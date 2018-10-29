@@ -15,7 +15,7 @@ const Navigator = createStackNavigator({
   SignIn: {
     screen: SignIn,
     navigationOptions: {
-      title: 'SE CONNECTER',
+      title: 'Se connecter',
     },
   },
   SignUp: {

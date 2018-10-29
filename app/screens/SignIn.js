@@ -13,12 +13,14 @@ class SignIn extends Component {
     return {
       // eslint-disable-next-line react/forbid-prop-types
       dispatch: PropTypes.func.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
+      user: PropTypes.object.isRequired,
     };
   }
 
-  handlePressSend() {
+  handlePressSend(user) {
     const { dispatch } = this.props;
-    dispatch(SignInUser());
+    dispatch(SignInUser(user));
   }
 
   handleEmailChange(email) {
@@ -37,10 +39,24 @@ class SignIn extends Component {
         <StatusBar translucent={false} barStyle="light-content" />
         <InputWithLabelAndIcon label="Courriel" iconName="envelope" onChangeText={(text) => { this.handleEmailChange(text); }} keyboardType="email-address" />
         <InputWithLabelAndIcon label="Mot de passe" iconName="key" onChangeText={(text) => { this.handlePasswordChange(text); }} secureTextEntry />
-        <HomeButton text="Envoyer" onPress={() => this.handlePressSend()} />
+        <HomeButton
+          text="Envoyer"
+          onPress={() => {
+            const { user } = this.props;
+            this.handlePressSend(user);
+          }
+        }
+        />
       </ContainerAuthentication>
     );
   }
 }
 
-export default connect()(SignIn);
+const mapStateToProps = state => ({
+  user: {
+    email: state.user.user.email,
+    password: state.user.user.password,
+  },
+});
+
+export default connect(mapStateToProps)(SignIn);

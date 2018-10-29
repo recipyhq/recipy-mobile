@@ -1,11 +1,12 @@
 import {
-  CHANGE_EMAIL, CHANGE_PASSWORD,
+  CHANGE_EMAIL, CHANGE_PASSWORD, CHANGE_PASSWORD_CONFIRMATION,
 } from '../actions/user';
 
 const initialState = {
   user: {
     email: '',
     password: '',
+    password_confirmation: '',
   },
 };
 
@@ -25,6 +26,14 @@ const reducer = (state = initialState, action) => {
         user: {
           ...state.user,
           password: action.password || '',
+        },
+      };
+    case CHANGE_PASSWORD_CONFIRMATION:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          password_confirmation: action.password_confirmation || '',
         },
       };
     default:
