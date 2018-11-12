@@ -3,8 +3,45 @@ import { SecureStore } from 'expo';
 import { Alert } from 'react-native';
 import ApiUrl from '../config/api';
 
+export function* signUpUser(action) {
+  const requestUrl = `${ApiUrl}/api/users`;
+  const body = {
+    email: action.email,
+    password: action.password,
+    password_confirmation: action.password_confirmation,
+    confirm_success_url: `${ApiUrl}`,
+  };
+
+  yield axios({
+    method: 'post',
+    config: { headers: { 'Content-Type': 'application/json', 'Accept-Language': 'application/json' } },
+    url: requestUrl,
+    data: body,
+  }).then(() => {
+    Alert.alert(
+      'Inscription réussie',
+      'Veuillez confirmer votre compte en cliquant sur le lien '
+        + 'qui vient de vous être adressé par courriel',
+      [
+        { text: 'OK' },
+      ],
+      { cancelable: false },
+    );
+  }).catch((error) => {
+    const { response } = error;
+    Alert.alert(
+      'Erreur',
+      response.statusText,
+      [
+        { text: 'OK' },
+      ],
+      { cancelable: false },
+    );
+  });
+}
+
 export function* signInUser(action) {
-  const requestUrl = `${ApiUrl}/fr/api/users/sign_in`;
+  const requestUrl = `${ApiUrl}/api/users/sign_in`;
   const body = {
     email: action.email,
     password: action.password,
@@ -41,7 +78,7 @@ export function* signInUser(action) {
 }
 
 export function* requestResetPassword(action) {
-  const requestUrl = `${ApiUrl}/fr/api/users/password`;
+  const requestUrl = `${ApiUrl}/api/users/password`;
   const body = {
     email: action.email,
     redirect_url: ApiUrl,

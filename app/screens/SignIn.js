@@ -23,12 +23,12 @@ class SignIn extends Component {
     dispatch(SignInUser(user));
   }
 
-  handleEmailChange(email) {
+  handleChangeEmail(email) {
     const { dispatch } = this.props;
     dispatch(ChangeEmail(email));
   }
 
-  handlePasswordChange(password) {
+  handleChangePassword(password) {
     const { dispatch } = this.props;
     dispatch(ChangePassword(password));
   }
@@ -37,8 +37,8 @@ class SignIn extends Component {
     return (
       <ContainerAuthentication>
         <StatusBar translucent={false} barStyle="light-content" />
-        <InputWithLabelAndIcon label="Courriel" iconName="envelope" onChangeText={(text) => { this.handleEmailChange(text); }} keyboardType="email-address" />
-        <InputWithLabelAndIcon label="Mot de passe" iconName="key" onChangeText={(text) => { this.handlePasswordChange(text); }} secureTextEntry />
+        <InputWithLabelAndIcon label="Courriel" iconName="envelope" onChangeText={(text) => { this.handleChangeEmail(text); }} keyboardType="email-address" />
+        <InputWithLabelAndIcon label="Mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePassword(text); }} secureTextEntry />
         <HomeButton
           text="Envoyer"
           onPress={() => {
