@@ -1,18 +1,20 @@
 import React from 'react';
-import { View, ImageBackground, Text } from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import styles from './styles';
 
 const logo = require('./images/logo_white.png');
 
-const Logo = () => (
-  <View style={styles.container}>
+const Logo = ({
+  style, width, height, fontSize, ...props
+}) => (
+  <View style={[styles.container, style]} {...props}>
     <ImageBackground
       resizeMode="contain"
       source={logo}
-      style={styles.logo}
+      style={[styles.logo, { width, height }]}
     />
-    <Text style={styles.text}>RECIPY</Text>
   </View>
 );
+
 
 export default Logo;

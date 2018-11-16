@@ -1,10 +1,11 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Expo from 'expo';
 
 export default EStyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    backgroundColor: '$primaryWhite',
-    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingTop: Expo.Constants.statusBarHeight,
   },
 });

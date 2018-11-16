@@ -1,15 +1,14 @@
 import { createStackNavigator } from 'react-navigation';
 
-import Home from '../screens/Home';
-import SignIn from '../screens/SignIn';
-import SignUp from '../screens/SignUp';
-import ForgottenPassword from '../screens/ForgottenPassword';
+import Home from '../screens/Authentication/Home';
+import SignIn from '../screens/Authentication/SignIn';
+import SignUp from '../screens/Authentication/SignUp';
+import ForgottenPassword from '../screens/Authentication/ForgottenPassword';
 
 const Navigator = createStackNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
-      header: () => null,
     },
   },
   SignIn: {
@@ -30,6 +29,8 @@ const Navigator = createStackNavigator({
       title: 'Récupération de mot de passe',
     },
   },
+}, {
+  headerMode: 'none',
 });
 
 export default Navigator;

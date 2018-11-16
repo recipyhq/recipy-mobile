@@ -2,10 +2,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   container: {
-
+    flex: 1,
   },
-  input: {
-    height: 100,
-    width: 350,
+  linearGradient: {
   },
 });

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "recipy",
+    "name": "Recipy",
     "description": "This project is really great.",
     "slug": "recipy",
     "privacy": "public",
@@ -12,7 +12,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FF9A3B"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,7 +21,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false
     }
   }
 }
