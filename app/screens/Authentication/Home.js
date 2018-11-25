@@ -62,7 +62,7 @@ class Home extends Component {
 
   handlePressSignUp() {
     const { navigation } = this.props;
-    navigation.navigate('SignUp');
+    navigation.navigate('MyRecipe');
   }
 
   handlePressSignIn() {
