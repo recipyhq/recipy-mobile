@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {
+  Text, SectionList,
+} from 'react-native';
 import { PropTypes } from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
 import { changeEmail } from '../../actions/user';
@@ -61,6 +64,17 @@ class ForgottenPassword extends Component {
             transparent
             color={colors.primaryWhite}
             fontSize={20}
+          />
+          <SectionList
+            sections={[
+              { title: 'D', data: ['Devin', 'Damn', 'Daniel'] },
+              { title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie'] },
+            ]}
+            renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+            renderSectionHeader={
+              ({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>
+            }
+            keyExtractor={(item, index) => index}
           />
         </BackgroundImage>
       </ContainerView>
