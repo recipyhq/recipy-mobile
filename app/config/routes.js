@@ -5,6 +5,7 @@ import SignIn from '../screens/Authentication/SignIn';
 import SignUp from '../screens/Authentication/SignUp';
 import ForgottenPassword from '../screens/Authentication/ForgottenPassword';
 import MyRecipe from '../screens/Authentication/MyRecipe';
+import RecipeDescription from '../screens/Authentication/RecipeDescription';
 
 const Navigator = createStackNavigator({
   Home: {
@@ -34,6 +35,12 @@ const Navigator = createStackNavigator({
     screen: MyRecipe,
     navigationOptions: {
       title: 'Mes recettes',
+    },
+  },
+  RecipeDescription: {
+    screen: RecipeDescription,
+    navigationOptions: {
+      title: 'Description de la recette',
     },
   },
 }, {
