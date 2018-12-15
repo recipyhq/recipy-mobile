@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import {
-  Text, SectionList,
+  View, Text,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
 import { changeEmail } from '../../actions/user';
-import ContainerView from '../../components/ContainerView/ContainerView';
 import ButtonStd from '../../components/Buttons/ButtonStd';
-import BackgroundImage from '../../components/Backgrounds/BackgroundImage/BackgroundImage';
 import colors from '../../config/colors';
 import styles from './styles';
+import style from '../../components/Recipe/style';
 import { resetPassword } from '../../api/user';
+import MyRecipeItem from '../../components/Recipe/MyRecipeItem';
 
 
-const backgroundImage = require('../../../assets/bg-auth.jpg');
-
-class ForgottenPassword extends Component {
+class MyRecipe extends Component {
   static get propTypes() {
     return {
       // eslint-disable-next-line react/forbid-prop-types
@@ -37,6 +35,11 @@ class ForgottenPassword extends Component {
     navigation.navigate('Home');
   }
 
+  handlePressNext() {
+    const { navigation } = this.props;
+    navigation.navigate('RecipeDescription');
+  }
+
   handleEmailChange(email) {
     const { dispatch } = this.props;
     dispatch(changeEmail(email));
@@ -49,40 +52,34 @@ class ForgottenPassword extends Component {
 
   render() {
     return (
-      <ContainerView>
-        <BackgroundImage image={backgroundImage}>
-          <ButtonStd
-            onPress={() => (this.handlePressBack())}
-            title="Retour"
-            leftIcon={{
-              name: 'arrow-left',
-              color: colors.primaryWhite,
-              size: 15,
-              type: 'font-awesome',
-            }}
-            buttonStyle={styles.btnBack}
-            transparent
-            color={colors.primaryWhite}
-            fontSize={20}
-          />
-          <SectionList
-            sections={[
-              { title: 'D', data: ['Devin', 'Damn', 'Daniel'] },
-              { title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie'] },
-            ]}
-            renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-            renderSectionHeader={
-              ({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>
-            }
-            keyExtractor={(item, index) => index}
-          />
-        </BackgroundImage>
-      </ContainerView>
+      <View style={{ backgroundColor: colors.primaryOrange, flex: 1 }}>
+        <ButtonStd
+          onPress={() => (this.handlePressBack())}
+          title="Retour"
+          leftIcon={{
+            name: 'arrow-left',
+            color: colors.primaryGrey,
+            size: 15,
+            type: 'font-awesome',
+          }}
+          buttonStyle={styles.btnBack}
+          transparent
+          color={colors.primaryGrey}
+          fontSize={20}
+        />
+        <View style={{ backgroundColor: colors.primaryWhite, flex: 1 }}>
+          <Text style={style.pageTitle}>
+            Mes recettes
+          </Text>
+          <MyRecipeItem src="http://leflobart-leportel.fr/wp-content/uploads/2016/08/welsh.png" title="Wesh" view="1k" like="1k" onPress={() => (this.handlePressNext())} />
+          <MyRecipeItem src="http://foodandsens.com/wp-content/uploads/2016/09/Capture-d%E2%80%99%C3%A9cran-2016-09-15-%C3%A0-14.35.49.png" title="La grosseur" view="10k" like="200" onPress={() => (this.handlePressNext())} />
+
+        </View>
+      </View>
     );
   }
 }
-
-ForgottenPassword.defaultProps = {
+MyRecipe.defaultProps = {
   isLoading: false,
 };
 
@@ -93,4 +90,4 @@ const mapStateToProps = state => ({
   isLoading: state.user.isLoading,
 });
 
-export default connect(mapStateToProps)(ForgottenPassword);
+export default connect(mapStateToProps)(MyRecipe);

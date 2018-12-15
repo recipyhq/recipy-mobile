@@ -16,7 +16,11 @@ const style = EStyleSheet.create({
   // Section Title
   sectionTitle: {
     fontSize: 20,
-    paddingTop: 10,
+    paddingTop: 5,
+    paddingBottom: 10,
+    margin: 12,
+    borderBottomWidth: 0.2,
+    borderBottomColor: colors.veryLightGrey,
     textAlign: 'center',
   },
 
@@ -32,7 +36,7 @@ const style = EStyleSheet.create({
   sectionStep: {
     fontSize: 15,
     paddingTop: 10,
-    color: 'orange',
+    color: colors.primaryOrange,
   },
 
   // Section Text
@@ -40,7 +44,7 @@ const style = EStyleSheet.create({
     paddingLeft: 20,
   },
 
-  recipeTitle: {
+  pageTitle: {
     fontWeight: 'bold',
     fontSize: 20,
     textAlign: 'center',
@@ -48,13 +52,33 @@ const style = EStyleSheet.create({
 
   information: {
     fontSize: 30,
-    color: 'blue',
-    padding: 10,
+    color: colors.primaryOrange,
+    paddingRight: 15,
+    paddingLeft: 15,
+    marginTop: 15,
+    marginBottom: 10,
     borderRightWidth: 0.5,
+  },
+
+  informationEnd: {
+    fontSize: 30,
+    color: colors.primaryOrange,
+    paddingRight: 15,
+    paddingLeft: 15,
+    marginTop: 15,
+    marginBottom: 15,
+  },
+
+  imageStyle: {
+    width: 200,
+    height: 200,
+    alignItems: 'center',
+    borderRadius: 5,
+    marginLeft: '21%',
   },
 });
 
-class ForgottenPassword extends Component {
+class RecipeDescription extends Component {
   static get propTypes() {
     return {
       // eslint-disable-next-line react/forbid-prop-types
@@ -88,7 +112,7 @@ class ForgottenPassword extends Component {
 
   render() {
     return (
-      <ScrollView>
+      <View style={{ backgroundColor: colors.primaryOrange }}>
         <ButtonStd
           onPress={() => (this.handlePressBack())}
           title="Retour"
@@ -103,63 +127,62 @@ class ForgottenPassword extends Component {
           color={colors.primaryGrey}
           fontSize={20}
         />
-        <Text style={style.recipeTitle}>
-          Welsh de Papa Fossaert
-        </Text>
-        <Text>
-          5/5
-        </Text>
-        <Image
-          style={{
-            width: 300, height: 200, alignItems: 'center',
-          }}
-          source={{ uri: 'http://leflobart-leportel.fr/wp-content/uploads/2016/08/welsh.png' }}
-        />
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={style.information}>
-            25 min
+        <ScrollView style={{ backgroundColor: colors.primaryWhite, marginBottom: 68 }}>
+          <Text style={style.pageTitle}>
+            Welsh de Gros
           </Text>
-          <Text style={style.information}>
-            Facile
+          <Image
+            source={{ uri: 'http://leflobart-leportel.fr/wp-content/uploads/2016/08/welsh.png' }}
+            style={style.imageStyle}
+          />
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={style.information}>
+             25 min
+            </Text>
+            <Text style={style.information}>
+              Facile
+            </Text>
+            <Text style={style.informationEnd}>
+              Pour 4
+            </Text>
+          </View>
+          <SectionList
+            sections={[
+              { title: 'Ingrédients', data: ['-1000g de Cheddar', '-4 grosses tranches de pain', '-4 tranches de jambon', '-2 cuillères de moutarde', '-1 verre de bière blonde', '-Poivre'] },
+              { title: 'Matériel', data: ['-Casserole', '-Four', '-Cuillère en bois/plastique', '-Grille pain'] },
+            ]}
+            renderItem={({ item }) => <Text style={style.sectionText}>{item}</Text>}
+            renderSectionHeader={
+               ({ section }) => <Text style={style.sectionTitle}>{section.title}</Text>
+             }
+            keyExtractor={(item, index) => index}
+          />
+          <Text style={style.sectionTitle}>
+           Préparation
           </Text>
-        </View>
-        <SectionList
-          sections={[
-            { title: 'Ingrédients', data: ['-1000g de cheddar', '-4 grosses tranche de pains', '-4 tranches de jambon', '-2 cuillères de moutardes', '-1 verre de bière', '-Poivre'] },
-            { title: 'Matériel', data: ['-Casserole', '-Four', '-Cuiellere en bois/plastique', '-Grille pain'] },
-          ]}
-          renderItem={({ item }) => <Text style={style.sectionText}>{item}</Text>}
-          renderSectionHeader={
-              ({ section }) => <Text style={style.sectionTitle}>{section.title}</Text>
+          <SectionList
+            sections={[
+              { title: 'Etape 1:', data: ['-Dans une grille pain ou au four, faire griller les tranches de pains, les poser dans un plat avec la tranche de jambon par dessus'] },
+              { title: 'Etape 2:', data: ['-Faire chauffer la bière dans une casserole'] },
+              { title: 'Etape 3:', data: ['-Ajouter le Cheddar au fur et à mesure et mélanger sans cesse. Ajouter la moutarde et le poivre'] },
+              { title: 'Etape 4:', data: ['-Mélanger jusqu\'à obtenir un texture homogène'] },
+              { title: 'Etape 5:', data: ['-Faire couler le cheddar fondu sur chaque tranche de pain'] },
+              { title: 'Etape 6:', data: ['-Enfourner 15 minutes à 200 degrès en chaleur tournante !'] },
+            ]}
+            renderItem={({ item }) => <Text style={style.sectionText}>{item}</Text>}
+            renderSectionHeader={
+               ({ section }) => <Text style={style.sectionStep}>{section.title}</Text>
             }
-          keyExtractor={(item, index) => index}
-        />
-        <Text style={style.sectionTitle}>
-          Préparation
-        </Text>
-        <SectionList
-          sections={[
-            { title: 'Etape 1:', data: ['-Dans une grille pain ou au four, faire griller les tranches de pains, les poser dans un plat avec la tranche de jambon par dessus'] },
-            { title: 'Etape 2:', data: ['-Faire chauffer la bière dans une casserole'] },
-            { title: 'Etape 3:', data: ['-Ajouter les cheddar au fur et à mesure et mélanger sans cesse. Ajouter la moutarde et le poivre'] },
-            { title: 'Etape 4:', data: ['-Mélanger jusqua obtenir un texture homogène'] },
-            { title: 'Etape 5:', data: ['-Faire couler le cheddar fondu sur chaque tranche de pain'] },
-            { title: 'Etape 6:', data: ['-Enfourner 20 minutes à 180 degrès en chaleur tournante et déguster !'] },
-
-          ]}
-          renderItem={({ item }) => <Text style={style.sectionText}>{item}</Text>}
-          renderSectionHeader={
-              ({ section }) => <Text style={style.sectionStep}>{section.title}</Text>
-            }
-          keyExtractor={(item, index) => index}
-        />
-      </ScrollView>
+            keyExtractor={(item, index) => index}
+          />
+        </ScrollView>
+      </View>
     );
   }
 }
 
 
-ForgottenPassword.defaultProps = {
+RecipeDescription.defaultProps = {
   isLoading: false,
 };
 
@@ -170,4 +193,4 @@ const mapStateToProps = state => ({
   isLoading: state.user.isLoading,
 });
 
-export default connect(mapStateToProps)(ForgottenPassword);
+export default connect(mapStateToProps)(RecipeDescription);
