@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 export const CHANGE_EMAIL = 'CHANGE_EMAIL';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const CHANGE_PASSWORD_CONFIRMATION = 'CHANGE_PASSWORD_CONFIRMATION';
+export const CHANGE_ACCOUNT_TYPE = 'CHANGE_ACCOUNT_TYPE';
 
 // SIGN_IN_USER
 export const SIGN_IN_USER_REQUEST = 'SIGN_IN_USER_REQUEST';
@@ -23,27 +24,37 @@ export const signInUserRequest = () => ({
   type: SIGN_IN_USER_REQUEST,
 });
 
-export const signInUserSuccess = (response) => {
+export const signInUserSuccess = (response, navigation) => {
   SecureStore.setItemAsync('access-token', response.headers['access-token']);
   const { data } = response.data;
   Alert.alert(
     'Connexion réussie',
     `Vous êtes correctement connecté ${data.email}`,
     [
-      { text: 'OK' },
+      {
+        text: 'OK',
+        onPress: () => {
+          navigation.navigate('Cooker');
+        },
+      },
     ],
     { cancelable: false },
   );
   return ({ type: SIGN_IN_USER_SUCCESS });
 };
 
-export const signInUserFailure = (error) => {
+export const signInUserFailure = (error, navigation) => {
   error.response.data.errors.forEach((e) => {
     Alert.alert(
       'Erreur',
       e,
       [
-        { text: 'OK' },
+        {
+          text: 'OK',
+          onPress: () => {
+            navigation.navigate('Cooker');
+          },
+        },
       ],
       { cancelable: false },
     );
@@ -61,7 +72,9 @@ export const signUpUserSuccess = () => {
     'Veuillez confirmer votre compte en cliquant sur le lien '
     + 'qui vient de vous être adressé par courriel',
     [
-      { text: 'OK' },
+      {
+        text: 'OK',
+      },
     ],
     { cancelable: false },
   );
@@ -152,4 +165,9 @@ export const changePassword = password => ({
 export const changePasswordConfirmation = passwordConfirmation => ({
   type: CHANGE_PASSWORD_CONFIRMATION,
   password_confirmation: passwordConfirmation,
+});
+
+export const changeAccountType = type => ({
+  type: CHANGE_ACCOUNT_TYPE,
+  accountType: type,
 });

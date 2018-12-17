@@ -12,7 +12,7 @@ import {
   signUpUserSuccess,
 } from '../actions/user';
 
-export const signInUser = (dispatch, user) => {
+export const signInUser = (dispatch, navigation, user) => {
   dispatch(signInUserRequest());
   return axios({
     method: 'post',
@@ -23,9 +23,9 @@ export const signInUser = (dispatch, user) => {
     },
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then((response) => {
-    dispatch(signInUserSuccess(response));
+    dispatch(signInUserSuccess(response, navigation));
   }).catch((error) => {
-    dispatch(signInUserFailure(error));
+    dispatch(signInUserFailure(error, navigation));
   });
 };
 
@@ -41,8 +41,8 @@ export const signUpUser = (dispatch, user) => {
       confirm_success_url: `${ApiUrl}`,
     },
     config: { headers: { 'Content-Type': 'application/json' } },
-  }).then((response) => {
-    dispatch(signUpUserSuccess(response));
+  }).then(() => {
+    dispatch(signUpUserSuccess());
   }).catch((error) => {
     dispatch(signUpUserFailure(error));
   });

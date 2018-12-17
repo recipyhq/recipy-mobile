@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { PropTypes } from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
-import InputWithLabelAndIcon from '../../components/TextInputs/InputWithLabelAndIcon';
+import InputWithLabelAndIcon from '../../components/Inputs/InputWithLabelAndIcon';
 import { changeEmail } from '../../actions/user';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import ButtonStd from '../../components/Buttons/ButtonStd';
@@ -34,7 +34,7 @@ class ForgottenPassword extends Component {
 
   handlePressBack() {
     const { navigation } = this.props;
-    navigation.navigate('Home');
+    navigation.navigate('HomeAuth');
   }
 
   handleEmailChange(email) {
