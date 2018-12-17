@@ -15,12 +15,37 @@ import Profile from '../screens/Profile';
 import Settings from '../screens/Settings';
 import colors from './colors';
 import RecipesList from '../screens/Cooker/Recipies/RecipesList';
+import MyRecipes from '../screens/Cooker/Recipies/MyRecipes';
+import RecipeDescription from '../screens/Authentication/RecipeDescription';
 
 const SettingsStack = createStackNavigator({
   Settings,
   Profile,
 }, {
   headerMode: 'none',
+});
+
+const RecipeStack = createStackNavigator({
+  MyRecipes: {
+    screen: MyRecipes,
+    navigationOptions: {
+      title: 'Mes recettes',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  RecipeDescription: {
+    screen: RecipeDescription,
+    navigationOptions: {
+      title: 'Welsh de gros',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
 });
 
 function compassIcon({ tintColor }) {
@@ -32,10 +57,18 @@ compassIcon.propTypes = {
 };
 
 function cogIcon({ tintColor }) {
-  return (<FontAwesome5 name="compass" color={tintColor} size={24} />);
+  return (<FontAwesome5 name="cog" color={tintColor} size={24} />);
 }
 
 cogIcon.propTypes = {
+  tintColor: PropTypes.string.isRequired,
+};
+
+function cutleryIcon({ tintColor }) {
+  return (<FontAwesome5 name="cutlery" color={tintColor} size={24} />);
+}
+
+cutleryIcon.propTypes = {
   tintColor: PropTypes.string.isRequired,
 };
 
@@ -45,6 +78,13 @@ const TabCooker = createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Explorer',
       tabBarIcon: compassIcon,
+    },
+  },
+  MyRecipe: {
+    screen: RecipeStack,
+    navigationOptions: {
+      title: 'Mes recettes',
+      tabBarIcon: cutleryIcon,
     },
   },
   Settings: {
@@ -75,7 +115,6 @@ const TabProducer = createBottomTabNavigator({
       tabBarIcon: cogIcon,
     },
   },
-
 }, {
   tabBarOptions: {
     activeTintColor: colors.primaryOrange,
