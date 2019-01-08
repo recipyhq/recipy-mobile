@@ -1,6 +1,7 @@
+/* eslint-disable react/destructuring-assignment,no-undef,no-console */
 import React, { Component } from 'react';
 import {
-  View,
+  ScrollView, FlatList, View, ActivityIndicator,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import colors from '../../../config/colors';
@@ -8,26 +9,72 @@ import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 
 
 class MyRecipes extends Component {
-  static get propTypes() {
-    return {
-      // eslint-disable-next-line react/forbid-prop-types
-      navigation: PropTypes.object.isRequired,
-    };
+  constructor(props) {
+    super(props);
+    this.state = { isLoading: true };
   }
 
-  handlePressNext() {
-    const { navigation } = this.props;
-    navigation.navigate('RecipeDescription');
+  componentDidMount() {
+    return fetch('https://staging-recipy.herokuapp.com/api/recipes')
+      .then(response => response.json())
+      .then((responseJson) => {
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson,
+        }, () => {
+
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
+
+  get isLoading() {
+    const { isLoading } = this.props;
+    return isLoading;
+  }
+
+  handlePressNext(recipe) {
+    const { navigation } = this.props;
+    navigation.navigate('RecipeDescription', { item: recipe });
+  }
+
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, padding: 20 }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
     return (
-      <View style={{ backgroundColor: colors.primaryWhite, flex: 1 }}>
-        <MyRecipeItem src="http://leflobart-leportel.fr/wp-content/uploads/2016/08/welsh.png" title="Wesh" view="1k" like="1k" onPress={() => (this.handlePressNext())} />
-        <MyRecipeItem src="http://foodandsens.com/wp-content/uploads/2016/09/Capture-d%E2%80%99%C3%A9cran-2016-09-15-%C3%A0-14.35.49.png" title="La grosseur" view="10k" like="200" onPress={() => (this.handlePressNext())} />
-      </View>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
+        style={{
+          backgroundColor: colors.primaryWhite,
+        }}
+      >
+        <FlatList
+          data={this.state.dataSource}
+          renderItem={({ item }) => (
+            <MyRecipeItem recipe={item} onPress={() => (this.handlePressNext(item))} />
+          )}
+        />
+
+      </ScrollView>
     );
   }
 }
 
+MyRecipes.defaultProps = {
+  isLoading: true,
+};
+
+MyRecipes.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  navigation: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool,
+};
 export default MyRecipes;

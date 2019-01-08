@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField } from 'react-native-material-textfield';
+import { TextField } from 'react-native';
 
 const TextInputIcon = ({ label, ...props }) => (
   <TextField

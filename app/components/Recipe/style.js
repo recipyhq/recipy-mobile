@@ -4,17 +4,17 @@ import colors from '../../config/colors';
 const style = EStyleSheet.create({
   container: {
     marginLeft: 5,
-    marginTop: 15,
+    marginTop: 25,
     padding: 5,
-    backgroundColor: colors.lightGrey,
-    width: '35%',
-    height: 180,
-    borderRadius: 5,
+    backgroundColor: colors.mediumGrey,
+    width: 250,
+    height: 250,
+    borderRadius: 7,
   },
   imageStyle: {
-    flexGrow: 1,
+    flexGrow: 0.8,
     width: '100%',
-    height: 80,
+    height: 70,
   },
   userStyle: {
     fontSize: 18,
@@ -31,16 +31,41 @@ const style = EStyleSheet.create({
 
   recipeTitle: {
     fontWeight: 'bold',
-    fontSize: 15,
-    textAlign: 'center',
+    fontSize: 20,
     color: colors.primaryWhite,
+    marginLeft: 5,
   },
 
+  difficultyText: {
+    marginTop: 8,
+    marginLeft: 5,
+    color: colors.primaryWhite,
+    marginRight: 10,
+    fontWeight: 'bold',
+    fontSize: 10,
+  },
+  difficultyBar: {
+    marginTop: 2,
+    marginLeft: 5,
+    marginRight: 10,
+  },
+  description: {
+    fontSize: 12,
+    color: colors.primaryWhite,
+    marginTop: 15,
+    marginLeft: 5,
+  },
   attribute: {
     fontSize: 12,
     color: colors.primaryWhite,
-    paddingRight: 5,
-    marginTop: 15,
+    marginTop: 5,
+    marginLeft: 5,
+  },
+  score: {
+    fontSize: 12,
+    color: colors.primaryWhite,
+    marginTop: 5,
+    marginLeft: 5,
   },
 });
 

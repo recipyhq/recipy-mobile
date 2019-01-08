@@ -64,3 +64,8 @@ export const resetPassword = (dispatch, user) => {
     dispatch(resetPasswordFailure(error));
   });
 };
+
+export const getDataTest = () => axios({
+  url: 'https://staging-recipy.herokuapp.com/api/recipes',
+  method: 'get',
+});
