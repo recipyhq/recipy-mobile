@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Image, View, ScrollView } from 'react-native';
@@ -99,37 +100,25 @@ class Profile extends Component {
         <ScrollView style={{ padding: 30 }}>
           <TextInput
             label="Nouvel email"
-            value={() => {
-              const { user } = this.props;
-              return user.email;
-            }}
+            value={this.props.user.email}
             onChangeText={(text) => { this.handleChangeEmail(text); }}
             keyboardType="email-address"
           />
           <TextInput
             label="Nouveau mot de passe"
-            value={() => {
-              const { user } = this.props;
-              return user.password;
-            }}
+            value={this.props.user.password}
             onChangeText={(text) => { this.handleChangePassword(text); }}
             secureTextEntry
           />
           <TextInput
             label="Confirmation du nouveau mot de passe"
-            value={() => {
-              const { user } = this.props;
-              return user.password_confirmation;
-            }}
+            value={this.props.user.password_confirmation}
             onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }}
             secureTextEntry
           />
           <TextInput
             label="Mot de passe actuel"
-            value={() => {
-              const { user } = this.props;
-              return user.current_password;
-            }}
+            value={this.props.user.current_password}
             onChangeText={(text) => { this.handleChangeCurrentPassword(text); }}
             secureTextEntry
           />

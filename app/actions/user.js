@@ -47,29 +47,26 @@ export const refreshAuthCredentials = (headers) => {
   }
 };
 
-export const signInUserSuccess = async (response, navigation) => {
+export const signInUserSuccess = (response, navigation) => {
   refreshAuthCredentials(response.headers);
   // Redirect to the Cooker home
   navigation.navigate('Cooker');
   return ({ type: SIGN_IN_USER_SUCCESS });
 };
 
-export const signInUserFailure = (error) => {
-  refreshAuthCredentials(error.response.headers);
-  error.response.data.errors.forEach((e) => {
-    Alert.alert(
-      'Connexion échouée',
-      e,
-      [
-        {
-          text: 'OK',
-          onPress: () => {
-          },
+export const signInUserFailure = () => {
+  Alert.alert(
+    'Connexion échouée',
+    'Une erreur s\'est produite pendant la tentative de connexion',
+    [
+      {
+        text: 'OK',
+        onPress: () => {
         },
-      ],
-      { cancelable: false },
-    );
-  });
+      },
+    ],
+    { cancelable: false },
+  );
   return ({ type: SIGN_IN_USER_FAILURE });
 };
 

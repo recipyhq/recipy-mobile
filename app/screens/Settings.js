@@ -50,7 +50,7 @@ class Settings extends Component {
         <View style={styles.header}>
           <View style={{ flex: 5, flexDirection: 'row' }}>
             <View style={{ flex: 3 }}>
-              <Text style={styles.firstName}>Guillaume</Text>
+              <Text style={styles.firstName}>Bonjour,</Text>
               <ButtonStd
                 title="Editer mon profil"
                 onPress={() => this.handlePressEditProfile()}
