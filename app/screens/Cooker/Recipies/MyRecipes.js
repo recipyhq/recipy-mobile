@@ -14,7 +14,7 @@ class MyRecipes extends Component {
   }
 
   componentDidMount() {
-    return fetch('https://staging-recipy.herokuapp.com/api/recipes')
+    return fetch('https://staging-recipy-pr-157.herokuapp.com/api/recipes')
       .then(response => response.json())
       .then((responseJson) => {
         this.setState({
