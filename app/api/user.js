@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as SecureStore from 'expo/src/SecureStore';
 import ApiUrl from '../config/api';
 import {
   resetPasswordFailure,
@@ -10,6 +11,9 @@ import {
   signUpUserFailure,
   signUpUserRequest,
   signUpUserSuccess,
+  editUserRequest,
+  editUserSuccess,
+  editUserFailure,
 } from '../actions/user';
 
 export const signInUser = (dispatch, navigation, user) => {
@@ -25,7 +29,7 @@ export const signInUser = (dispatch, navigation, user) => {
   }).then((response) => {
     dispatch(signInUserSuccess(response, navigation));
   }).catch((error) => {
-    dispatch(signInUserFailure(error, navigation));
+    dispatch(signInUserFailure(error));
   });
 };
 
@@ -65,7 +69,31 @@ export const resetPassword = (dispatch, user) => {
   });
 };
 
-export const getDataTest = () => axios({
-  url: 'https://staging-recipy.herokuapp.com/api/recipes',
-  method: 'get',
-});
+export const editUser = async (dispatch, user) => {
+  dispatch(editUserRequest());
+  const accessToken = await SecureStore.getItemAsync('access-token');
+  const client = await SecureStore.getItemAsync('client');
+  const uid = await SecureStore.getItemAsync('uid');
+  const headers = {
+    'Content-Type': 'application/json',
+    uid,
+    'token-type': 'Bearer',
+    'access-token': accessToken,
+    client,
+  };
+  const data = {
+    email: user.email,
+    current_password: user.current_password,
+    password: user.password,
+    password_confirmation: user.password_confirmation,
+  };
+  return axios.put(`${ApiUrl}/api/users`,
+    data,
+    {
+      headers,
+    }).then((response) => {
+    dispatch(editUserSuccess(response));
+  }).catch((error) => {
+    dispatch(editUserFailure(error));
+  });
+};

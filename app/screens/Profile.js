@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Image, View } from 'react-native';
+import { Image, View, ScrollView } from 'react-native';
 import { PropTypes } from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ContainerView from '../components/ContainerView/ContainerView';
 import TextInput from '../components/Inputs/StdTextInput/StdTextInput';
-import { changeEmail } from '../actions/user';
+import {
+  changeCurrentPassword, changeEmail, changePassword, changePasswordConfirmation,
+} from '../actions/user';
 import colors from '../config/colors';
 import ButtonStd from '../components/Buttons/ButtonStd';
+import { editUser } from '../api/user';
 
 const styles = EStyleSheet.create({
   // Back Button
@@ -31,6 +34,14 @@ const styles = EStyleSheet.create({
 });
 
 class Profile extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(changeEmail(''));
+    dispatch(changePassword(''));
+    dispatch(changePasswordConfirmation(''));
+    dispatch(changeCurrentPassword(''));
+  }
+
   handlePressBack() {
     const { navigation } = this.props;
     navigation.navigate('Settings');
@@ -39,6 +50,26 @@ class Profile extends Component {
   handleChangeEmail(text) {
     const { dispatch } = this.props;
     dispatch(changeEmail(text));
+  }
+
+  handleChangePassword(text) {
+    const { dispatch } = this.props;
+    dispatch(changePassword(text));
+  }
+
+  handleChangePasswordConfirmation(text) {
+    const { dispatch } = this.props;
+    dispatch(changePasswordConfirmation(text));
+  }
+
+  handleChangeCurrentPassword(text) {
+    const { dispatch } = this.props;
+    dispatch(changeCurrentPassword(text));
+  }
+
+  handlePressSend(user) {
+    const { dispatch } = this.props;
+    editUser(dispatch, user);
   }
 
   render() {
@@ -61,16 +92,13 @@ class Profile extends Component {
         <View style={{ alignItems: 'center' }}>
           <Image
             source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}
-            style={{ width: 200, height: 200 }}
+            style={{ width: 150, height: 150 }}
             borderRadius={100}
           />
         </View>
-        <View style={{ padding: 30 }}>
+        <ScrollView style={{ padding: 30 }}>
           <TextInput
-            label="Prénom"
-          />
-          <TextInput
-            label="Email"
+            label="Nouvel email"
             value={() => {
               const { user } = this.props;
               return user.email;
@@ -78,14 +106,41 @@ class Profile extends Component {
             onChangeText={(text) => { this.handleChangeEmail(text); }}
             keyboardType="email-address"
           />
-        </View>
+          <TextInput
+            label="Nouveau mot de passe"
+            value={() => {
+              const { user } = this.props;
+              return user.password;
+            }}
+            onChangeText={(text) => { this.handleChangePassword(text); }}
+            secureTextEntry
+          />
+          <TextInput
+            label="Confirmation du nouveau mot de passe"
+            value={() => {
+              const { user } = this.props;
+              return user.password_confirmation;
+            }}
+            onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }}
+            secureTextEntry
+          />
+          <TextInput
+            label="Mot de passe actuel"
+            value={() => {
+              const { user } = this.props;
+              return user.current_password;
+            }}
+            onChangeText={(text) => { this.handleChangeCurrentPassword(text); }}
+            secureTextEntry
+          />
+        </ScrollView>
         <View style={styles.buttonContainer}>
           <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
             <ButtonStd
               title="Editer"
               onPress={() => {
-                // const { user } = this.props;
-                // this.handlePressSend(user);
+                const { user } = this.props;
+                this.handlePressSend(user);
               }}
               buttonStyle={styles.btnSendForm}
               borderRadius={30}
@@ -103,6 +158,9 @@ function mapStateToProps(state) {
   return {
     user: {
       email: state.user.email,
+      password: state.user.password,
+      password_confirmation: state.user.password_confirmation,
+      current_password: state.user.current_password,
     },
   };
 }

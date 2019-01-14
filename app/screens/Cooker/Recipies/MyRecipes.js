@@ -7,7 +7,6 @@ import { PropTypes } from 'prop-types';
 import colors from '../../../config/colors';
 import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 
-
 class MyRecipes extends Component {
   constructor(props) {
     super(props);
@@ -61,6 +60,7 @@ class MyRecipes extends Component {
           renderItem={({ item }) => (
             <MyRecipeItem recipe={item} onPress={() => (this.handlePressNext(item))} />
           )}
+          keyExtractor={(item, index) => index.toString()}
         />
 
       </ScrollView>

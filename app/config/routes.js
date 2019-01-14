@@ -39,7 +39,7 @@ const RecipeStack = createStackNavigator({
   RecipeDescription: {
     screen: RecipeDescription,
     navigationOptions: {
-      title: 'Welsh de gros',
+      title: 'Informations de la recette',
       headerTintColor: colors.primaryGrey,
       headerStyle: {
         backgroundColor: colors.primaryOrange,
