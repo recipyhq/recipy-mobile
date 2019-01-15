@@ -15,10 +15,10 @@ const RecipeDescriptionItem = ({
       {recipe.title}
     </Text>
     <Image
-      source={{ uri: recipe.image_url }}
+      source={{ uri: recipe.image_url ? recipe.image_url : 'https://pngimage.net/wp-content/uploads/2018/06/not-found-png-3.png' }}
       style={style.imageStyle}
     />
-    <View style={{ flexDirection: 'row' }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
       <View style={style.infoContainer}>
         <Text style={style.indicator}>
           Temps:
