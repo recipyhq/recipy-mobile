@@ -6,6 +6,7 @@ import {
 import { PropTypes } from 'prop-types';
 import colors from '../../../config/colors';
 import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
+import ApiUrl from '../../../config/api';
 
 class MyRecipes extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class MyRecipes extends Component {
   }
 
   componentDidMount() {
-    return fetch('https://staging-recipy-pr-157.herokuapp.com/api/recipes')
+    return fetch(`${ApiUrl}/api/recipes`)
       .then(response => response.json())
       .then((responseJson) => {
         this.setState({

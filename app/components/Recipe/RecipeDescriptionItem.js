@@ -38,7 +38,7 @@ const RecipeDescriptionItem = ({
           {'/10'}
         </Text>
       </View>
-      <View style={style.infoContainer}>
+      <View style={style.infoContainerLast}>
         <Text style={style.indicator}>
           Quantité:
         </Text>

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Image, View, ScrollView } from 'react-native';
 import { PropTypes } from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import ContainerView from '../components/ContainerView/ContainerView';
 import TextInput from '../components/Inputs/StdTextInput/StdTextInput';
 import {
   changeCurrentPassword, changeEmail, changePassword, changePasswordConfirmation,
@@ -74,7 +73,7 @@ class Profile extends Component {
 
   render() {
     return (
-      <ContainerView style={{ backgroundColor: colors.lightGrey }}>
+      <ScrollView style={{ backgroundColor: colors.lightGrey }}>
         <ButtonStd
           onPress={() => (this.handlePressBack())}
           title="Retour"
@@ -149,7 +148,7 @@ class Profile extends Component {
             />
           </View>
         </View>
-      </ContainerView>
+      </ScrollView>
     );
   }
 }
