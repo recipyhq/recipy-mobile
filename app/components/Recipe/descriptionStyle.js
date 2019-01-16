@@ -46,6 +46,12 @@ const descriptionStyle = EStyleSheet.create({
     marginBottom: 10,
     borderRightWidth: 0.5,
   },
+  infoContainerLast: {
+    paddingRight: 15,
+    paddingLeft: 15,
+    marginTop: 15,
+    marginBottom: 10,
+  },
   indicator: {
     fontSize: 12,
     color: colors.mediumGrey,
@@ -60,10 +66,6 @@ const descriptionStyle = EStyleSheet.create({
   informationEnd: {
     fontSize: 30,
     color: colors.primaryOrange,
-    paddingRight: 15,
-    paddingLeft: 15,
-    marginTop: 15,
-    marginBottom: 15,
   },
 
   imageStyle: {

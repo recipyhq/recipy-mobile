@@ -14,7 +14,7 @@ const MyRecipeItem = ({
     <View style={style.container} onPress={onPress} {...props}>
       <Image
         style={style.imageStyle}
-        source={{ uri: recipe.image_url }}
+        source={{ uri: recipe.image_url ? recipe.image_url : 'https://pngimage.net/wp-content/uploads/2018/06/not-found-png-3.png' }}
       />
       <Text style={style.recipeTitle}>
         {recipe.title}
