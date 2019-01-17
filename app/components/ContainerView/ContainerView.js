@@ -1,28 +1,27 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
-  StatusBar, TouchableWithoutFeedback, Keyboard,
+  StatusBar, TouchableWithoutFeedback, Keyboard, View,
 } from 'react-native';
-
-import { SafeAreaView } from 'react-navigation';
 import styles from './styles';
 import colors from '../../config/colors';
 
-const ContainerView = ({ children }) => (
+const ContainerView = ({ children, style, ...props }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.primaryWhite }]}>
+    <View style={[styles.container, style]} {...props}>
       <StatusBar
         barStyle="light-content"
         backgroundColor={colors.primaryOrange}
+        hidden
       />
       {children}
-    </SafeAreaView>
+    </View>
   </TouchableWithoutFeedback>
 );
 
 ContainerView.propTypes = {
-// eslint-disable-next-line react/forbid-prop-types
-  children: PropTypes.any.isRequired,
+  // eslint-disable-next-line react/require-default-props,react/forbid-prop-types
+  children: PropTypes.any,
 };
 
 export default ContainerView;

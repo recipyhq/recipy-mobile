@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import connect from 'react-redux/es/connect/connect';
 import { PropTypes } from 'prop-types';
-import InputWithLabelAndIcon from '../../components/TextInputs/InputWithLabelAndIcon';
+import InputWithLabelAndIcon from '../../components/Inputs/InputWithLabelAndIcon';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import {
+  changeAccountType,
   changeEmail, changePassword, changePasswordConfirmation,
 } from '../../actions/user';
 import ButtonStd from '../../components/Buttons/ButtonStd';
@@ -13,6 +14,8 @@ import colors from '../../config/colors';
 import styles from './styles';
 import { signUpUser } from '../../api/user';
 import Loader from '../../components/Loaders/Loader/Loader';
+import Select from '../../components/Inputs/Select/Select';
+import SelectItem from '../../components/Inputs/Select/SelectItem';
 
 const backgroundImage = require('../../../assets/bg-auth.jpg');
 
@@ -36,12 +39,12 @@ class SignUp extends Component {
 
   handlePressBack() {
     const { navigation } = this.props;
-    navigation.navigate('Home');
+    navigation.navigate('HomeAuth');
   }
 
   handlePressSend(user) {
-    const { dispatch } = this.props;
-    signUpUser(dispatch, user);
+    const { dispatch, navigation } = this.props;
+    signUpUser(dispatch, user, navigation);
   }
 
   handleChangeEmail(email) {
@@ -57,6 +60,11 @@ class SignUp extends Component {
   handleChangePasswordConfirmation(passwordConfirmation) {
     const { dispatch } = this.props;
     dispatch(changePasswordConfirmation(passwordConfirmation));
+  }
+
+  handleChangeAccountType(accountType) {
+    const { dispatch } = this.props;
+    dispatch(changeAccountType(accountType));
   }
 
   render() {
@@ -78,10 +86,21 @@ class SignUp extends Component {
             color={colors.primaryWhite}
             fontSize={20}
           />
-          <View style={{ flex: 1, alignItems: 'center' }}>
+          <View style={styles.containerForm}>
             <InputWithLabelAndIcon label="Courriel" iconName="envelope" onChangeText={(text) => { this.handleChangeEmail(text); }} keyboardType="email-address" />
             <InputWithLabelAndIcon label="Mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePassword(text); }} secureTextEntry />
             <InputWithLabelAndIcon label="Confirmation de mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }} secureTextEntry />
+            <Select
+              label="Vous êtes..."
+              selectedValue={() => {
+                const { user } = this.props;
+                return user.accountType;
+              }}
+              onValueChange={itemValue => this.handleChangeAccountType(itemValue)}
+            >
+              <SelectItem label="Cuisinier" value="COOKER" />
+              <SelectItem label="Producteur" value="PRODUCER" />
+            </Select>
           </View>
           <View style={styles.buttonContainer}>
             <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
@@ -114,6 +133,7 @@ const mapStateToProps = state => ({
     email: state.user.email,
     password: state.user.password,
     password_confirmation: state.user.password_confirmation,
+    accountType: state.user.accountType,
   },
 });
 

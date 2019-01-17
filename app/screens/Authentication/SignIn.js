@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import InputWithLabelAndIcon from '../../components/TextInputs/InputWithLabelAndIcon';
+import InputWithLabelAndIcon from '../../components/Inputs/InputWithLabelAndIcon';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import ButtonStd from '../../components/Buttons/ButtonStd';
 import BackgroundImage from '../../components/Backgrounds/BackgroundImage/BackgroundImage';
@@ -22,12 +22,12 @@ class SignIn extends Component {
 
   handlePressBack() {
     const { navigation } = this.props;
-    navigation.navigate('Home');
+    navigation.navigate('HomeAuth');
   }
 
   handlePressSend(user) {
-    const { dispatch } = this.props;
-    signInUser(dispatch, user);
+    const { dispatch, navigation } = this.props;
+    signInUser(dispatch, navigation, user);
   }
 
   handleChangeEmail(email) {
@@ -59,7 +59,7 @@ class SignIn extends Component {
             color={colors.primaryWhite}
             fontSize={20}
           />
-          <View style={{ flex: 1, alignItems: 'center' }}>
+          <View style={styles.containerForm}>
             <InputWithLabelAndIcon label="Courriel" iconName="envelope" onChangeText={(text) => { this.handleChangeEmail(text); }} keyboardType="email-address" />
             <InputWithLabelAndIcon label="Mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePassword(text); }} secureTextEntry />
           </View>

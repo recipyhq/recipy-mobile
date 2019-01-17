@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as SecureStore from 'expo/src/SecureStore';
 import ApiUrl from '../config/api';
 import {
   resetPasswordFailure,
@@ -10,9 +11,12 @@ import {
   signUpUserFailure,
   signUpUserRequest,
   signUpUserSuccess,
+  editUserRequest,
+  editUserSuccess,
+  editUserFailure,
 } from '../actions/user';
 
-export const signInUser = (dispatch, user) => {
+export const signInUser = (dispatch, navigation, user) => {
   dispatch(signInUserRequest());
   return axios({
     method: 'post',
@@ -23,7 +27,7 @@ export const signInUser = (dispatch, user) => {
     },
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then((response) => {
-    dispatch(signInUserSuccess(response));
+    dispatch(signInUserSuccess(response, navigation));
   }).catch((error) => {
     dispatch(signInUserFailure(error));
   });
@@ -41,8 +45,8 @@ export const signUpUser = (dispatch, user) => {
       confirm_success_url: `${ApiUrl}`,
     },
     config: { headers: { 'Content-Type': 'application/json' } },
-  }).then((response) => {
-    dispatch(signUpUserSuccess(response));
+  }).then(() => {
+    dispatch(signUpUserSuccess());
   }).catch((error) => {
     dispatch(signUpUserFailure(error));
   });
@@ -62,5 +66,40 @@ export const resetPassword = (dispatch, user) => {
     dispatch(resetPasswordSuccess(response));
   }).catch((error) => {
     dispatch(resetPasswordFailure(error));
+  });
+};
+
+export const editUser = async (dispatch, user) => {
+  dispatch(editUserRequest());
+  const accessToken = await SecureStore.getItemAsync('access-token');
+  const client = await SecureStore.getItemAsync('client');
+  const uid = await SecureStore.getItemAsync('uid');
+  const headers = {
+    'Content-Type': 'application/json',
+    uid,
+    'token-type': 'Bearer',
+    'access-token': accessToken,
+    client,
+  };
+  const data = {
+    current_password: user.current_password,
+  };
+  if (user.email !== undefined && user.email !== '') {
+    data.email = user.email;
+  }
+  if (user.password !== undefined && user.password !== '') {
+    data.password = user.password;
+  }
+  if (user.password_confirmation !== undefined && user.password_confirmation !== '') {
+    data.password = user.password;
+  }
+  return axios.put(`${ApiUrl}/api/users`,
+    data,
+    {
+      headers,
+    }).then((response) => {
+    dispatch(editUserSuccess(response));
+  }).catch((error) => {
+    dispatch(editUserFailure(error));
   });
 };
