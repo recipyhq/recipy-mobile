@@ -82,11 +82,17 @@ export const editUser = async (dispatch, user) => {
     client,
   };
   const data = {
-    email: user.email,
     current_password: user.current_password,
-    password: user.password,
-    password_confirmation: user.password_confirmation,
   };
+  if (user.email !== undefined && user.email !== '') {
+    data.email = user.email;
+  }
+  if (user.password !== undefined && user.password !== '') {
+    data.password = user.password;
+  }
+  if (user.password_confirmation !== undefined && user.password_confirmation !== '') {
+    data.password = user.password;
+  }
   return axios.put(`${ApiUrl}/api/users`,
     data,
     {
