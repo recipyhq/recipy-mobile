@@ -126,7 +126,7 @@ class Profile extends Component {
             error={this.props.errorManager.password_confirmation}
           />
           <TextInput
-            label="Mot de passe actuel"
+            label="Mot de passe actuel*"
             value={this.props.user.current_password}
             onChangeText={(text) => { this.handleChangeCurrentPassword(text); }}
             secureTextEntry
