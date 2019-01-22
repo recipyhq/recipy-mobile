@@ -1,4 +1,4 @@
-/* eslint-disable react/destructuring-assignment,no-undef,no-console */
+/* eslint-disable react/destructuring-assignment,no-undef */
 import React, { Component } from 'react';
 import {
   ScrollView, FlatList, View, ActivityIndicator,
@@ -25,8 +25,7 @@ class MyRecipes extends Component {
 
         });
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
       });
   }
 
