@@ -1,17 +1,83 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { SearchBar } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
+import { ScrollView } from 'react-native';
 import ContainerView from '../../../components/ContainerView/ContainerView';
+import Loader from '../../../components/Loaders/Loader/Loader';
+import { changeSearchQuery } from '../../../actions/recipe';
+import { searchForRecipe } from '../../../api/recipe';
+import RecipeListItem from '../../../components/Recipe/RecipeList/RecipeListItem/RecipeListItem';
 
-const RecipesList = () => (
-  <ContainerView>
-    <SearchBar
-      onChangeText={() => {}}
-      onClear={() => {}}
-      placeholder="Gâteau bûche au citron et vodka..."
-      lightTheme
-      round
-    />
-  </ContainerView>
-);
+class RecipesList extends Component {
+  get isLoading() {
+    const { isLoading } = this.props;
+    return isLoading;
+  }
 
-export default RecipesList;
+  static get defaultProps() {
+    return {
+      resultsList: [],
+    };
+  }
+
+  static get propTypes() {
+    return {
+      dispatch: PropTypes.func.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
+      isLoading: PropTypes.bool.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
+      search: PropTypes.object.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
+      resultsList: PropTypes.array,
+    };
+  }
+
+  handleChangeSearchQuery(text) {
+    const { dispatch } = this.props;
+    dispatch(changeSearchQuery(text));
+  }
+
+  handlePressSearchButton(search) {
+    const { dispatch } = this.props;
+    searchForRecipe(dispatch, search);
+  }
+
+  render() {
+    const { resultsList } = this.props;
+    return (
+      <ContainerView>
+        <Loader isLoading={this.isLoading} />
+        <SearchBar
+          onChangeText={(text) => {
+            this.handleChangeSearchQuery(text);
+            const { search } = this.props;
+            this.handlePressSearchButton(search);
+          }}
+          onClear={() => {
+            const { search } = this.props;
+            search.q = '';
+          }}
+          placeholder="Boeuf carrottes ..."
+          lightTheme
+          round
+        />
+        <ScrollView>
+          {
+            resultsList.map(recipe => <RecipeListItem key={recipe.id} recipe={recipe} />)
+          }
+        </ScrollView>
+      </ContainerView>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    resultsList: state.recipe.list,
+    isLoading: state.ingredient.isLoading,
+    search: state.recipe.search,
+  };
+}
+
+export default connect(mapStateToProps)(RecipesList);

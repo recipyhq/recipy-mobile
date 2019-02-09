@@ -175,7 +175,6 @@ Profile.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   errorManager: PropTypes.object,
   isLoading: PropTypes.bool,
-
 };
 
 Profile.defaultProps = {
