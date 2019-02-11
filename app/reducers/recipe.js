@@ -1,8 +1,9 @@
 import {
   CHANGE_SEARCH_QUERY,
-  SEARCH_RECIPE_FAILURE,
-  SEARCH_RECIPE_REQUEST,
-  SEARCH_RECIPE_SUCCESS,
+  GET_ALL_RECIPE_FAILURE,
+  GET_ALL_RECIPE_REQUEST,
+  GET_ALL_RECIPE_SUCCESS,
+  SEARCH_RECIPE_FAILURE, SEARCH_RECIPE_REQUEST, SEARCH_RECIPE_SUCCESS,
   SHOW_RECIPE,
 } from '../actions/recipe';
 
@@ -48,6 +49,22 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentRecipe: action.currentRecipe,
+      };
+    case GET_ALL_RECIPE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GET_ALL_RECIPE_SUCCESS:
+      return {
+        ...state,
+        list: action.resultList,
+        isLoading: false,
+      };
+    case GET_ALL_RECIPE_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

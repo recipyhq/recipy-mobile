@@ -14,9 +14,6 @@ import {
   editUserRequest,
   editUserSuccess,
   editUserFailure,
-  getAllRecipeRequest,
-  getAllRecipeSuccess,
-  getAllRecipeFailure,
 } from '../actions/user';
 
 export const signInUser = (dispatch, navigation, user) => {
@@ -104,18 +101,5 @@ export const editUser = async (dispatch, user, errorManager) => {
     dispatch(editUserSuccess(response, errorManager));
   }).catch((error) => {
     dispatch(editUserFailure(error, errorManager));
-  });
-};
-
-export const getAllRecipe = (dispatch) => {
-  dispatch(getAllRecipeRequest());
-  return axios({
-    method: 'get',
-    url: `${ApiUrl}/api/recipes`,
-    config: { headers: { 'Content-Type': 'application/json' } },
-  }).then(() => {
-    dispatch(getAllRecipeSuccess);
-  }).catch((error) => {
-    dispatch(getAllRecipeFailure(error));
   });
 };

@@ -27,11 +27,6 @@ export const EDIT_USER_REQUEST = 'EDIT_USER_REQUEST';
 export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';
 export const EDIT_USER_FAILURE = 'EDIT_USER_FAILURE';
 
-// Get_ALL_RECIPE
-export const GET_ALL_RECIPE_REQUEST = 'GET_ALL_RECIPE_REQUEST';
-export const GET_ALL_RECIPE_SUCCESS = 'GET_ALL_RECIPE_SUCCESS';
-export const GET_ALL_RECIPE_FAILURE = 'GET_ALL_RECIPE_FAILURE';
-
 export const signInUserRequest = () => ({
   type: SIGN_IN_USER_REQUEST,
 });
@@ -240,35 +235,3 @@ export const changeAccountType = type => ({
   type: CHANGE_ACCOUNT_TYPE,
   accountType: type,
 });
-
-export const getAllRecipeRequest = () => ({
-  type: GET_ALL_RECIPE_REQUEST,
-});
-
-export const getAllRecipeSuccess = () => {
-  Alert.alert(
-    'Récupération des recettes réussi',
-    [
-      {
-        text: 'OK',
-      },
-    ],
-    { cancelable: false },
-  );
-  return ({
-    type: GET_ALL_RECIPE_SUCCESS,
-  });
-};
-
-export const getAllRecipeFailure = (error) => {
-  const { response } = error;
-  Alert.alert(
-    'Une erreur est survenue lors de la récupération des recette',
-    response.statusText,
-    [
-      { text: 'OK' },
-    ],
-    { cancelable: false },
-  );
-  return ({ type: GET_ALL_RECIPE_FAILURE });
-};

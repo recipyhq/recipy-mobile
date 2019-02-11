@@ -1,6 +1,13 @@
 import axios from 'axios';
 import qs from 'qs';
-import { searchRecipeFailure, searchRecipeRequest, searchRecipeSuccess } from '../actions/recipe';
+import {
+  searchRecipeFailure,
+  searchRecipeRequest,
+  searchRecipeSuccess,
+  getAllRecipeFailure,
+  getAllRecipeRequest,
+  getAllRecipeSuccess,
+} from '../actions/recipe';
 import ApiUrl from '../config/api';
 
 
@@ -30,4 +37,15 @@ export const searchForRecipe = (dispatch, search) => {
   });
 };
 
-export default searchForRecipe;
+export const getAllRecipe = (dispatch) => {
+  dispatch(getAllRecipeRequest());
+  const headers = { 'Content-Type': 'application/json' };
+  return axios(`${ApiUrl}/api/recipes`,
+    {
+      headers,
+    }).then((response) => {
+    dispatch(getAllRecipeSuccess(response));
+  }).catch((error) => {
+    dispatch(getAllRecipeFailure(error));
+  });
+};

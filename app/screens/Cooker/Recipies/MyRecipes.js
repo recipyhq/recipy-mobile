@@ -1,13 +1,14 @@
 /* eslint-disable react/destructuring-assignment,no-undef */
 import React, { Component } from 'react';
 import {
-  ScrollView, FlatList,
+  ScrollView,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
 import colors from '../../../config/colors';
 import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 import Loader from '../../../components/Loaders/Loader/Loader';
-import { getAllRecipe } from '../../../api/user';
+import { getAllRecipe } from '../../../api/recipe';
 
 class MyRecipes extends Component {
   componentDidMount() {
@@ -30,6 +31,7 @@ class MyRecipes extends Component {
   }
 
   render() {
+    const { recipesList } = this.props;
     return (
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
@@ -38,15 +40,17 @@ class MyRecipes extends Component {
         }}
       >
         <Loader isLoading={this.isLoading} />
-        <FlatList
-          // Resultat de la requete va ici
-          data={this.state.dataSource}
-          renderItem={({ item }) => (
-            <MyRecipeItem recipe={item} onPress={() => (this.handlePressNext(item))} />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
-
+        {
+          recipesList.map(recipe => (
+            <MyRecipeItem
+              key={recipe.id.toString()}
+              recipe={recipe}
+              onPress={() => (
+                this.handlePressNext(recipe))
+          }
+            />
+          ))
+        }
       </ScrollView>
     );
   }
@@ -62,5 +66,15 @@ MyRecipes.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
+  recipesList: PropTypes.array.isRequired,
 };
-export default MyRecipes;
+
+function mapStateToProps(state) {
+  return {
+    recipesList: state.recipe.list,
+    isLoading: state.recipe.isLoading,
+  };
+}
+
+export default connect(mapStateToProps)(MyRecipes);

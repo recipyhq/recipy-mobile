@@ -15,7 +15,7 @@ import {
   RESET_PASSWORD_FAILURE,
   EDIT_USER_REQUEST,
   EDIT_USER_SUCCESS,
-  EDIT_USER_FAILURE, GET_ALL_RECIPE_REQUEST, GET_ALL_RECIPE_SUCCESS, GET_ALL_RECIPE_FAILURE,
+  EDIT_USER_FAILURE,
 } from '../actions/user';
 
 const initialState = {
@@ -108,21 +108,6 @@ const reducer = (state = initialState, action) => {
         isLoading: false,
       };
     case EDIT_USER_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-      };
-    case GET_ALL_RECIPE_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case GET_ALL_RECIPE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      };
-    case GET_ALL_RECIPE_FAILURE:
       return {
         ...state,
         isLoading: false,
