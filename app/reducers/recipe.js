@@ -3,6 +3,7 @@ import {
   SEARCH_RECIPE_FAILURE,
   SEARCH_RECIPE_REQUEST,
   SEARCH_RECIPE_SUCCESS,
+  SHOW_RECIPE,
 } from '../actions/recipe';
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
     difficulty: 0,
     time: 0,
   },
+  currentRecipe: null,
   isLoading: false,
 };
 
@@ -41,6 +43,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case SHOW_RECIPE:
+      return {
+        ...state,
+        currentRecipe: action.currentRecipe,
       };
     default:
       return state;

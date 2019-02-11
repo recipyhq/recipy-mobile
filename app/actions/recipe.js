@@ -5,6 +5,7 @@ export const CHANGE_SEARCH_QUERY = 'CHANGE_SEARCH_QUERY';
 export const SEARCH_RECIPE_REQUEST = 'SEARCH_RECIPE_REQUEST';
 export const SEARCH_RECIPE_SUCCESS = 'SEARCH_RECIPE_SUCCESS';
 export const SEARCH_RECIPE_FAILURE = 'SEARCH_RECIPE_FAILURE';
+export const SHOW_RECIPE = 'SHOW_RECIPE';
 
 export const searchRecipeRequest = () => ({
   type: SEARCH_RECIPE_REQUEST,
@@ -40,3 +41,11 @@ export const changeSearchQuery = q => ({
     q,
   },
 });
+
+export const showRecipe = (navigation, recipe) => {
+  navigation.navigate('RecipeDescription', { item: this.recipe });
+  return {
+    type: SHOW_RECIPE,
+    currentRecipe: recipe,
+  };
+};

@@ -39,7 +39,6 @@ class MyRecipes extends Component {
     navigation.navigate('RecipeDescription', { item: recipe });
   }
 
-
   render() {
     if (this.state.isLoading) {
       return (
