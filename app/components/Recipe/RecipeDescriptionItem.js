@@ -11,9 +11,6 @@ const RecipeDescriptionItem = ({
   recipe,
 }) => (
   <ScrollView style={{ backgroundColor: colors.primaryWhite, marginBottom: 1 }}>
-    <Text style={style.pageTitle}>
-      {recipe.title}
-    </Text>
     <Image
       source={{ uri: recipe.image_url ? recipe.image_url : 'https://pngimage.net/wp-content/uploads/2018/06/not-found-png-3.png' }}
       style={style.imageStyle}

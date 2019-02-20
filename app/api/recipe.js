@@ -7,9 +7,11 @@ import {
   getAllRecipeFailure,
   getAllRecipeRequest,
   getAllRecipeSuccess,
+  getRecipeRequest,
+  getRecipeSuccess,
+  getRecipeFailure,
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
-
 
 export const searchForRecipe = (dispatch, search) => {
   dispatch(searchRecipeRequest());
@@ -47,5 +49,19 @@ export const getAllRecipe = (dispatch) => {
     dispatch(getAllRecipeSuccess(response));
   }).catch((error) => {
     dispatch(getAllRecipeFailure(error));
+  });
+};
+
+export const getRecipe = (dispatch, id, resolve) => {
+  dispatch(getRecipeRequest());
+  const headers = { 'Content-Type': 'application/json' };
+  return axios(`${ApiUrl}/api/recipes/${id}`,
+    {
+      headers,
+    }).then((response) => {
+    dispatch(getRecipeSuccess(response));
+    resolve();
+  }).catch((error) => {
+    dispatch(getRecipeFailure(error));
   });
 };

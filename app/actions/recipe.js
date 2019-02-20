@@ -10,7 +10,12 @@ export const SEARCH_RECIPE_FAILURE = 'SEARCH_RECIPE_FAILURE';
 // SHOW_RECIPE
 export const SHOW_RECIPE = 'SHOW_RECIPE';
 
-// Get_ALL_RECIPE
+// GET_RECIPE
+export const GET_RECIPE_REQUEST = 'GET_RECIPE_REQUEST';
+export const GET_RECIPE_SUCCESS = 'GET_RECIPE_SUCCESS';
+export const GET_RECIPE_FAILURE = 'GET_RECIPE_FAILURE';
+
+// GET_ALL_RECIPE
 export const GET_ALL_RECIPE_REQUEST = 'GET_ALL_RECIPE_REQUEST';
 export const GET_ALL_RECIPE_SUCCESS = 'GET_ALL_RECIPE_SUCCESS';
 export const GET_ALL_RECIPE_FAILURE = 'GET_ALL_RECIPE_FAILURE';
@@ -51,7 +56,7 @@ export const changeSearchQuery = q => ({
 });
 
 export const showRecipe = (navigation, recipe) => {
-  navigation.navigate('RecipeDescription', { item: this.recipe });
+  navigation.navigate('RecipeDescription', { item: recipe });
   return {
     type: SHOW_RECIPE,
     currentRecipe: recipe,
@@ -83,4 +88,31 @@ export const getAllRecipeFailure = (error) => {
     { cancelable: false },
   );
   return ({ type: GET_ALL_RECIPE_FAILURE });
+};
+
+export const getRecipeRequest = () => ({
+  type: GET_RECIPE_REQUEST,
+});
+
+export const getRecipeSuccess = (response) => {
+  refreshAuthCredentials(response.headers);
+  let currentRecipe = [];
+  if (response.data) currentRecipe = response.data;
+  return ({
+    type: GET_RECIPE_SUCCESS,
+    currentRecipe,
+  });
+};
+
+export const getRecipeFailure = (error) => {
+  const { response } = error;
+  Alert.alert(
+    'Une erreur est survenue lors de la récupération de la recette',
+    response.statusText,
+    [
+      { text: 'OK' },
+    ],
+    { cancelable: false },
+  );
+  return ({ type: GET_RECIPE_FAILURE });
 };

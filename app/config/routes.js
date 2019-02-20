@@ -25,7 +25,26 @@ const SettingsStack = createStackNavigator({
   headerMode: 'none',
 });
 
-const RecipeStack = createStackNavigator({
+const RecipeListStack = createStackNavigator({
+  MyRecipes: {
+    screen: RecipesList,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  RecipeDescription: {
+    screen: RecipeDescription,
+    navigationOptions: {
+      title: 'Description de la recette',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+});
+
+const MyRecipeStack = createStackNavigator({
   MyRecipes: {
     screen: MyRecipes,
     navigationOptions: {
@@ -39,7 +58,7 @@ const RecipeStack = createStackNavigator({
   RecipeDescription: {
     screen: RecipeDescription,
     navigationOptions: {
-      title: 'Welsh de gros',
+      title: 'Description de la recette',
       headerTintColor: colors.primaryGrey,
       headerStyle: {
         backgroundColor: colors.primaryOrange,
@@ -74,14 +93,14 @@ cutleryIcon.propTypes = {
 
 const TabCooker = createBottomTabNavigator({
   Home: {
-    screen: RecipesList,
+    screen: RecipeListStack,
     navigationOptions: {
       tabBarLabel: 'Explorer',
       tabBarIcon: compassIcon,
     },
   },
   MyRecipe: {
-    screen: RecipeStack,
+    screen: MyRecipeStack,
     navigationOptions: {
       title: 'Mes recettes',
       tabBarIcon: cutleryIcon,

@@ -8,7 +8,8 @@ import { connect } from 'react-redux';
 import colors from '../../../config/colors';
 import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 import Loader from '../../../components/Loaders/Loader/Loader';
-import { getAllRecipe } from '../../../api/recipe';
+import { getAllRecipe, getRecipe } from '../../../api/recipe';
+import { showRecipe } from '../../../actions/recipe';
 
 class MyRecipes extends Component {
   componentDidMount() {
@@ -21,8 +22,14 @@ class MyRecipes extends Component {
   }
 
   handlePressNext(recipe) {
-    const { navigation } = this.props;
-    navigation.navigate('RecipeDescription', { item: recipe });
+    const { dispatch, navigation } = this.props;
+    const promiseGetRecipe = id => new Promise((resolve) => {
+      getRecipe(dispatch, id, resolve);
+    });
+    promiseGetRecipe(recipe.id).then(() => {
+      const { currentRecipe } = this.props;
+      dispatch(showRecipe(navigation, currentRecipe));
+    });
   }
 
   handleGetAllRecipe() {
@@ -58,6 +65,7 @@ class MyRecipes extends Component {
 
 MyRecipes.defaultProps = {
   isLoading: true,
+  currentRecipe: null,
 };
 
 MyRecipes.propTypes = {
@@ -68,12 +76,15 @@ MyRecipes.propTypes = {
   isLoading: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
   recipesList: PropTypes.array.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  currentRecipe: PropTypes.object,
 };
 
 function mapStateToProps(state) {
   return {
     recipesList: state.recipe.list,
     isLoading: state.recipe.isLoading,
+    currentRecipe: state.recipe.currentRecipe,
   };
 }
 

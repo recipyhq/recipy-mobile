@@ -3,14 +3,17 @@ import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 import { Button, Card } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import colors from '../../../../config/colors';
 import style from './style';
 import { showRecipe } from '../../../../actions/recipe';
+import { getRecipe } from '../../../../api/recipe';
 
 class RecipeListItem extends Component {
-  constructor(recipe) {
-    super(recipe);
-    this.recipe = recipe;
+  static get defaultProps() {
+    return {
+      currentRecipe: null,
+    };
   }
 
   static get propTypes() {
@@ -20,8 +23,11 @@ class RecipeListItem extends Component {
           title: PropTypes.string.isRequired,
           image_url: PropTypes.string,
           description: PropTypes.string,
+          time: PropTypes.number,
         },
       ).isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
+      currentRecipe: PropTypes.object,
       // eslint-disable-next-line react/forbid-prop-types
       navigation: PropTypes.object.isRequired,
       dispatch: PropTypes.func.isRequired,
@@ -29,22 +35,29 @@ class RecipeListItem extends Component {
   }
 
   handlePressShowDetails() {
-    const { dispatch, navigation } = this.props;
-    dispatch(showRecipe(navigation, this.recipe));
+    const { dispatch, navigation, recipe } = this.props;
+    const promiseGetRecipe = id => new Promise((resolve) => {
+      getRecipe(dispatch, id, resolve);
+    });
+    promiseGetRecipe(recipe.id).then(() => {
+      const { currentRecipe } = this.props;
+      dispatch(showRecipe(navigation, currentRecipe));
+    });
   }
 
   render() {
+    const { recipe } = this.props;
     return (
       <View style={style.container}>
         <Card
-          title={this.recipe.title}
-          image={{ uri: this.recipe.image_url }}
+          title={recipe.title}
+          image={{ uri: recipe.image_url }}
         >
           <Text style={style.recipeDescription}>
-            {this.recipe.description}
+            {recipe.description}
           </Text>
           <Text style={style.recipeTime}>
-            {`Temps de réalisation : ${this.recipe.time} minutes`}
+            {`Temps de réalisation : ${recipe.time} minutes`}
           </Text>
           <Button
             icon={{
@@ -54,7 +67,9 @@ class RecipeListItem extends Component {
               type: 'font-awesome',
             }}
             backgroundColor="#03A9F4"
-            onPress={this.handlePressShowDetails}
+            onPress={() => {
+              this.handlePressShowDetails();
+            }}
             buttonStyle={
               {
                 borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0,
@@ -70,8 +85,8 @@ class RecipeListItem extends Component {
 
 function mapStateToProps(state) {
   return {
-    recipe: state.recipe.currentRecipe,
+    currentRecipe: state.recipe.currentRecipe,
   };
 }
 
-export default connect(mapStateToProps)(RecipeListItem);
+export default connect(mapStateToProps)(withNavigation(RecipeListItem));
