@@ -33,15 +33,15 @@ export const signInUserRequest = () => ({
 
 export const refreshAuthCredentials = (headers) => {
   // console.log('************ REFRESH CREDENTIALS ************');
-  if (headers['access-token'] !== undefined) {
+  if (headers['access-token'] !== undefined && headers['access-token'] !== '') {
     SecureStore.setItemAsync('access-token', headers['access-token']);
     // console.log('access-token', headers['access-token']);
   }
-  if (headers.client !== undefined) {
+  if (headers.client !== undefined && headers.client !== '') {
     SecureStore.setItemAsync('client', headers.client);
     // console.log('client', headers.client);
   }
-  if (headers.uid !== undefined) {
+  if (headers.uid !== undefined && headers.uid !== '') {
     SecureStore.setItemAsync('uid', headers.uid);
     // console.log('uid', headers.uid);
   }
@@ -167,7 +167,12 @@ export const editUserRequest = () => ({
   type: EDIT_USER_REQUEST,
 });
 
-export const editUserSuccess = (response) => {
+export const editUserSuccess = (response, errorManager) => {
+  const tmp = errorManager;
+  tmp.email = '';
+  tmp.password = '';
+  tmp.password_confirmation = '';
+  tmp.current_password = '';
   refreshAuthCredentials(response.headers);
   Alert.alert(
     'Edition du profil',
@@ -182,16 +187,27 @@ export const editUserSuccess = (response) => {
   });
 };
 
-export const editUserFailure = (error) => {
-  refreshAuthCredentials(error.response.headers);
-  Alert.alert(
-    'Edition du profil',
-    'Une erreur inconnue s\'est produite',
-    [
-      { text: 'OK' },
-    ],
-    { cancelable: false },
-  );
+export const editUserFailure = (error, errorManager) => {
+  if (error.response) {
+    refreshAuthCredentials(error.response.headers);
+    if (error.response.data && error.response.data.errors) {
+      const errorData = error.response.data.errors;
+      const newErrMa = errorManager;
+      newErrMa.email = (errorData.email !== undefined) ? errorData.email[0] : '';
+      newErrMa.password = (errorData.password !== undefined) ? errorData.password[0] : '';
+      newErrMa.password_confirmation = (errorData.password_confirmation !== undefined) ? errorData.password_confirmation[0] : '';
+      newErrMa.current_password = (errorData.current_password !== undefined) ? errorData.current_password[0] : '';
+    }
+  } else {
+    Alert.alert(
+      'Edition du profil',
+      'Une erreur s\'est produite pendant la tentative d\'édition du profil',
+      [
+        { text: 'OK' },
+      ],
+      { cancelable: false },
+    );
+  }
   return ({ type: EDIT_USER_FAILURE });
 };
 

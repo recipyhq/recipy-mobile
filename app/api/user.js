@@ -69,7 +69,7 @@ export const resetPassword = (dispatch, user) => {
   });
 };
 
-export const editUser = async (dispatch, user) => {
+export const editUser = async (dispatch, user, errorManager) => {
   dispatch(editUserRequest());
   const accessToken = await SecureStore.getItemAsync('access-token');
   const client = await SecureStore.getItemAsync('client');
@@ -84,22 +84,22 @@ export const editUser = async (dispatch, user) => {
   const data = {
     current_password: user.current_password,
   };
-  if (user.email !== undefined && user.email !== '') {
+  if (user.email && user.email !== '') {
     data.email = user.email;
   }
-  if (user.password !== undefined && user.password !== '') {
+  if (user.password && user.password !== '') {
     data.password = user.password;
   }
-  if (user.password_confirmation !== undefined && user.password_confirmation !== '') {
-    data.password = user.password;
+  if (user.password_confirmation && user.password_confirmation !== '') {
+    data.password_confirmation = user.password_confirmation;
   }
   return axios.put(`${ApiUrl}/api/users`,
     data,
     {
       headers,
     }).then((response) => {
-    dispatch(editUserSuccess(response));
+    dispatch(editUserSuccess(response, errorManager));
   }).catch((error) => {
-    dispatch(editUserFailure(error));
+    dispatch(editUserFailure(error, errorManager));
   });
 };

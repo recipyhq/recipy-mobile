@@ -11,6 +11,7 @@ import {
 import colors from '../config/colors';
 import ButtonStd from '../components/Buttons/ButtonStd';
 import { editUser } from '../api/user';
+import Loader from '../components/Loaders/Loader/Loader';
 
 const styles = EStyleSheet.create({
   // Back Button
@@ -42,6 +43,11 @@ class Profile extends Component {
     dispatch(changeCurrentPassword(''));
   }
 
+  get isLoading() {
+    const { isLoading } = this.props;
+    return isLoading;
+  }
+
   handlePressBack() {
     const { navigation } = this.props;
     navigation.navigate('Settings');
@@ -67,14 +73,15 @@ class Profile extends Component {
     dispatch(changeCurrentPassword(text));
   }
 
-  handlePressSend(user) {
+  handlePressSend(user, errorManager) {
     const { dispatch } = this.props;
-    editUser(dispatch, user);
+    editUser(dispatch, user, errorManager);
   }
 
   render() {
     return (
       <ScrollView style={{ backgroundColor: colors.lightGrey }}>
+        <Loader isLoading={this.isLoading} />
         <ButtonStd
           onPress={() => (this.handlePressBack())}
           title="Retour"
@@ -102,24 +109,28 @@ class Profile extends Component {
             value={this.props.user.email}
             onChangeText={(text) => { this.handleChangeEmail(text); }}
             keyboardType="email-address"
+            error={this.props.errorManager.email}
           />
           <TextInput
             label="Nouveau mot de passe"
             value={this.props.user.password}
             onChangeText={(text) => { this.handleChangePassword(text); }}
             secureTextEntry
+            error={this.props.errorManager.password}
           />
           <TextInput
             label="Confirmation du nouveau mot de passe"
             value={this.props.user.password_confirmation}
             onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }}
             secureTextEntry
+            error={this.props.errorManager.password_confirmation}
           />
           <TextInput
-            label="Mot de passe actuel"
+            label="Mot de passe actuel*"
             value={this.props.user.current_password}
             onChangeText={(text) => { this.handleChangeCurrentPassword(text); }}
             secureTextEntry
+            error={this.props.errorManager.current_password}
           />
         </ScrollView>
         <View style={styles.buttonContainer}>
@@ -128,7 +139,7 @@ class Profile extends Component {
               title="Editer"
               onPress={() => {
                 const { user } = this.props;
-                this.handlePressSend(user);
+                this.handlePressSend(user, this.props.errorManager);
               }}
               buttonStyle={styles.btnSendForm}
               borderRadius={30}
@@ -150,6 +161,7 @@ function mapStateToProps(state) {
       password_confirmation: state.user.password_confirmation,
       current_password: state.user.current_password,
     },
+    isLoading: state.user.isLoading,
   };
 }
 
@@ -160,6 +172,19 @@ Profile.propTypes = {
   user: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.any.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  errorManager: PropTypes.object,
+  isLoading: PropTypes.bool,
+};
+
+Profile.defaultProps = {
+  errorManager: {
+    current_password: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+  },
+  isLoading: false,
 };
 
 export default connect(mapStateToProps)(Profile);
