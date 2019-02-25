@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions, View } from 'react-native';
+import * as SecureStore from 'expo/src/SecureStore';
 import Logo from '../../components/Logo/Logo';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import ButtonStd from '../../components/Buttons/ButtonStd';
@@ -53,6 +54,13 @@ const style = EStyleSheet.create({
 
 
 class Home extends Component {
+  componentWillMount() {
+    const { navigation } = this.props;
+    SecureStore.getItemAsync('uid').then((uid) => {
+      if (uid) { navigation.navigate('Cooker'); }
+    });
+  }
+
   static get propTypes() {
     return {
       // eslint-disable-next-line react/forbid-prop-types

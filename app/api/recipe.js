@@ -52,7 +52,7 @@ export const getAllRecipe = (dispatch) => {
   });
 };
 
-export const getRecipe = (dispatch, id, resolve) => {
+export const getRecipe = (dispatch, id, resolve, reject) => {
   dispatch(getRecipeRequest());
   const headers = { 'Content-Type': 'application/json' };
   return axios(`${ApiUrl}/api/recipes/${id}`,
@@ -63,5 +63,6 @@ export const getRecipe = (dispatch, id, resolve) => {
     resolve();
   }).catch((error) => {
     dispatch(getRecipeFailure(error));
+    reject('Error');
   });
 };

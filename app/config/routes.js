@@ -12,18 +12,21 @@ import ForgottenPassword from '../screens/Authentication/ForgottenPassword';
 import Home from '../screens/Cooker/Home';
 import HomeAuth from '../screens/Authentication/Home';
 import Profile from '../screens/Profile';
-import Settings from '../screens/Settings';
 import colors from './colors';
 import RecipesList from '../screens/Cooker/Recipies/RecipesList';
 import MyRecipes from '../screens/Cooker/Recipies/MyRecipes';
 import RecipeDescription from '../screens/Authentication/RecipeDescription';
+import Settings from '../screens/Settings';
 
-const SettingsStack = createStackNavigator({
-  Settings,
-  Profile,
-}, {
-  headerMode: 'none',
-});
+const SettingsStack = createStackNavigator(
+  {
+    Settings,
+    Profile,
+  },
+  {
+    headerMode: 'none',
+  },
+);
 
 const RecipeListStack = createStackNavigator({
   MyRecipes: {

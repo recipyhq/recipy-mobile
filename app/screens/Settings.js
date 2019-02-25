@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  View, Text, Image, FlatList,
+  View, Text, Image,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { List, ListItem } from 'react-native-elements';
-import { PropTypes } from 'prop-types';
 import ContainerView from '../components/ContainerView/ContainerView';
 import colors from '../config/colors';
 import ButtonStd from '../components/Buttons/ButtonStd';
+import { SignOutUser } from '../actions/user';
 
 const styles = EStyleSheet.create({
   // Header
@@ -16,13 +17,11 @@ const styles = EStyleSheet.create({
     padding: 30,
     height: 110,
   },
-
   firstName: {
     fontSize: 30,
     fontWeight: 'bold',
     color: colors.mediumGrey,
   },
-
   BtnEditProfile: {
     backgroundColor: colors.primaryWhite,
     padding: 0,
@@ -34,9 +33,15 @@ const styles = EStyleSheet.create({
 class Settings extends Component {
   static get propTypes() {
     return {
+      dispatch: PropTypes.func.isRequired,
       // eslint-disable-next-line react/forbid-prop-types
       navigation: PropTypes.object.isRequired,
     };
+  }
+
+  handlePressSignOut() {
+    const { navigation, dispatch } = this.props;
+    dispatch(SignOutUser(navigation));
   }
 
   handlePressEditProfile() {
@@ -45,6 +50,19 @@ class Settings extends Component {
   }
 
   render() {
+    const SettingsItem = [
+      {
+        title: 'Notifications',
+        subtitle: 'COMING SOON',
+        icon: 'bell',
+      },
+      {
+        title: 'Déconnexion',
+        subtitle: 'Vous souhaitez vous déconnecter ?',
+        icon: 'sign-out',
+        onPress: () => this.handlePressSignOut(),
+      },
+    ];
     return (
       <ContainerView>
         <View style={styles.header}>
@@ -76,97 +94,25 @@ class Settings extends Component {
         </View>
         <View>
           <List>
-            <FlatList
-              data={[
-                {
-                  title: 'Notifications',
-                  subtitle: 'COMING SOON',
-                  icon: 'bell',
-                },
-                {
-                  title: 'Déconnexion',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'A',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'B',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'C',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'D',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'E',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'F',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'G',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'H',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'I',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'J',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'K',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-                {
-                  title: 'L',
-                  subtitle: 'COMING SOON',
-                  icon: 'sign-out',
-                },
-              ]}
-              renderItem={({ item }) => (
-                <ListItem
-                  leftIcon={{
-                    name: item.icon,
-                    color: colors.primaryGrey,
-                    size: 15,
-                    type: 'font-awesome',
-                  }}
-                  title={`${item.title}`}
-                  subtitle={item.subtitle}
-                  containerStyle={{}}
-                />
-              )}
-              keyExtractor={item => item.title}
-            />
+            {
+            SettingsItem.map(item => (
+              <ListItem
+                key={item.title}
+                leftIcon={{
+                  name: item.icon,
+                  color: colors.primaryGrey,
+                  size: 15,
+                  type: 'font-awesome',
+                }}
+                title={`${item.title}`}
+                subtitle={item.subtitle}
+                containerStyle={{}}
+                onPress={(item.onPress) ? item.onPress : null}
+              />
+            ))
+            }
           </List>
         </View>
-
       </ContainerView>
     );
   }

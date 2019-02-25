@@ -27,23 +27,22 @@ export const EDIT_USER_REQUEST = 'EDIT_USER_REQUEST';
 export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';
 export const EDIT_USER_FAILURE = 'EDIT_USER_FAILURE';
 
+// SIGN_OUT
+export const SIGN_OUT_USER = 'SIGN_OUT_USER';
+
 export const signInUserRequest = () => ({
   type: SIGN_IN_USER_REQUEST,
 });
 
 export const refreshAuthCredentials = (headers) => {
-  // console.log('************ REFRESH CREDENTIALS ************');
   if (headers['access-token'] !== undefined && headers['access-token'] !== '') {
     SecureStore.setItemAsync('access-token', headers['access-token']);
-    // console.log('access-token', headers['access-token']);
   }
   if (headers.client !== undefined && headers.client !== '') {
     SecureStore.setItemAsync('client', headers.client);
-    // console.log('client', headers.client);
   }
   if (headers.uid !== undefined && headers.uid !== '') {
     SecureStore.setItemAsync('uid', headers.uid);
-    // console.log('uid', headers.uid);
   }
 };
 
@@ -235,3 +234,13 @@ export const changeAccountType = type => ({
   type: CHANGE_ACCOUNT_TYPE,
   accountType: type,
 });
+
+export const SignOutUser = (navigation) => {
+  SecureStore.deleteItemAsync('access-token');
+  SecureStore.deleteItemAsync('client');
+  SecureStore.deleteItemAsync('uid');
+  navigation.navigate('NavigatorAuth');
+  return {
+    type: SIGN_OUT_USER,
+  };
+};
