@@ -36,8 +36,8 @@ class RecipeListItem extends Component {
 
   handlePressShowDetails() {
     const { dispatch, navigation, recipe } = this.props;
-    const promiseGetRecipe = id => new Promise((resolve) => {
-      getRecipe(dispatch, id, resolve);
+    const promiseGetRecipe = id => new Promise((resolve, reject) => {
+      getRecipe(dispatch, id, resolve, reject);
     });
     promiseGetRecipe(recipe.id).then(() => {
       const { currentRecipe } = this.props;

@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment,no-undef */
 import React, { Component } from 'react';
 import {
   ScrollView,
@@ -23,8 +22,8 @@ class MyRecipes extends Component {
 
   handlePressNext(recipe) {
     const { dispatch, navigation } = this.props;
-    const promiseGetRecipe = id => new Promise((resolve) => {
-      getRecipe(dispatch, id, resolve);
+    const promiseGetRecipe = id => new Promise((resolve, reject) => {
+      getRecipe(dispatch, id, resolve, reject);
     });
     promiseGetRecipe(recipe.id).then(() => {
       const { currentRecipe } = this.props;

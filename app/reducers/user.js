@@ -15,7 +15,7 @@ import {
   RESET_PASSWORD_FAILURE,
   EDIT_USER_REQUEST,
   EDIT_USER_SUCCESS,
-  EDIT_USER_FAILURE,
+  EDIT_USER_FAILURE, SIGN_OUT_USER,
 } from '../actions/user';
 
 const initialState = {
@@ -112,6 +112,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
+    case SIGN_OUT_USER:
+      return initialState;
     default:
       return state;
   }
