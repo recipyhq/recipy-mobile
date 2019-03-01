@@ -10,6 +10,10 @@ import { searchForRecipe } from '../../../api/recipe';
 import RecipeListItem from '../../../components/Recipe/RecipeList/RecipeListItem/RecipeListItem';
 
 class RecipesList extends Component {
+  componentWillMount() {
+    this.props.resultsList = [];
+  }
+
   get isLoading() {
     const { isLoading } = this.props;
     return isLoading;
@@ -74,7 +78,7 @@ class RecipesList extends Component {
 
 function mapStateToProps(state) {
   return {
-    resultsList: state.recipe.list,
+    resultsList: state.recipe.searchList,
     isLoading: state.ingredient.isLoading,
     search: state.recipe.search,
   };

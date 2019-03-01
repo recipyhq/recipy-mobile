@@ -1,14 +1,15 @@
 import {
   CHANGE_SEARCH_QUERY,
-  GET_ALL_RECIPE_FAILURE,
-  GET_ALL_RECIPE_REQUEST,
-  GET_ALL_RECIPE_SUCCESS, GET_RECIPE_FAILURE, GET_RECIPE_REQUEST, GET_RECIPE_SUCCESS,
+  GET_MY_RECIPE_LIST_FAILURE,
+  GET_MY_RECIPE_LIST_REQUEST,
+  GET_MY_RECIPE_LIST_SUCCESS, GET_RECIPE_FAILURE, GET_RECIPE_REQUEST, GET_RECIPE_SUCCESS,
   SEARCH_RECIPE_FAILURE, SEARCH_RECIPE_REQUEST, SEARCH_RECIPE_SUCCESS,
   SHOW_RECIPE,
 } from '../actions/recipe';
 
 const initialState = {
-  list: [],
+  searchList: [],
+  myRecipeList: [],
   search: {
     q: '',
     ingredients: [],
@@ -32,36 +33,37 @@ const reducer = (state = initialState, action) => {
     case SEARCH_RECIPE_REQUEST:
       return {
         ...state,
-        isLoading: true,
       };
     case SEARCH_RECIPE_SUCCESS:
       return {
         ...state,
-        list: action.resultList,
-        isLoading: false,
+        searchList: action.resultList,
       };
     case SEARCH_RECIPE_FAILURE:
       return {
         ...state,
-        isLoading: false,
+        searchList: [],
       };
     case SHOW_RECIPE:
       return {
         ...state,
         currentRecipe: action.currentRecipe,
       };
-    case GET_ALL_RECIPE_REQUEST:
+    case GET_MY_RECIPE_LIST_REQUEST:
       return {
         ...state,
+        isLoading: true,
       };
-    case GET_ALL_RECIPE_SUCCESS:
+    case GET_MY_RECIPE_LIST_SUCCESS:
       return {
         ...state,
-        list: action.resultList,
+        myRecipeList: action.resultList,
+        isLoading: false,
       };
-    case GET_ALL_RECIPE_FAILURE:
+    case GET_MY_RECIPE_LIST_FAILURE:
       return {
         ...state,
+        isLoading: false,
       };
     case GET_RECIPE_REQUEST:
       return {

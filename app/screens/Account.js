@@ -30,7 +30,7 @@ const styles = EStyleSheet.create({
   },
 });
 
-class Settings extends Component {
+class Account extends Component {
   static get propTypes() {
     return {
       dispatch: PropTypes.func.isRequired,
@@ -118,4 +118,4 @@ class Settings extends Component {
   }
 }
 
-export default connect()(Settings);
+export default connect()(Account);
