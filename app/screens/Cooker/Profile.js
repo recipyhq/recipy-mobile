@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { Text } from 'react-native';
 import ContainerView from '../../components/ContainerView/ContainerView';
 
-const Home = () => (
-  <ContainerView>
-    <Text>
-      Explorer les recettes...
-    </Text>
-  </ContainerView>
-);
+function Profile() {
+  return (
+    <ContainerView>
+      <Text>Bienvenue sur le profil de XXXX</Text>
+    </ContainerView>
+  );
+}
 
-export default connect()(Home);
+export default connect()(Profile);

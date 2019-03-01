@@ -10,16 +10,18 @@ import SignIn from '../screens/Authentication/SignIn';
 import SignUp from '../screens/Authentication/SignUp';
 import ForgottenPassword from '../screens/Authentication/ForgottenPassword';
 import HomeAuth from '../screens/Authentication/Home';
-import Profile from '../screens/ProfileEdit';
+import ProfileEdit from '../screens/ProfileEdit';
 import colors from './colors';
 import RecipesList from '../screens/Cooker/Recipies/RecipesList';
 import MyRecipes from '../screens/Cooker/Recipies/MyRecipes';
 import RecipeDescription from '../screens/Authentication/RecipeDescription';
 import Settings from '../screens/Account';
+import Profile from '../screens/Cooker/Profile';
 
 const AccountStack = createStackNavigator(
   {
     Settings,
+    ProfileEdit,
     Profile,
   },
   {
