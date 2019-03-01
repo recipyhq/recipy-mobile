@@ -4,9 +4,9 @@ import {
   searchRecipeFailure,
   searchRecipeRequest,
   searchRecipeSuccess,
-  getAllRecipeFailure,
-  getAllRecipeRequest,
-  getAllRecipeSuccess,
+  getMyRecipeListFailure,
+  getMyRecipeListRequest,
+  getMyRecipeListSuccess,
   getRecipeRequest,
   getRecipeSuccess,
   getRecipeFailure,
@@ -40,15 +40,15 @@ export const searchForRecipe = (dispatch, search) => {
 };
 
 export const getAllRecipe = (dispatch) => {
-  dispatch(getAllRecipeRequest());
+  dispatch(getMyRecipeListRequest());
   const headers = { 'Content-Type': 'application/json' };
   return axios(`${ApiUrl}/api/recipes`,
     {
       headers,
     }).then((response) => {
-    dispatch(getAllRecipeSuccess(response));
+    dispatch(getMyRecipeListSuccess(response));
   }).catch((error) => {
-    dispatch(getAllRecipeFailure(error));
+    dispatch(getMyRecipeListFailure(error));
   });
 };
 

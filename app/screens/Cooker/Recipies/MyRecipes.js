@@ -81,7 +81,7 @@ MyRecipes.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    recipesList: state.recipe.list,
+    recipesList: state.recipe.myRecipeList,
     isLoading: state.recipe.isLoading,
     currentRecipe: state.recipe.currentRecipe,
   };
