@@ -21,7 +21,7 @@ const RecipeDescriptionItem = ({
           Temps:
         </Text>
         <Text style={style.information}>
-          {recipe.time}
+          {recipe.preparation_time + recipe.cooking_time}
           {' '}
            min
         </Text>
@@ -53,7 +53,7 @@ const RecipeDescriptionItem = ({
     </Text>
     <SectionList
       sections={[
-        { title: 'Ingrédients', data: recipe.ingredients.map(ing => (`-${ing.quantity == null ? '' : ing.quantity} ${ing.ingredient.name}`)) },
+        { title: 'Ingrédients', data: recipe.ingredients.map(ing => (`- ${ing.quantity[0] === null ? '' : `${ing.quantity[0]} ${ing.quantity[1]}`} de ${ing.ingredient.name}`)) },
         { title: 'Matériel', data: recipe.utensils.map(title => `- ${title.title}`) },
       ]}
       renderItem={({ item }) => <Text style={style.sectionText}>{item}</Text>}
