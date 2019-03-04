@@ -57,7 +57,7 @@ class RecipeListItem extends Component {
             {recipe.description}
           </Text>
           <Text style={style.recipeTime}>
-            {`Temps de réalisation : ${recipe.preparation_time + recipe.cooking_time} minutes`}
+            {`Durée de réalisation : ${recipe.preparation_time + recipe.cooking_time} minutes`}
           </Text>
           <Button
             icon={{
