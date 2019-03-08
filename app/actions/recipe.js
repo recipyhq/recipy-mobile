@@ -15,6 +15,11 @@ export const GET_RECIPE_REQUEST = 'GET_RECIPE_REQUEST';
 export const GET_RECIPE_SUCCESS = 'GET_RECIPE_SUCCESS';
 export const GET_RECIPE_FAILURE = 'GET_RECIPE_FAILURE';
 
+// GET_USER_RECIPES
+export const GET_PROFILE_RECIPES_REQUEST = 'GET_PROFILE_RECIPES_REQUEST';
+export const GET_PROFILE_RECIPES_SUCCESS = 'GET_PROFILE_RECIPES_SUCCESS';
+export const GET_PROFILE_RECIPES_FAILURE = 'GET_PROFILE_RECIPES_FAILURE';
+
 // GET_ALL_RECIPE
 export const GET_MY_RECIPE_LIST_REQUEST = 'GET_MY_RECIPE_LIST_REQUEST';
 export const GET_MY_RECIPE_LIST_SUCCESS = 'GET_MY_RECIPE_LIST_SUCCESS';
@@ -116,3 +121,21 @@ export const getRecipeFailure = (error) => {
   );
   return ({ type: GET_RECIPE_FAILURE });
 };
+
+export const getProfileRecipesRequest = () => ({
+  type: GET_PROFILE_RECIPES_REQUEST,
+});
+
+export const getProfileRecipesSuccess = (response) => {
+  let ProfileRecipes = [];
+  if (response.data) ProfileRecipes = response.data;
+  return {
+    type: GET_PROFILE_RECIPES_SUCCESS,
+    ProfileRecipes,
+  };
+};
+
+export const getProfileRecipesFailure = () => ({
+  type: GET_PROFILE_RECIPES_FAILURE,
+  errorText: 'Une erreur est survenue pendant la récupération de la liste des recettes de l\'utilisateur',
+});
