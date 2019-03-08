@@ -9,6 +9,8 @@ import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import { getAllRecipe, getRecipe } from '../../../api/recipe';
 import { showRecipe } from '../../../actions/recipe';
+import styles from '../../Authentication/styles';
+import ButtonStd from '../../../components/Buttons/ButtonStd';
 
 class MyRecipes extends Component {
   componentDidMount() {
@@ -31,6 +33,11 @@ class MyRecipes extends Component {
     });
   }
 
+  handlePressShop() {
+    const { navigation } = this.props;
+    navigation.navigate('ShoppingList');
+  }
+
   handleGetAllRecipe() {
     const { dispatch } = this.props;
     getAllRecipe(dispatch);
@@ -45,6 +52,20 @@ class MyRecipes extends Component {
           backgroundColor: colors.primaryWhite,
         }}
       >
+        <ButtonStd
+          onPress={() => (this.handlePressShop())}
+          title="ShoppingList"
+          leftIcon={{
+            name: 'arrow-left',
+            color: colors.primaryGrey,
+            size: 15,
+            type: 'font-awesome',
+          }}
+          buttonStyle={styles.btnBack}
+          transparent
+          color={colors.primaryGrey}
+          fontSize={20}
+        />
         <Loader isLoading={this.isLoading} />
         {
           recipesList.map(recipe => (

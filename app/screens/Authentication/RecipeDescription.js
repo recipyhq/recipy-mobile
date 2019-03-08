@@ -6,12 +6,22 @@ import colors from '../../config/colors';
 import RecipeDescriptionItem from '../../components/Recipe/RecipeDescriptionItem';
 
 class RecipeDescription extends Component {
+  handlePressShop(recipe) {
+    const { navigation } = this.props;
+    navigation.navigate('ShoppingList', { item: recipe });
+  }
+
   render() {
     const { navigation } = this.props;
     const recipe = navigation.getParam('item', 'NO-ID');
     return (
       <View style={{ backgroundColor: colors.primaryWhite }}>
-        <RecipeDescriptionItem recipe={recipe} />
+        <RecipeDescriptionItem
+          recipe={recipe}
+          onPress={() => (
+            this.handlePressShop(recipe))
+        }
+        />
       </View>
     );
   }

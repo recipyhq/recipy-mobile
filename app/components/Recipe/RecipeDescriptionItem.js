@@ -6,15 +6,29 @@ import {
 } from 'react-native';
 import style from './descriptionStyle';
 import colors from '../../config/colors';
+import ButtonStd from '../Buttons/ButtonStd';
+import styles from '../../screens/Authentication/styles';
 
 const RecipeDescriptionItem = ({
-  recipe,
+  recipe, onPress,
 }) => (
   <ScrollView style={{ backgroundColor: colors.primaryWhite, marginBottom: 1 }}>
     <Image
       source={{ uri: recipe.image_url ? recipe.image_url : 'https://pngimage.net/wp-content/uploads/2018/06/not-found-png-3.png' }}
       style={style.imageStyle}
     />
+    <View style={styles.buttonContainer}>
+      <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
+        <ButtonStd
+          title="Importer la liste de course"
+          onPress={onPress}
+          buttonStyle={styles.btnSendForm}
+          borderRadius={30}
+          fontSize={20}
+          color={colors.primaryWhite}
+        />
+      </View>
+    </View>
     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
       <View style={style.infoContainer}>
         <Text style={style.indicator}>
@@ -83,6 +97,8 @@ const RecipeDescriptionItem = ({
 RecipeDescriptionItem.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   recipe: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  onPress: PropTypes.func.isRequired,
 };
 
 export default RecipeDescriptionItem;

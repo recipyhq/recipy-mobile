@@ -15,6 +15,7 @@ import Profile from '../screens/Profile';
 import colors from './colors';
 import RecipesList from '../screens/Cooker/Recipies/RecipesList';
 import MyRecipes from '../screens/Cooker/Recipies/MyRecipes';
+import ShoppingList from '../screens/Cooker/ShoppingList/ShoppingList';
 import RecipeDescription from '../screens/Authentication/RecipeDescription';
 import Settings from '../screens/Settings';
 
@@ -45,6 +46,12 @@ const RecipeListStack = createStackNavigator({
       },
     },
   },
+  ShoppingList: {
+    screen: ShoppingList,
+    navigationOptions: {
+      header: null,
+    },
+  },
 });
 
 const MyRecipeStack = createStackNavigator({
@@ -62,6 +69,16 @@ const MyRecipeStack = createStackNavigator({
     screen: RecipeDescription,
     navigationOptions: {
       title: 'Description de la recette',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  ShoppingList: {
+    screen: ShoppingList,
+    navigationOptions: {
+      title: 'Liste de course',
       headerTintColor: colors.primaryGrey,
       headerStyle: {
         backgroundColor: colors.primaryOrange,

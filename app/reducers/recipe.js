@@ -9,6 +9,7 @@ import {
 
 const initialState = {
   list: [],
+  shoplist: [],
   search: {
     q: '',
     ingredients: [],
