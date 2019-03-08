@@ -81,7 +81,7 @@ class Profile extends Component {
 
   static get defaultProps() {
     return {
-      recipeListForUser: [],
+      profileRecipes: [],
     };
   }
 
@@ -91,13 +91,13 @@ class Profile extends Component {
       // eslint-disable-next-line react/forbid-prop-types
       isLoading: PropTypes.bool.isRequired,
       // eslint-disable-next-line react/forbid-prop-types
-      recipeListForUser: PropTypes.array,
+      profileRecipes: PropTypes.array,
       profileRecipesErrorText: PropTypes.string.isRequired,
     };
   }
 
   render() {
-    const { recipeListForUser, profileRecipesErrorText } = this.props;
+    const { profileRecipes, profileRecipesErrorText } = this.props;
     return (
       <ContainerView>
         <ScrollView style={styles.scrollViewContainer}>
@@ -113,7 +113,7 @@ class Profile extends Component {
           <Divider style={styles.divider} />
           <Text style={styles.sectionTitle}>DERNIERES RECETTES</Text>
           {
-            recipeListForUser.map(recipe => <RecipeListItem key={recipe.id} recipe={recipe} />)
+            profileRecipes.map(recipe => <RecipeListItem key={recipe.id} recipe={recipe} />)
           }
           <Text style={styles.recipesListError}>
             {profileRecipesErrorText}
@@ -126,7 +126,7 @@ class Profile extends Component {
 
 function mapStateToProps(state) {
   return {
-    recipeListForUser: state.recipe.searchList,
+    profileRecipes: state.recipe.profileRecipes,
     isLoading: state.recipe.isLoading,
     profileRecipesErrorText: state.recipe.profileRecipesErrorText,
   };
