@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Text, View, FlatList,
+  Text, View, FlatList, CheckBox,
 } from 'react-native';
 import styles from '../../screens/Authentication/styles';
 
@@ -9,7 +9,12 @@ const ShoppingListItem = ({ list }) => (
   <View style={styles.container}>
     <FlatList
       data={list}
-      renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+      renderItem={({ item }) => (
+        <View>
+          <CheckBox />
+          <Text>{item}</Text>
+        </View>
+      )}
     />
   </View>
 );

@@ -20,6 +20,10 @@ export const GET_ALL_RECIPE_REQUEST = 'GET_ALL_RECIPE_REQUEST';
 export const GET_ALL_RECIPE_SUCCESS = 'GET_ALL_RECIPE_SUCCESS';
 export const GET_ALL_RECIPE_FAILURE = 'GET_ALL_RECIPE_FAILURE';
 
+// SHOPPING LIST MANIPULATION
+export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+
+
 export const searchRecipeRequest = () => ({
   type: SEARCH_RECIPE_REQUEST,
 });
@@ -115,4 +119,13 @@ export const getRecipeFailure = (error) => {
     { cancelable: false },
   );
   return ({ type: GET_RECIPE_FAILURE });
+};
+
+export const addIngredientToList = (ingredient) => {
+  const ingre = [];
+  ingre.push(ingredient);
+  return ({
+    type: ADD_INGREDIENT,
+    ingre,
+  });
 };

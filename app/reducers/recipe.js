@@ -4,7 +4,7 @@ import {
   GET_ALL_RECIPE_REQUEST,
   GET_ALL_RECIPE_SUCCESS, GET_RECIPE_FAILURE, GET_RECIPE_REQUEST, GET_RECIPE_SUCCESS,
   SEARCH_RECIPE_FAILURE, SEARCH_RECIPE_REQUEST, SEARCH_RECIPE_SUCCESS,
-  SHOW_RECIPE,
+  SHOW_RECIPE, ADD_INGREDIENT,
 } from '../actions/recipe';
 
 const initialState = {
@@ -79,6 +79,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case ADD_INGREDIENT:
+      return {
+        ...state,
+        shoplist: state.shoplist.concat(action.ingre),
       };
     default:
       return state;
