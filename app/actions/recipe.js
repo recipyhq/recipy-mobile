@@ -127,11 +127,11 @@ export const getProfileRecipesRequest = () => ({
 });
 
 export const getProfileRecipesSuccess = (response) => {
-  let ProfileRecipes = [];
-  if (response.data) ProfileRecipes = response.data;
+  let profileRecipes = [];
+  if (response.data) profileRecipes = response.data;
   return {
     type: GET_PROFILE_RECIPES_SUCCESS,
-    ProfileRecipes,
+    profileRecipes,
   };
 };
 

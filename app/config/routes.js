@@ -18,11 +18,30 @@ import RecipeDescription from '../screens/Authentication/RecipeDescription';
 import Settings from '../screens/Account';
 import Profile from '../screens/Cooker/Profile';
 
+const ProfileStack = createStackNavigator(
+  {
+    Profile,
+    RecipeDescription: {
+      screen: RecipeDescription,
+      navigationOptions: {
+        title: 'Description de la recette',
+        headerTintColor: colors.primaryGrey,
+        headerStyle: {
+          backgroundColor: colors.primaryOrange,
+        },
+      },
+    },
+  },
+  {
+    headerMode: 'none',
+  },
+);
+
 const AccountStack = createStackNavigator(
   {
     Settings,
     ProfileEdit,
-    Profile,
+    ProfileStack,
   },
   {
     headerMode: 'none',

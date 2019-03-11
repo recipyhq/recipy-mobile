@@ -12,7 +12,7 @@ import { Divider } from 'react-native-elements';
 import { PropTypes } from 'prop-types';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import colors from '../../config/colors';
-import RecipeListItem from './Recipies/RecipesList';
+import RecipeListItem from '../../components/Recipe/RecipeList/RecipeListItem/RecipeListItem';
 import { getProfileRecipes } from '../../api/recipe';
 
 const { width } = Dimensions.get('window');
@@ -48,6 +48,8 @@ const styles = EStyleSheet.create({
   },
   divider: {
     backgroundColor: colors.primaryGrey,
+    marginTop: 15,
+    marginBottom: 15,
   },
   sectionTitle: {
     fontSize: 18,
@@ -109,7 +111,7 @@ class Profile extends Component {
               />
             </View>
           </View>
-          <Text style={styles.profileName}>Guillaume.C </Text>
+          <Text style={styles.profileName}>Guillaume</Text>
           <Divider style={styles.divider} />
           <Text style={styles.sectionTitle}>DERNIERES RECETTES</Text>
           {
