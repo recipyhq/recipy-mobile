@@ -22,6 +22,10 @@ export const GET_ALL_RECIPE_FAILURE = 'GET_ALL_RECIPE_FAILURE';
 
 // SHOPPING LIST MANIPULATION
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export const ADD_INGREDIENT_LIST = 'ADD_INGREDIENT_LIST';
+export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
+export const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
+export const CHANGE_INGREDIENT = 'CHANGE_INGREDIENT';
 
 
 export const searchRecipeRequest = () => ({
@@ -129,3 +133,27 @@ export const addIngredientToList = (ingredient) => {
     ingre,
   });
 };
+
+export const addIngredientListToList = (list) => {
+  let curList = [];
+  curList = list;
+  return ({
+    type: ADD_INGREDIENT_LIST,
+    curList,
+  });
+};
+
+export const changeQuantity = quantity => ({
+  type: CHANGE_QUANTITY,
+  quantity,
+});
+
+export const changeIngredient = ingredient => ({
+  type: CHANGE_INGREDIENT,
+  ingredient,
+});
+
+export const deleteIngredient = index => ({
+  type: DELETE_INGREDIENT,
+  index,
+});

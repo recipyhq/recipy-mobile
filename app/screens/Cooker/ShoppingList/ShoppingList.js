@@ -9,7 +9,12 @@ import TextInput from '../../../components/Inputs/StdTextInput/StdTextInput';
 import ButtonStd from '../../../components/Buttons/ButtonStd';
 import styles from '../../Authentication/styles';
 import ShoppingListItem from '../../../components/ShoppingList/ShoppingListItem';
-import { addIngredientToList } from '../../../actions/recipe';
+import {
+  addIngredientToList,
+  addIngredientListToList,
+  changeQuantity,
+  changeIngredient,
+} from '../../../actions/recipe';
 
 class ShoppingList extends Component {
   handlePressButton(eleminList) {
@@ -18,35 +23,50 @@ class ShoppingList extends Component {
 
   addIngredient(eleminList) {
     const { dispatch } = this.props;
-    console.log(eleminList);
     dispatch(addIngredientToList(eleminList));
   }
 
+  addIngredientFromRecipe(list) {
+    const { dispatch } = this.props;
+    dispatch(addIngredientListToList(list));
+  }
+
+  handleChangeQuantity(text) {
+    const { dispatch } = this.props;
+    dispatch(changeQuantity(text));
+  }
+
+  handleChangeIngredient(text) {
+    const { dispatch } = this.props;
+    dispatch(changeIngredient(text));
+  }
+
   render() {
-    const { navigation, shoplist } = this.props;
-    /* Ca récupère la recette si jamais tu fais ta liste de course à partir d'une rectte */
+    const {
+      navigation, shoplist, shoplistQuantity, shoplistIngredient, dispatch,
+    } = this.props;
     const recipe = navigation.getParam('item', 'NO-ID');
-    /* Si la recette récupéré a des ingrédients, on remplie
-    le tableau qu'on passera pour le display de la liste */
     if (recipe.ingredients) {
-      recipe.ingredients.forEach((ingredient) => {
-        this.addIngredient(ingredient.ingredient.name);
-      });
+      /* recipe.ingredients.map(ingredient => this.addIngredient(ingredient.ingredient.name)); */
+      recipe.ingredients.map(ingredient => shoplist.push(ingredient.ingredient.name));
+      recipe.ingredients = [];
     }
     return (
       <ScrollView style={{ backgroundColor: colors.primaryWhite }}>
         <TextInput
           label="Quantité ?"
+          onChangeText={(text) => { this.handleChangeQuantity(text); }}
         />
         <TextInput
           label="De quoi t'as besoin ?"
+          onChangeText={(text2) => { this.handleChangeIngredient(text2); }}
         />
         <View style={styles.buttonContainer}>
           <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
             <ButtonStd
-              title="Editer"
+              title="Ajouter"
               onPress={() => {
-                this.handlePressButton('bigshack');
+                this.handlePressButton(`${shoplistQuantity} ${shoplistIngredient}`);
               }}
               buttonStyle={styles.btnSendForm}
               borderRadius={30}
@@ -56,7 +76,7 @@ class ShoppingList extends Component {
           </View>
         </View>
         <View style={{ backgroundColor: colors.primaryWhite }}>
-          <ShoppingListItem list={shoplist} />
+          <ShoppingListItem list={shoplist} dispatch={dispatch} />
         </View>
       </ScrollView>
     );
@@ -66,6 +86,8 @@ class ShoppingList extends Component {
 function mapStateToProps(state) {
   return {
     shoplist: state.recipe.shoplist,
+    shoplistQuantity: state.recipe.shoplistQuantity,
+    shoplistIngredient: state.recipe.shoplistIngredient,
     isLoading: state.user.isLoading,
   };
 }
@@ -77,5 +99,7 @@ ShoppingList.propTypes = {
   navigation: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   shoplist: PropTypes.array.isRequired,
+  shoplistQuantity: PropTypes.string.isRequired,
+  shoplistIngredient: PropTypes.string.isRequired,
 };
 export default connect(mapStateToProps)(ShoppingList);

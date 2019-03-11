@@ -4,12 +4,15 @@ import {
   GET_ALL_RECIPE_REQUEST,
   GET_ALL_RECIPE_SUCCESS, GET_RECIPE_FAILURE, GET_RECIPE_REQUEST, GET_RECIPE_SUCCESS,
   SEARCH_RECIPE_FAILURE, SEARCH_RECIPE_REQUEST, SEARCH_RECIPE_SUCCESS,
-  SHOW_RECIPE, ADD_INGREDIENT,
+  SHOW_RECIPE, ADD_INGREDIENT, ADD_INGREDIENT_LIST,
+  CHANGE_QUANTITY, CHANGE_INGREDIENT, DELETE_INGREDIENT,
 } from '../actions/recipe';
 
 const initialState = {
   list: [],
   shoplist: [],
+  shoplistQuantity: '',
+  shoplistIngredient: '',
   search: {
     q: '',
     ingredients: [],
@@ -84,6 +87,26 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         shoplist: state.shoplist.concat(action.ingre),
+      };
+    case ADD_INGREDIENT_LIST:
+      return {
+        ...state,
+        shoplist: action.curList,
+      };
+    case CHANGE_QUANTITY:
+      return {
+        ...state,
+        shoplistQuantity: action.quantity,
+      };
+    case CHANGE_INGREDIENT:
+      return {
+        ...state,
+        shoplistIngredient: action.ingredient,
+      };
+    case DELETE_INGREDIENT:
+      return {
+        ...state,
+        shoplist: state.shoplist.slice(action.index + 1),
       };
     default:
       return state;

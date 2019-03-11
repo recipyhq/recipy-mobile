@@ -35,7 +35,7 @@ const RecipeDescriptionItem = ({
           Temps:
         </Text>
         <Text style={style.information}>
-          {recipe.time}
+          {recipe.cooking_time + recipe.preparation_time}
           {' '}
            min
         </Text>
@@ -79,16 +79,18 @@ const RecipeDescriptionItem = ({
     <Text style={style.sectionTitle}>
       Préparation
     </Text>
-    <SectionList
-      sections={[
-        { title: 'Etape 1:', data: [recipe.step] },
-      ]}
-      keyExtractor={(item, index) => <Text style={style.sectionText}>{index}</Text>}
-      renderItem={({ item }) => <Text style={style.sectionText}>{item}</Text>}
-      renderSectionHeader={
-        ({ section }) => <Text style={style.sectionStep}>{section.title}</Text>
-      }
-    />
+    {
+    recipe.steps.map((step, index) => (
+      <SectionList
+        sections={[
+          { title: `Etape ${index + 1}`, data: [step] },
+        ]}
+        renderItem={({ item }) => <Text style={style.sectionText}>{item}</Text>}
+        renderSectionHeader={
+          ({ section }) => <Text style={style.sectionStep}>{section.title}</Text>
+        }
+      />))
+    }
   </ScrollView>
 
 );
