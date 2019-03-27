@@ -9,7 +9,7 @@ import {
   getMyRecipeListSuccess,
   getRecipeRequest,
   getRecipeSuccess,
-  getRecipeFailure,
+  getRecipeFailure, getProfileRecipesRequest, getProfileRecipesSuccess, getProfileRecipesFailure,
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
 
@@ -49,6 +49,19 @@ export const getAllRecipe = (dispatch) => {
     dispatch(getMyRecipeListSuccess(response));
   }).catch((error) => {
     dispatch(getMyRecipeListFailure(error));
+  });
+};
+
+export const getProfileRecipes = (dispatch) => {
+  dispatch(getProfileRecipesRequest());
+  const headers = { 'Content-Type': 'application/json' };
+  return axios(`${ApiUrl}/api/recipes`,
+    {
+      headers,
+    }).then((response) => {
+    dispatch(getProfileRecipesSuccess(response));
+  }).catch((error) => {
+    dispatch(getProfileRecipesFailure(error));
   });
 };
 

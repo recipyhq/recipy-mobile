@@ -10,10 +10,6 @@ import { searchForRecipe } from '../../../api/recipe';
 import RecipeListItem from '../../../components/Recipe/RecipeList/RecipeListItem/RecipeListItem';
 
 class RecipesList extends Component {
-  componentWillMount() {
-    this.props.resultsList = [];
-  }
-
   get isLoading() {
     const { isLoading } = this.props;
     return isLoading;
