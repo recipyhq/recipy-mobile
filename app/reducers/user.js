@@ -3,7 +3,6 @@ import {
   CHANGE_PASSWORD,
   CHANGE_PASSWORD_CONFIRMATION,
   CHANGE_CURRENT_PASSWORD,
-  CHANGE_ACCOUNT_TYPE,
   SIGN_IN_USER_REQUEST,
   SIGN_IN_USER_SUCCESS,
   SIGN_IN_USER_FAILURE,
@@ -46,11 +45,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         current_password: action.current_password || '',
-      };
-    case CHANGE_ACCOUNT_TYPE:
-      return {
-        ...state,
-        accountType: action.accountType || 'COOKER',
       };
     case SIGN_IN_USER_REQUEST:
       return {

@@ -5,7 +5,6 @@ export const CHANGE_EMAIL = 'CHANGE_EMAIL';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const CHANGE_PASSWORD_CONFIRMATION = 'CHANGE_PASSWORD_CONFIRMATION';
 export const CHANGE_CURRENT_PASSWORD = 'CHANGE_CURRENT_PASSWORD';
-export const CHANGE_ACCOUNT_TYPE = 'CHANGE_ACCOUNT_TYPE';
 
 // SIGN_IN_USER
 export const SIGN_IN_USER_REQUEST = 'SIGN_IN_USER_REQUEST';
@@ -228,11 +227,6 @@ export const changePasswordConfirmation = passwordConfirmation => ({
 export const changeCurrentPassword = currentPassword => ({
   type: CHANGE_CURRENT_PASSWORD,
   current_password: currentPassword,
-});
-
-export const changeAccountType = type => ({
-  type: CHANGE_ACCOUNT_TYPE,
-  accountType: type,
 });
 
 export const SignOutUser = (navigation) => {
