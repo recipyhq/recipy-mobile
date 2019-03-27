@@ -10,8 +10,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --single-quote --write \"*.js\"",
-    "format-code": "yarn run prettier && yarn run lint:fix",
-    "test": "jest"
+    "format-code": "yarn run prettier && yarn run lint:fix"
   },
   "jest": {
     "preset": "react-native"
