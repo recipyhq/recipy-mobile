@@ -2,8 +2,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import colors from '../../../../config/colors';
 
 const style = EStyleSheet.create({
-  container: {
-  },
   recipeDescription: {
     marginBottom: 10,
   },
