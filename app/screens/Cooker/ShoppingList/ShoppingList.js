@@ -11,14 +11,27 @@ import styles from '../../Authentication/styles';
 import ShoppingListItem from '../../../components/ShoppingList/ShoppingListItem';
 import {
   addIngredientToList,
-  addIngredientListToList,
-  changeQuantity,
+  changeTitle,
   changeIngredient,
 } from '../../../actions/recipe';
+import { createShoppingList } from '../../../api/recipe';
+import Loader from '../../../components/Loaders/Loader/Loader';
 
 class ShoppingList extends Component {
+  get isLoading() {
+    const { isLoading } = this.props;
+    return isLoading;
+  }
+
   handlePressButton(eleminList) {
     this.addIngredient(eleminList);
+  }
+
+  handleCreateList(title, list) {
+    const ingId = [];
+    list.map(ingredient => ingId.push(ingredient.id));
+    const { dispatch, navigation } = this.props;
+    createShoppingList(dispatch, title, ingId, navigation);
   }
 
   addIngredient(eleminList) {
@@ -26,14 +39,9 @@ class ShoppingList extends Component {
     dispatch(addIngredientToList(eleminList));
   }
 
-  addIngredientFromRecipe(list) {
+  handleChangeTitle(text) {
     const { dispatch } = this.props;
-    dispatch(addIngredientListToList(list));
-  }
-
-  handleChangeQuantity(text) {
-    const { dispatch } = this.props;
-    dispatch(changeQuantity(text));
+    dispatch(changeTitle(text));
   }
 
   handleChangeIngredient(text) {
@@ -43,33 +51,54 @@ class ShoppingList extends Component {
 
   render() {
     const {
-      navigation, shoplist, shoplistQuantity, shoplistIngredient, dispatch,
+      navigation, shoplist, shoplistTitle, dispatch,
     } = this.props;
     const recipe = navigation.getParam('item', 'NO-ID');
-    if (recipe.ingredients) {
-      /* recipe.ingredients.map(ingredient => this.addIngredient(ingredient.ingredient.name)); */
-      recipe.ingredients.map(ingredient => shoplist.push(ingredient.ingredient.name));
-      recipe.ingredients = [];
+    if (recipe.ingredients.length !== 0) {
+      this.handleChangeTitle(recipe.title);
+      shoplist.splice(0, shoplist.length);
+      recipe.ingredients.map(ingredient => shoplist.push(ingredient.ingredient));
+      recipe.ingredients.splice(0, recipe.ingredients.length);
     }
     return (
       <ScrollView style={{ backgroundColor: colors.primaryWhite }}>
         <TextInput
-          label="Quantité ?"
-          onChangeText={(text) => { this.handleChangeQuantity(text); }}
+          label="Titre"
+          onChangeText={(text) => { this.handleChangeTitle(text); }}
+          value={shoplistTitle}
         />
+        <Loader isLoading={this.isLoading} />
+        {/*
         <TextInput
-          label="De quoi t'as besoin ?"
+          label="Ingrédient ?"
           onChangeText={(text2) => { this.handleChangeIngredient(text2); }}
         />
+*/
+        /*
         <View style={styles.buttonContainer}>
           <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
             <ButtonStd
-              title="Ajouter"
+              title="Ajouter à la liste"
               onPress={() => {
-                this.handlePressButton(`${shoplistQuantity} ${shoplistIngredient}`);
+                this.handlePressButton(`${shoplistIngredient}`);
               }}
               buttonStyle={styles.btnSendForm}
               borderRadius={30}
+              fontSize={20}
+              color={colors.primaryWhite}
+            />
+          </View>
+        </View>
+        */}
+        <View style={styles.buttonContainer}>
+          <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
+            <ButtonStd
+              title="Créer la liste de course"
+              onPress={() => {
+                this.handleCreateList(shoplistTitle, shoplist);
+              }}
+              buttonStyle={styles.btnSendForm}
+              borderRadius={5}
               fontSize={20}
               color={colors.primaryWhite}
             />
@@ -83,10 +112,15 @@ class ShoppingList extends Component {
   }
 }
 
+ShoppingList.defaultProps = {
+  shoplist: [],
+  isLoading: true,
+};
+
 function mapStateToProps(state) {
   return {
     shoplist: state.recipe.shoplist,
-    shoplistQuantity: state.recipe.shoplistQuantity,
+    shoplistTitle: state.recipe.shoplistTitle,
     shoplistIngredient: state.recipe.shoplistIngredient,
     isLoading: state.user.isLoading,
   };
@@ -98,8 +132,8 @@ ShoppingList.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  shoplist: PropTypes.array.isRequired,
-  shoplistQuantity: PropTypes.string.isRequired,
-  shoplistIngredient: PropTypes.string.isRequired,
+  shoplist: PropTypes.array,
+  shoplistTitle: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool,
 };
 export default connect(mapStateToProps)(ShoppingList);

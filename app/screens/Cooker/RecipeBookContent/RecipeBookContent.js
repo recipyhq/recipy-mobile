@@ -9,10 +9,8 @@ import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import { getAllRecipe, getRecipe } from '../../../api/recipe';
 import { showRecipe } from '../../../actions/recipe';
-import styles from '../../Authentication/styles';
-import ButtonStd from '../../../components/Buttons/ButtonStd';
 
-class MyRecipes extends Component {
+class RecipeBookContent extends Component {
   componentDidMount() {
     this.handleGetAllRecipe();
   }
@@ -35,7 +33,7 @@ class MyRecipes extends Component {
 
   handlePressShop() {
     const { navigation } = this.props;
-    navigation.navigate('AllShoppingList');
+    navigation.navigate('ShoppingList');
   }
 
   handlePressBook() {
@@ -57,34 +55,6 @@ class MyRecipes extends Component {
           backgroundColor: colors.primaryWhite,
         }}
       >
-        <ButtonStd
-          onPress={() => (this.handlePressShop())}
-          title="ShoppingList"
-          leftIcon={{
-            name: 'arrow-left',
-            color: colors.primaryGrey,
-            size: 5,
-            type: 'font-awesome',
-          }}
-          buttonStyle={styles.btnBack}
-          transparent
-          color={colors.primaryGrey}
-          fontSize={10}
-        />
-        <ButtonStd
-          onPress={() => (this.handlePressBook())}
-          title="RecipeBook"
-          leftIcon={{
-            name: 'arrow-left',
-            color: colors.primaryGrey,
-            size: 5,
-            type: 'font-awesome',
-          }}
-          buttonStyle={styles.btnBack}
-          transparent
-          color={colors.primaryGrey}
-          fontSize={10}
-        />
         <Loader isLoading={this.isLoading} />
         {
           recipesList.map(recipe => (
@@ -93,7 +63,7 @@ class MyRecipes extends Component {
               recipe={recipe}
               onPress={() => (
                 this.handlePressNext(recipe))
-          }
+              }
             />
           ))
         }
@@ -102,12 +72,12 @@ class MyRecipes extends Component {
   }
 }
 
-MyRecipes.defaultProps = {
+RecipeBookContent.defaultProps = {
   isLoading: true,
   currentRecipe: null,
 };
 
-MyRecipes.propTypes = {
+RecipeBookContent.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   dispatch: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
@@ -127,4 +97,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(MyRecipes);
+export default connect(mapStateToProps)(RecipeBookContent);

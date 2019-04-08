@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Text, View, FlatList, CheckBox,
+  Text, View, FlatList,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import styles from '../../screens/Authentication/styles';
@@ -14,8 +14,7 @@ const ShoppingListItem = ({ list, dispatch }) => (
       data={list}
       renderItem={({ item, index }) => (
         <View style={shoppingListStyle.listItem}>
-          <CheckBox />
-          <Text style={shoppingListStyle.listText}>{item}</Text>
+          <Text style={shoppingListStyle.listText}>{item.name.toString()}</Text>
           <Button
             backgroundColor="#03A9F4"
             buttonStyle={
@@ -27,9 +26,11 @@ const ShoppingListItem = ({ list, dispatch }) => (
             onPress={() => {
               dispatch(deleteIngredient(index));
             }}
+            key={index.toString()}
           />
         </View>
       )}
+      keyExtractor={(item, index) => index.toString()}
     />
   </View>
 );

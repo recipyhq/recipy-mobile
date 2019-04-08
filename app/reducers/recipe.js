@@ -5,13 +5,19 @@ import {
   GET_ALL_RECIPE_SUCCESS, GET_RECIPE_FAILURE, GET_RECIPE_REQUEST, GET_RECIPE_SUCCESS,
   SEARCH_RECIPE_FAILURE, SEARCH_RECIPE_REQUEST, SEARCH_RECIPE_SUCCESS,
   SHOW_RECIPE, ADD_INGREDIENT, ADD_INGREDIENT_LIST,
-  CHANGE_QUANTITY, CHANGE_INGREDIENT, DELETE_INGREDIENT,
+  CHANGE_TITLE, CHANGE_INGREDIENT, DELETE_INGREDIENT,
+  GET_ALL_SHOPPING_LIST_REQUEST, GET_ALL_SHOPPING_LIST_SUCCESS, GET_ALL_SHOPPING_LIST_FAILURE,
+  GET_SHOPPING_LIST_REQUEST, GET_SHOPPING_LIST_SUCCESS, GET_SHOPPING_LIST_FAILURE,
+  CREATE_SHOPPING_LIST_REQUEST, CREATE_SHOPPING_LIST_SUCCESS, CREATE_SHOPPING_LIST_FAILURE,
+  DELETE_SHOPPING_LIST_REQUEST, DELETE_SHOPPING_LIST_SUCCESS, DELETE_SHOPPING_LIST_FAILURE,
+  SHOW_SHOPPING_LIST,
 } from '../actions/recipe';
 
 const initialState = {
   list: [],
+  allShopListItems: [],
   shoplist: [],
-  shoplistQuantity: '',
+  shoplistTitle: '',
   shoplistIngredient: '',
   search: {
     q: '',
@@ -20,6 +26,7 @@ const initialState = {
     time: 0,
   },
   currentRecipe: null,
+  currentShoppingList: null,
   isLoading: false,
 };
 
@@ -93,10 +100,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         shoplist: action.curList,
       };
-    case CHANGE_QUANTITY:
+    case CHANGE_TITLE:
       return {
         ...state,
-        shoplistQuantity: action.quantity,
+        shoplistTitle: action.title,
       };
     case CHANGE_INGREDIENT:
       return {
@@ -106,7 +113,76 @@ const reducer = (state = initialState, action) => {
     case DELETE_INGREDIENT:
       return {
         ...state,
-        shoplist: state.shoplist.slice(action.index + 1),
+        shoplist: state.shoplist.filter((_, i) => i !== action.index),
+      };
+    case GET_ALL_SHOPPING_LIST_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GET_ALL_SHOPPING_LIST_SUCCESS:
+      return {
+        ...state,
+        allShopListItems: action.resultShoppingList,
+        isLoading: false,
+      };
+    case GET_ALL_SHOPPING_LIST_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case GET_SHOPPING_LIST_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GET_SHOPPING_LIST_SUCCESS:
+      return {
+        ...state,
+        currentShoppingList: action.resultShoppingListItem,
+        isLoading: false,
+      };
+    case GET_SHOPPING_LIST_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case SHOW_SHOPPING_LIST:
+      return {
+        ...state,
+        currentShoppingList: action.currentShoppingList,
+      };
+    case CREATE_SHOPPING_LIST_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+
+      };
+    case CREATE_SHOPPING_LIST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+
+      };
+    case CREATE_SHOPPING_LIST_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case DELETE_SHOPPING_LIST_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case DELETE_SHOPPING_LIST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case DELETE_SHOPPING_LIST_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

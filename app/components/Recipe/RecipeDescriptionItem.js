@@ -29,6 +29,18 @@ const RecipeDescriptionItem = ({
         />
       </View>
     </View>
+    <View style={styles.buttonContainer}>
+      <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
+        <ButtonStd
+          title="Ajouter à un carnet"
+          onPress={onPress}
+          buttonStyle={styles.btnSendForm}
+          borderRadius={30}
+          fontSize={20}
+          color={colors.primaryWhite}
+        />
+      </View>
+    </View>
     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
       <View style={style.infoContainer}>
         <Text style={style.indicator}>
@@ -82,6 +94,8 @@ const RecipeDescriptionItem = ({
     {
     recipe.steps.map((step, index) => (
       <SectionList
+        key={index.toString()}
+        keyExtractor={(item, oindex) => index}
         sections={[
           { title: `Etape ${index + 1}`, data: [step] },
         ]}

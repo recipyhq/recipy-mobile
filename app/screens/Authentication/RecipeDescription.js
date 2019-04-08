@@ -17,6 +17,7 @@ class RecipeDescription extends Component {
     return (
       <View style={{ backgroundColor: colors.primaryWhite }}>
         <RecipeDescriptionItem
+          key={recipe.id.toString()}
           recipe={recipe}
           onPress={() => (
             this.handlePressShop(recipe))

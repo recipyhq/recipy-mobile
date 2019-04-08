@@ -10,6 +10,18 @@ import {
   getRecipeRequest,
   getRecipeSuccess,
   getRecipeFailure,
+  getAllShoppingListRequest,
+  getAllShoppingListSuccess,
+  getAllShoppingListFailure,
+  getShoppingListRequest,
+  getShoppingListSuccess,
+  getShoppingListFailure,
+  createShoppingListRequest,
+  createShoppingListSuccess,
+  createShoppingListFailure,
+  deleteShoppingListRequest,
+  deleteShoppingListSuccess,
+  deleteShoppingListFailure,
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
 
@@ -64,5 +76,66 @@ export const getRecipe = (dispatch, id, resolve, reject) => {
   }).catch((error) => {
     dispatch(getRecipeFailure(error));
     reject('Error');
+  });
+};
+
+export const getAllShoppingList = (dispatch) => {
+  dispatch(getAllShoppingListRequest());
+  const headers = { 'Content-Type': 'application/json' };
+  return axios(`${ApiUrl}/api/shopping_lists`,
+    {
+      headers,
+    }).then((response) => {
+    dispatch(getAllShoppingListSuccess(response));
+  }).catch((error) => {
+    dispatch(getAllShoppingListFailure(error));
+  });
+};
+
+export const getShoppingList = (dispatch, id, resolve, reject) => {
+  dispatch(getShoppingListRequest());
+  const headers = { 'Content-Type': 'application/json' };
+  return axios(`${ApiUrl}/api/shopping_lists/${id}`,
+    {
+      headers,
+    }).then((response) => {
+    dispatch(getShoppingListSuccess(response));
+    resolve();
+  }).catch((error) => {
+    dispatch(getShoppingListFailure(error));
+    reject('Error');
+  });
+};
+
+export const createShoppingList = (dispatch, listTitle, ingredientList, navigation) => {
+  dispatch(createShoppingListRequest());
+  return axios({
+    method: 'post',
+    url: `${ApiUrl}/api/shopping_lists`,
+    data: {
+      shopping_list: {
+        name: listTitle,
+        ingredient_ids: ingredientList,
+      },
+    },
+    config: { headers: { 'Content-Type': 'application/json' } },
+  }).then(() => {
+    dispatch(createShoppingListSuccess());
+    navigation.navigate('AllShoppingList');
+  }).catch((error) => {
+    dispatch(createShoppingListFailure(error));
+  });
+};
+
+export const deleteShoppingList = (dispatch, id, navigation) => {
+  dispatch(deleteShoppingListRequest());
+  return axios({
+    method: 'delete',
+    url: `${ApiUrl}/api/shopping_lists/${id}`,
+    config: { headers: { 'Content-Type': 'application/json' } },
+  }).then(() => {
+    dispatch(deleteShoppingListSuccess(navigation));
+  }).catch((error) => {
+    dispatch(deleteShoppingListFailure(error));
   });
 };

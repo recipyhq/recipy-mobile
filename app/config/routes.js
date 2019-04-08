@@ -18,6 +18,10 @@ import MyRecipes from '../screens/Cooker/Recipies/MyRecipes';
 import ShoppingList from '../screens/Cooker/ShoppingList/ShoppingList';
 import RecipeDescription from '../screens/Authentication/RecipeDescription';
 import Settings from '../screens/Settings';
+import RecipeBook from '../screens/Cooker/RecipeBook/RecipeBook';
+import RecipeBookContent from '../screens/Cooker/RecipeBookContent/RecipeBookContent';
+import AllShoppingList from '../screens/Cooker/ShoppingList/AllShoppingList';
+import ShoppingListConsult from '../screens/Cooker/ShoppingList/ShoppingListConsult';
 
 const SettingsStack = createStackNavigator(
   {
@@ -49,7 +53,51 @@ const RecipeListStack = createStackNavigator({
   ShoppingList: {
     screen: ShoppingList,
     navigationOptions: {
-      header: null,
+      title: 'Créer une liste de course',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  ShoppingListConsult: {
+    screen: ShoppingListConsult,
+    navigationOptions: {
+      title: 'Liste de course',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  RecipeBook: {
+    screen: RecipeBook,
+    navigationOptions: {
+      title: 'Mes Carnets de recettes',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  RecipeBookContent: {
+    screen: RecipeBookContent,
+    navigationOptions: {
+      title: 'Recette du carnet',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  AllShoppingList: {
+    screen: AllShoppingList,
+    navigationOptions: {
+      title: 'Mes listes de courses',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
     },
   },
 });
@@ -78,7 +126,47 @@ const MyRecipeStack = createStackNavigator({
   ShoppingList: {
     screen: ShoppingList,
     navigationOptions: {
+      title: 'Créer une liste de course',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  ShoppingListConsult: {
+    screen: ShoppingListConsult,
+    navigationOptions: {
       title: 'Liste de course',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  RecipeBook: {
+    screen: RecipeBook,
+    navigationOptions: {
+      title: 'Mes Carnets de recettes',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  RecipeBookContent: {
+    screen: RecipeBookContent,
+    navigationOptions: {
+      title: 'Recette du carnet',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  AllShoppingList: {
+    screen: AllShoppingList,
+    navigationOptions: {
+      title: 'Mes listes de courses',
       headerTintColor: colors.primaryGrey,
       headerStyle: {
         backgroundColor: colors.primaryOrange,
