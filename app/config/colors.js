@@ -1,7 +1,7 @@
 const colors = {
   primaryWhite: '#FBFBFB',
   primaryOrange: '#FF9A3B',
-  primaryGrey: '#3C3C3C',
+  primaryGrey: '#474747',
 
   mediumGrey: '#424242',
   lightGrey: '#eeeeee',
