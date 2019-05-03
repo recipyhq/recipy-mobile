@@ -17,6 +17,7 @@ import MyRecipes from '../screens/Cooker/Recipies/MyRecipes';
 import RecipeDescription from '../screens/Authentication/RecipeDescription';
 import Settings from '../screens/Account';
 import Profile from '../screens/Cooker/Profile';
+import ProducerProfile from '../screens/Producer/Profile';
 
 const ProfileStack = createStackNavigator(
   {
@@ -37,11 +38,21 @@ const ProfileStack = createStackNavigator(
   },
 );
 
+const ProducerProfileStack = createStackNavigator(
+  {
+    ProducerProfile,
+  },
+  {
+    headerMode: 'none',
+  },
+);
+
 const AccountStack = createStackNavigator(
   {
     Settings,
     ProfileEdit,
     ProfileStack,
+    ProducerProfileStack,
   },
   {
     headerMode: 'none',

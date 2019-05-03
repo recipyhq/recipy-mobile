@@ -54,6 +54,11 @@ class Account extends Component {
     navigation.navigate('Profile');
   }
 
+  handleShowProducerProfile() {
+    const { navigation } = this.props;
+    navigation.navigate('ProducerProfile');
+  }
+
   render() {
     const SettingsItem = [
       {
@@ -66,6 +71,7 @@ class Account extends Component {
         title: 'Espace producteur',
         subtitle: 'Accéder à mon espace producteur',
         icon: 'bell',
+        onPress: () => this.handleShowProducerProfile(),
       },
       {
         title: 'Déconnexion',
