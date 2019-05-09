@@ -81,85 +81,87 @@ class Profile extends Component {
   render() {
     return (
       <ContainerView>
-        <View style={styles.ovalShape}>
-          <View style={styles.header}>
-            <View style={styles.headerLeft}>
-              <Image
-                source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-                style={styles.producerPicture}
-                borderRadius={100}
-              />
+        <ScrollView>
+          <View style={styles.ovalShape}>
+            <View style={styles.header}>
+              <View style={styles.headerLeft}>
+                <Image
+                  source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
+                  style={styles.producerPicture}
+                  borderRadius={100}
+                />
+              </View>
+              <View style={styles.headerRight}>
+                <Text style={styles.producerName}>
+                  Biocoop
+                </Text>
+              </View>
             </View>
-            <View style={styles.headerRight}>
-              <Text style={styles.producerName}>
-                Biocoop
-              </Text>
-            </View>
+            <OvalSquare
+              style={styles.ovalSquare}
+              color={colors.primaryGrey}
+              bgColor={colors.primaryOrange}
+            />
+            <Text style={styles.shortDescription}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Maecenas sed ipsum lorem. Mauris mauris dolor, eleifend sed est quis, euismod.
+            </Text>
           </View>
-          <OvalSquare
-            style={styles.ovalSquare}
-            color={colors.primaryGrey}
-            bgColor={colors.primaryOrange}
-          />
-          <Text style={styles.shortDescription}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Maecenas sed ipsum lorem. Mauris mauris dolor, eleifend sed est quis, euismod.
-          </Text>
-        </View>
-        <View style={styles.container}>
-          <Text style={styles.sectionTitle}>
-            Carte des points de vente
-          </Text>
-        </View>
-        <ScrollView horizontal>
-          <Image
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-            style={styles.producerPicture}
-            borderRadius={100}
-          />
-          <Image
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-            style={styles.producerPicture}
-            borderRadius={100}
-          />
-          <Image
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-            style={styles.producerPicture}
-            borderRadius={100}
-          />
-          <Image
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-            style={styles.producerPicture}
-            borderRadius={100}
-          />
+          <View style={styles.container}>
+            <Text style={styles.sectionTitle}>
+              Carte des points de vente
+            </Text>
+          </View>
+          <ScrollView horizontal>
+            <Image
+              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
+              style={styles.producerPicture}
+              borderRadius={100}
+            />
+            <Image
+              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
+              style={styles.producerPicture}
+              borderRadius={100}
+            />
+            <Image
+              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
+              style={styles.producerPicture}
+              borderRadius={100}
+            />
+            <Image
+              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
+              style={styles.producerPicture}
+              borderRadius={100}
+            />
 
-        </ScrollView>
-        <View style={styles.container}>
-          <Text style={styles.sectionTitle}>
-            Proche de vous
-          </Text>
-        </View>
-        <ScrollView horizontal>
-          <Image
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-            style={styles.producerPicture}
-            borderRadius={100}
-          />
-          <Image
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-            style={styles.producerPicture}
-            borderRadius={100}
-          />
-          <Image
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-            style={styles.producerPicture}
-            borderRadius={100}
-          />
-          <Image
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-            style={styles.producerPicture}
-            borderRadius={100}
-          />
+          </ScrollView>
+          <View style={styles.container}>
+            <Text style={styles.sectionTitle}>
+              Proche de vous
+            </Text>
+          </View>
+          <ScrollView horizontal>
+            <Image
+              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
+              style={styles.producerPicture}
+              borderRadius={100}
+            />
+            <Image
+              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
+              style={styles.producerPicture}
+              borderRadius={100}
+            />
+            <Image
+              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
+              style={styles.producerPicture}
+              borderRadius={100}
+            />
+            <Image
+              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
+              style={styles.producerPicture}
+              borderRadius={100}
+            />
+          </ScrollView>
         </ScrollView>
       </ContainerView>
     );
