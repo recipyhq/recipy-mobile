@@ -10,11 +10,13 @@ import {
   GET_SHOPPING_LIST_REQUEST, GET_SHOPPING_LIST_SUCCESS, GET_SHOPPING_LIST_FAILURE,
   CREATE_SHOPPING_LIST_REQUEST, CREATE_SHOPPING_LIST_SUCCESS, CREATE_SHOPPING_LIST_FAILURE,
   DELETE_SHOPPING_LIST_REQUEST, DELETE_SHOPPING_LIST_SUCCESS, DELETE_SHOPPING_LIST_FAILURE,
-  SHOW_SHOPPING_LIST,
+  SHOW_SHOPPING_LIST, SEARCH_INGREDIENT_REQUEST,
+  SEARCH_INGREDIENT_FAILURE, SEARCH_INGREDIENT_SUCCESS,
 } from '../actions/recipe';
 
 const initialState = {
   list: [],
+  ingredientList: [],
   allShopListItems: [],
   shoplist: [],
   shoplistTitle: '',
@@ -55,6 +57,19 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case SEARCH_INGREDIENT_REQUEST:
+      return {
+        ...state,
+      };
+    case SEARCH_INGREDIENT_SUCCESS:
+      return {
+        ...state,
+        ingredientList: action.formatedList,
+      };
+    case SEARCH_INGREDIENT_FAILURE:
+      return {
+        ...state,
       };
     case SHOW_RECIPE:
       return {

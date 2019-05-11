@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  ScrollView,
+  ScrollView, View,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,6 +10,8 @@ import Loader from '../../../components/Loaders/Loader/Loader';
 import { getAllRecipe, getRecipe } from '../../../api/recipe';
 import { showRecipe } from '../../../actions/recipe';
 import styles from '../../Authentication/styles';
+import style from '../../../components/Style/style';
+
 import ButtonStd from '../../../components/Buttons/ButtonStd';
 
 class MyRecipes extends Component {
@@ -86,7 +88,8 @@ class MyRecipes extends Component {
           fontSize={10}
         />
         <Loader isLoading={this.isLoading} />
-        {
+        <View style={style.view}>
+          {
           recipesList.map(recipe => (
             <MyRecipeItem
               key={recipe.id.toString()}
@@ -97,6 +100,7 @@ class MyRecipes extends Component {
             />
           ))
         }
+        </View>
       </ScrollView>
     );
   }

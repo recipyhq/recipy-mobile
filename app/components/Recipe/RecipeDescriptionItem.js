@@ -4,72 +4,68 @@ import PropTypes from 'prop-types';
 import {
   Image, ScrollView, SectionList, Text, View,
 } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome';
 import style from './descriptionStyle';
 import colors from '../../config/colors';
 import ButtonStd from '../Buttons/ButtonStd';
-import styles from '../../screens/Authentication/styles';
 
 const RecipeDescriptionItem = ({
-  recipe, onPress,
+  recipe, onPress, dropDownInfo,
 }) => (
-  <ScrollView style={{ backgroundColor: colors.primaryWhite, marginBottom: 1 }}>
+  <ScrollView style={{ backgroundColor: colors.primaryWhite, marginBottom: 40 }}>
+    <View style={style.titleView}>
+      <Text style={style.pageTitle}>
+        {recipe.title}
+      </Text>
+    </View>
     <Image
       source={{ uri: recipe.image_url ? recipe.image_url : 'https://pngimage.net/wp-content/uploads/2018/06/not-found-png-3.png' }}
       style={style.imageStyle}
     />
-    <View style={styles.buttonContainer}>
-      <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
-        <ButtonStd
-          title="Importer la liste de course"
-          onPress={onPress}
-          buttonStyle={styles.btnSendForm}
-          borderRadius={30}
-          fontSize={20}
-          color={colors.primaryWhite}
-        />
-      </View>
-    </View>
-    <View style={styles.buttonContainer}>
-      <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
-        <ButtonStd
-          title="Ajouter à un carnet"
-          onPress={onPress}
-          buttonStyle={styles.btnSendForm}
-          borderRadius={30}
-          fontSize={20}
-          color={colors.primaryWhite}
-        />
-      </View>
-    </View>
-    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+    <View style={style.infoView}>
       <View style={style.infoContainer}>
-        <Text style={style.indicator}>
-          Temps:
-        </Text>
         <Text style={style.information}>
-          {recipe.cooking_time + recipe.preparation_time}
+          <FontAwesome5 name="hourglass" color={colors.primaryWhite} size={12} />
+          {' '}
+          {recipe.preparation_time}
           {' '}
            min
         </Text>
       </View>
       <View style={style.infoContainer}>
-        <Text style={style.indicator}>
-          Difficulté:
-        </Text>
         <Text style={style.information}>
+          <FontAwesome5 name="fire" color={colors.primaryWhite} size={12} />
+          {' '}
+          {recipe.cooking_time}
+          {' '}
+          min
+        </Text>
+      </View>
+      <View style={style.infoContainer}>
+        <Text style={style.information}>
+          <FontAwesome5 name="user" color={colors.primaryWhite} size={12} />
+          {' '}
+          {recipe.person}
+          {' pers'}
+        </Text>
+      </View>
+      <View style={style.infoContainer}>
+        <Text style={style.information}>
+          <FontAwesome5 name="tachometer" color={colors.primaryWhite} size={12} />
+          {' '}
           {recipe.difficulty}
           {'/10'}
         </Text>
       </View>
-      <View style={style.infoContainerLast}>
-        <Text style={style.indicator}>
-          Quantité:
-        </Text>
-        <Text style={style.information}>
-          {'Pour '}
-          {recipe.person}
-        </Text>
-      </View>
+    </View>
+    <View style={style.buttonContainer}>
+      <ButtonStd
+        title="Importer la liste de course"
+        onPress={onPress}
+        buttonStyle={style.btnSendForm}
+        fontSize={15}
+        color={colors.primaryWhite}
+      />
     </View>
     <Text style={style.sectionTitle}>
       Description
@@ -115,6 +111,8 @@ RecipeDescriptionItem.propTypes = {
   recipe: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   onPress: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  dropDownInfo: PropTypes.array.isRequired,
 };
 
 export default RecipeDescriptionItem;

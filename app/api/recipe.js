@@ -21,7 +21,8 @@ import {
   createShoppingListFailure,
   deleteShoppingListRequest,
   deleteShoppingListSuccess,
-  deleteShoppingListFailure,
+  deleteShoppingListFailure, searchIngredientRequest,
+  searchIngredientSuccess, searchIngredientFailure,
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
 
@@ -48,6 +49,30 @@ export const searchForRecipe = (dispatch, search) => {
     dispatch(searchRecipeSuccess(response));
   }).catch((error) => {
     dispatch(searchRecipeFailure(error));
+  });
+};
+
+export const searchForIngredient = (dispatch, search) => {
+  dispatch(searchIngredientRequest());
+  const headers = { 'Content-Type': 'application/json' };
+  return axios.get(
+    `${ApiUrl}/api/search/`,
+    {
+      headers,
+      params: {
+        search: {
+          q: search.q || undefined,
+          ingredients: search.ingredients || undefined,
+        },
+      },
+      paramsSerializer(params) {
+        return qs.stringify(params, { arrayFormat: 'repeat' });
+      },
+    },
+  ).then((response) => {
+    dispatch(searchIngredientSuccess(response));
+  }).catch((error) => {
+    dispatch(searchIngredientFailure(error));
   });
 };
 
@@ -85,6 +110,9 @@ export const getAllShoppingList = (dispatch) => {
   return axios(`${ApiUrl}/api/shopping_lists`,
     {
       headers,
+      params: {
+        user_id: 2,
+      },
     }).then((response) => {
     dispatch(getAllShoppingListSuccess(response));
   }).catch((error) => {
@@ -98,6 +126,9 @@ export const getShoppingList = (dispatch, id, resolve, reject) => {
   return axios(`${ApiUrl}/api/shopping_lists/${id}`,
     {
       headers,
+      params: {
+        user_id: 2,
+      },
     }).then((response) => {
     dispatch(getShoppingListSuccess(response));
     resolve();
@@ -114,6 +145,7 @@ export const createShoppingList = (dispatch, listTitle, ingredientList, navigati
     url: `${ApiUrl}/api/shopping_lists`,
     data: {
       shopping_list: {
+        user_id: 2,
         name: listTitle,
         ingredient_ids: ingredientList,
       },

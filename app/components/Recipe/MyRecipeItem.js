@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import {
   Image, Text, TouchableHighlight, View, ProgressBarAndroid,
 } from 'react-native';
-import style from './style';
+import style from '../Style/style';
 import colors from '../../config/colors';
 
 const MyRecipeItem = ({
   onPress, recipe, ...props
 }) => (
-  <TouchableHighlight onPress={onPress}>
+  <TouchableHighlight onPress={onPress} style={style.touch}>
 
     <View style={style.container} onPress={onPress} {...props}>
       <Image

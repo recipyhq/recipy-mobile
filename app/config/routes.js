@@ -183,6 +183,14 @@ compassIcon.propTypes = {
   tintColor: PropTypes.string.isRequired,
 };
 
+function bookIcon({ tintColor }) {
+  return (<FontAwesome5 name="book" color={tintColor} size={24} />);
+}
+
+bookIcon.propTypes = {
+  tintColor: PropTypes.string.isRequired,
+};
+
 function cogIcon({ tintColor }) {
   return (<FontAwesome5 name="cog" color={tintColor} size={24} />);
 }
@@ -212,6 +220,13 @@ const TabCooker = createBottomTabNavigator({
     navigationOptions: {
       title: 'Mes recettes',
       tabBarIcon: cutleryIcon,
+    },
+  },
+  RecipeBook: {
+    screen: RecipeBook,
+    navigationOptions: {
+      title: 'Mes carnets',
+      tabBarIcon: bookIcon,
     },
   },
   Settings: {

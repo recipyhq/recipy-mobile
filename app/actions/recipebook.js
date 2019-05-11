@@ -9,18 +9,24 @@ export const GET_RECIPE_BOOK_REQUEST = 'GET_RECIPE_BOOK_REQUEST';
 export const GET_RECIPE_BOOK_SUCCESS = 'GET_RECIPE_BOOK_SUCCESS';
 export const GET_RECIPE_BOOK_FAILURE = 'GET_RECIPE_BOOK_FAILURE';
 
+export const SEARCH_RECIPE_BOOK_REQUEST = 'SEARCH_RECIPE_BOOK_REQUEST';
+export const SEARCH_RECIPE_BOOK_SUCCESS = 'SEARCH_RECIPE_BOOK_SUCCESS';
+export const SEARCH_RECIPE_BOOK_FAILURE = 'SEARCH_RECIPE_BOOK_FAILURE';
+
+export const SHOW_RECIPE_BOOK = 'SHOW_RECIPE_BOOK';
+
 export const getAllRecipeBookRequest = () => ({
   type: GET_ALL_RECIPE_BOOK_REQUEST,
 });
 
 export const getAllRecipeBookSuccess = (response) => {
   refreshAuthCredentials(response.headers);
-  let resultShoppingList = [];
-  // TODO Changer la l'assignement de variable
-  if (response.data) resultShoppingList = response.data;
+  let resultBookList = [];
+  if (response.data) resultBookList = response.data;
+
   return ({
     type: GET_ALL_RECIPE_BOOK_SUCCESS,
-    resultShoppingList,
+    resultBookList,
   });
 };
 
@@ -44,12 +50,11 @@ export const getRecipeBookRequest = () => ({
 
 export const getRecipeBookSuccess = (response) => {
   refreshAuthCredentials(response.headers);
-  let resultShoppingList = [];
-  // TODO Changer la l'assignement de variable
-  if (response.data) resultShoppingList = response.data;
+  let currentRecipeBook = [];
+  if (response.data) currentRecipeBook = response.data;
   return ({
     type: GET_RECIPE_BOOK_SUCCESS,
-    resultShoppingList,
+    currentRecipeBook,
   });
 };
 
@@ -64,4 +69,44 @@ export const getRecipeBookFailure = (error) => {
     { cancelable: false },
   );
   return ({ type: GET_RECIPE_BOOK_FAILURE });
+};
+
+export const showRecipeBook = (navigation, currentRecipeBook) => {
+  navigation.navigate('RecipeBookContent', { item: currentRecipeBook });
+  return {
+    type: SHOW_RECIPE_BOOK,
+    currentRecipeBook,
+  };
+};
+
+export const searchRecipeBookRequest = () => ({
+  type: SEARCH_RECIPE_BOOK_REQUEST,
+});
+
+export const searchRecipeBookSuccess = (response) => {
+  refreshAuthCredentials(response.headers);
+  let resultList = [];
+  const formatedList = [];
+  if (response.data) {
+    resultList = response.data;
+    resultList.map(book => formatedList.push({ id: book.id, name: book.title }));
+  }
+  return {
+    type: SEARCH_RECIPE_BOOK_SUCCESS,
+    formatedList,
+  };
+};
+
+export const searchRecipeBookFailure = () => {
+  Alert.alert(
+    'Recherche un ingredient',
+    'Une erreur inconnue s\'est produite',
+    [
+      { text: 'OK' },
+    ],
+    { cancelable: false },
+  );
+  return {
+    type: SEARCH_RECIPE_BOOK_FAILURE,
+  };
 };

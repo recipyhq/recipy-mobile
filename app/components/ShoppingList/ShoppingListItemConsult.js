@@ -4,19 +4,19 @@ import {
   Text, View, FlatList, CheckBox,
 } from 'react-native';
 import styles from '../../screens/Authentication/styles';
-import shoppingListStyle from './shoppingListStyle';
+import style from '../Style/style';
 
 const ShoppingListItemConsult = ({ list }) => (
   <View style={styles.container}>
-    <Text>
+    <Text style={style.pageTitle}>
       { list.name }
     </Text>
     <FlatList
       data={list.ingredients}
       renderItem={({ item }) => (
-        <View style={shoppingListStyle.listItem}>
+        <View style={style.listItem}>
+          <Text style={style.listText}>{item.toString()}</Text>
           <CheckBox />
-          <Text style={shoppingListStyle.listText}>{item.toString()}</Text>
         </View>
       )}
       keyExtractor={(item, index) => index.toString()}

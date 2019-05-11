@@ -7,6 +7,11 @@ export const SEARCH_RECIPE_REQUEST = 'SEARCH_RECIPE_REQUEST';
 export const SEARCH_RECIPE_SUCCESS = 'SEARCH_RECIPE_SUCCESS';
 export const SEARCH_RECIPE_FAILURE = 'SEARCH_RECIPE_FAILURE';
 
+// SEARCH INGREDIENT
+export const SEARCH_INGREDIENT_REQUEST = 'SEARCH_INGREDIENT_REQUEST';
+export const SEARCH_INGREDIENT_SUCCESS = 'SEARCH_INGREDIENT_SUCCESS';
+export const SEARCH_INGREDIENT_FAILURE = 'SEARCH_INGREDIENT_FAILURE';
+
 // SHOW_RECIPE
 export const SHOW_RECIPE = 'SHOW_RECIPE';
 
@@ -81,6 +86,38 @@ export const changeSearchQuery = q => ({
     q,
   },
 });
+
+export const searchIngredientRequest = () => ({
+  type: SEARCH_INGREDIENT_REQUEST,
+});
+
+export const searchIngredientSuccess = (response) => {
+  refreshAuthCredentials(response.headers);
+  let resultList = [];
+  const formatedList = [];
+  if (response.data.ingredients) {
+    resultList = response.data.ingredients;
+    resultList.map(recipe => formatedList.push({ id: recipe[1], name: recipe[0] }));
+  }
+  return {
+    type: SEARCH_INGREDIENT_SUCCESS,
+    formatedList,
+  };
+};
+
+export const searchIngredientFailure = () => {
+  Alert.alert(
+    'Recherche un ingredient',
+    'Une erreur inconnue s\'est produite',
+    [
+      { text: 'OK' },
+    ],
+    { cancelable: false },
+  );
+  return {
+    type: SEARCH_INGREDIENT_FAILURE,
+  };
+};
 
 export const showRecipe = (navigation, recipe) => {
   navigation.navigate('RecipeDescription', { item: recipe });
@@ -212,7 +249,9 @@ export const getShoppingListRequest = () => ({
 export const getShoppingListSuccess = (response) => {
   refreshAuthCredentials(response.headers);
   let resultShoppingListItem = [];
-  if (response.data) resultShoppingListItem = response.data;
+  if (response.data) {
+    resultShoppingListItem = response.data;
+  }
   return ({
     type: GET_SHOPPING_LIST_SUCCESS,
     resultShoppingListItem,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  ScrollView,
+  ScrollView, View,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,6 +9,7 @@ import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import { getAllRecipe, getRecipe } from '../../../api/recipe';
 import { showRecipe } from '../../../actions/recipe';
+import style from '../../../components/Style/style';
 
 class RecipeBookContent extends Component {
   componentDidMount() {
@@ -31,23 +32,14 @@ class RecipeBookContent extends Component {
     });
   }
 
-  handlePressShop() {
-    const { navigation } = this.props;
-    navigation.navigate('ShoppingList');
-  }
-
-  handlePressBook() {
-    const { navigation } = this.props;
-    navigation.navigate('RecipeBook');
-  }
-
   handleGetAllRecipe() {
     const { dispatch } = this.props;
     getAllRecipe(dispatch);
   }
 
   render() {
-    const { recipesList } = this.props;
+    const { navigation } = this.props;
+    const book = navigation.getParam('item', 'NO-ID');
     return (
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
@@ -56,8 +48,10 @@ class RecipeBookContent extends Component {
         }}
       >
         <Loader isLoading={this.isLoading} />
-        {
-          recipesList.map(recipe => (
+        <View style={style.view}>
+
+          {
+          book.recipes.map(recipe => (
             <MyRecipeItem
               key={recipe.id.toString()}
               recipe={recipe}
@@ -67,6 +61,7 @@ class RecipeBookContent extends Component {
             />
           ))
         }
+        </View>
       </ScrollView>
     );
   }
@@ -83,8 +78,6 @@ RecipeBookContent.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
-  // eslint-disable-next-line react/forbid-prop-types
-  recipesList: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   currentRecipe: PropTypes.object,
 };

@@ -8,8 +8,8 @@ import colors from '../../../config/colors';
 import ShoppingListItemConsult from '../../../components/ShoppingList/ShoppingListItemConsult';
 import { deleteShoppingList } from '../../../api/recipe';
 import ButtonStd from '../../../components/Buttons/ButtonStd';
-import styles from '../../Authentication/styles';
 import Loader from '../../../components/Loaders/Loader/Loader';
+import style from '../../../components/Recipe/descriptionStyle';
 
 
 class ShoppingListConsult extends Component {
@@ -29,22 +29,19 @@ class ShoppingListConsult extends Component {
     return (
       <ScrollView style={{ backgroundColor: colors.primaryWhite }}>
         <Loader isLoading={this.isLoading} />
-        <View style={{ backgroundColor: colors.primaryWhite }}>
-          <ShoppingListItemConsult list={list} dispatch={dispatch} />
+        <View style={style.buttonContainer}>
+          <ButtonStd
+            title="Supprimer"
+            onPress={() => {
+              this.handleDeleteShoppingList(currentShoppingList.id);
+            }}
+            buttonStyle={style.btnSendForm}
+            fontSize={15}
+            color={colors.primaryWhite}
+          />
         </View>
-        <View style={styles.buttonContainer}>
-          <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
-            <ButtonStd
-              title="Supprimer"
-              onPress={() => {
-                this.handleDeleteShoppingList(currentShoppingList.id);
-              }}
-              buttonStyle={styles.btnSendForm}
-              borderRadius={30}
-              fontSize={20}
-              color={colors.primaryWhite}
-            />
-          </View>
+        <View style={{ backgroundColor: colors.primaryWhite, paddingTop: 5 }}>
+          <ShoppingListItemConsult list={list} dispatch={dispatch} />
         </View>
       </ScrollView>
     );

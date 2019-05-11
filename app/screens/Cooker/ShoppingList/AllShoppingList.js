@@ -1,4 +1,4 @@
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
@@ -9,6 +9,8 @@ import { showShoppingList } from '../../../actions/recipe';
 import colors from '../../../config/colors';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import AllShoppingListItems from '../../../components/ShoppingList/AllShoppingListItems';
+import style from '../../../components/Style/style';
+import ButtonStd from '../../../components/Buttons/ButtonStd';
 
 class AllShoppingList extends Component {
   componentDidMount() {
@@ -41,17 +43,35 @@ class AllShoppingList extends Component {
     deleteShoppingList(dispatch, id);
   }
 
+  handleNewShoppingList() {
+    const { navigation } = this.props;
+    navigation.navigate('ShoppingList', { item: null });
+  }
+
   render() {
     const { allShopListItems } = this.props;
     return (
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
-        style={{
-          backgroundColor: colors.primaryWhite,
-        }}
-      >
-        <Loader isLoading={this.isLoading} />
-        {
+      <View>
+        <View style={style.buttonContainer}>
+          <ButtonStd
+            title="Créer une liste de course"
+            onPress={() => {
+              this.handleNewShoppingList();
+            }}
+            buttonStyle={style.btnSendForm}
+            fontSize={15}
+            color={colors.primaryWhite}
+          />
+        </View>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
+          style={{
+            backgroundColor: colors.primaryWhite,
+          }}
+        >
+          <Loader isLoading={this.isLoading} />
+          <View style={style.view}>
+            {
           allShopListItems.map(shoppinglist => (
             <AllShoppingListItems
               key={shoppinglist.id.toString()}
@@ -65,7 +85,9 @@ class AllShoppingList extends Component {
             />
           ))
         }
-      </ScrollView>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }

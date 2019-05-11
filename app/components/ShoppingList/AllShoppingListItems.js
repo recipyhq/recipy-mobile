@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import {
   Text, TouchableHighlight, View,
 } from 'react-native';
-import style from './allShoppingListItemStyle';
+import style from '../Style/style';
 
 const AllShoppingListItems = ({
   onPress, shoppingList, onDelete, ...props
 }) => (
-  <TouchableHighlight onPress={onPress}>
+  <TouchableHighlight onPress={onPress} style={style.touch}>
 
-    <View style={style.container} {...props}>
-      <Text style={style.recipeBookTitle}>
+    <View style={style.containerShopList} {...props}>
+      <Text style={style.recipeTitle}>
         { shoppingList.name }
       </Text>
       <Text style={style.description}>
