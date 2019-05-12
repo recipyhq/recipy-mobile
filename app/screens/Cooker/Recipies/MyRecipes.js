@@ -35,16 +35,6 @@ class MyRecipes extends Component {
     });
   }
 
-  handlePressShop() {
-    const { navigation } = this.props;
-    navigation.navigate('AllShoppingList');
-  }
-
-  handlePressBook() {
-    const { navigation } = this.props;
-    navigation.navigate('RecipeBook');
-  }
-
   handleGetAllRecipe() {
     const { dispatch } = this.props;
     getAllRecipe(dispatch);
@@ -59,34 +49,6 @@ class MyRecipes extends Component {
           backgroundColor: colors.primaryWhite,
         }}
       >
-        <ButtonStd
-          onPress={() => (this.handlePressShop())}
-          title="ShoppingList"
-          leftIcon={{
-            name: 'arrow-left',
-            color: colors.primaryGrey,
-            size: 5,
-            type: 'font-awesome',
-          }}
-          buttonStyle={styles.btnBack}
-          transparent
-          color={colors.primaryGrey}
-          fontSize={10}
-        />
-        <ButtonStd
-          onPress={() => (this.handlePressBook())}
-          title="RecipeBook"
-          leftIcon={{
-            name: 'arrow-left',
-            color: colors.primaryGrey,
-            size: 5,
-            type: 'font-awesome',
-          }}
-          buttonStyle={styles.btnBack}
-          transparent
-          color={colors.primaryGrey}
-          fontSize={10}
-        />
         <Loader isLoading={this.isLoading} />
         <View style={style.view}>
           {

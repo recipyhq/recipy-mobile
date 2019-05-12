@@ -59,6 +59,16 @@ class Account extends Component {
     navigation.navigate('ProducerProfile');
   }
 
+  handlePressRecipeBook() {
+    const { navigation } = this.props;
+    navigation.navigate('RecipeBook');
+  }
+
+  handlePressShoppingList() {
+    const { navigation } = this.props;
+    navigation.navigate('AllShoppingList');
+  }
+
   render() {
     const SettingsItem = [
       {
@@ -72,6 +82,18 @@ class Account extends Component {
         subtitle: 'Accéder à mon espace producteur',
         icon: 'bell',
         onPress: () => this.handleShowProducerProfile(),
+      },
+      {
+        title: 'Mes carnets de recettes',
+        subtitle: 'Accéder à l\'ensemble de vos recettes enregistrée par thème',
+        icon: 'book',
+        onPress: () => this.handlePressRecipeBook(),
+      },
+      {
+        title: 'Mes listes de courses',
+        subtitle: 'Prévoyez à l\'avance vos prochaines courses',
+        icon: 'list-alt',
+        onPress: () => this.handlePressShoppingList(),
       },
       {
         title: 'Déconnexion',
