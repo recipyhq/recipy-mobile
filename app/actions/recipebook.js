@@ -13,6 +13,14 @@ export const SEARCH_RECIPE_BOOK_REQUEST = 'SEARCH_RECIPE_BOOK_REQUEST';
 export const SEARCH_RECIPE_BOOK_SUCCESS = 'SEARCH_RECIPE_BOOK_SUCCESS';
 export const SEARCH_RECIPE_BOOK_FAILURE = 'SEARCH_RECIPE_BOOK_FAILURE';
 
+export const ADD_RECIPE_TO_RECIPE_BOOK_REQUEST = 'ADD_RECIPE_TO_RECIPE_BOOK_REQUEST';
+export const ADD_RECIPE_TO_RECIPE_BOOK_SUCCESS = 'ADD_RECIPE_TO_RECIPE_BOOK_SUCCESS';
+export const ADD_RECIPE_TO_RECIPE_BOOK_FAILURE = 'ADD_RECIPE_TO_RECIPE_BOOK_FAILURE';
+
+export const REMOVE_RECIPE_TO_RECIPE_BOOK_REQUEST = 'REMOVE_RECIPE_TO_RECIPE_BOOK_REQUEST';
+export const REMOVE_RECIPE_TO_RECIPE_BOOK_SUCCESS = 'REMOVE_RECIPE_TO_RECIPE_BOOK_SUCCESS';
+export const REMOVE_RECIPE_TO_RECIPE_BOOK_FAILURE = 'REMOVE_RECIPE_TO_RECIPE_BOOK_FAILURE';
+
 export const SHOW_RECIPE_BOOK = 'SHOW_RECIPE_BOOK';
 
 export const getAllRecipeBookRequest = () => ({
@@ -109,4 +117,76 @@ export const searchRecipeBookFailure = () => {
   return {
     type: SEARCH_RECIPE_BOOK_FAILURE,
   };
+};
+
+export const addRecipeToRecipeBookRequest = () => ({
+  type: ADD_RECIPE_TO_RECIPE_BOOK_REQUEST,
+});
+
+export const addRecipeToRecipeBookSuccess = () => {
+  Alert.alert(
+    'L\'ajout a reussi boyz',
+    'CA MARCHE',
+    [
+      {
+        text: 'OK',
+        onPress: () => {
+        },
+      },
+    ],
+    { cancelable: false },
+  );
+  return ({ type: ADD_RECIPE_TO_RECIPE_BOOK_SUCCESS });
+};
+
+export const addRecipeToRecipeBookFailure = () => {
+  Alert.alert(
+    'L\'ajout a échoué',
+    'Une erreur s\'est produite pendant l\'ajout de la recette.',
+    [
+      {
+        text: 'OK',
+        onPress: () => {
+        },
+      },
+    ],
+    { cancelable: false },
+  );
+  return ({ type: ADD_RECIPE_TO_RECIPE_BOOK_FAILURE });
+};
+
+export const removeRecipeToRecipeBookRequest = () => ({
+  type: ADD_RECIPE_TO_RECIPE_BOOK_REQUEST,
+});
+
+export const removeRecipeToRecipeBookSuccess = () => {
+  Alert.alert(
+    'L\'ajout a reussi boyz',
+    'CA MARCHE',
+    [
+      {
+        text: 'OK',
+        onPress: () => {
+        },
+      },
+    ],
+    { cancelable: false },
+  );
+  return ({ type: ADD_RECIPE_TO_RECIPE_BOOK_SUCCESS });
+};
+
+export const removeRecipeToRecipeBookFailure = () => {
+  Alert.alert(
+    'L\'ajout a échoué',
+    'Une erreur s\'est produite pendant l\'ajout de la recette.',
+    [
+      {
+        text: 'OK',
+        onPress: () => {
+        },
+      },
+    ],
+    { cancelable: false },
+  );
+  return ({ type: ADD_RECIPE_TO_RECIPE_BOOK_FAILURE });
 };

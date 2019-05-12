@@ -111,7 +111,7 @@ export const getAllShoppingList = (dispatch) => {
     {
       headers,
       params: {
-        user_id: 2,
+        user_id: 1,
       },
     }).then((response) => {
     dispatch(getAllShoppingListSuccess(response));
@@ -127,7 +127,7 @@ export const getShoppingList = (dispatch, id, resolve, reject) => {
     {
       headers,
       params: {
-        user_id: 2,
+        user_id: 1,
       },
     }).then((response) => {
     dispatch(getShoppingListSuccess(response));
@@ -145,7 +145,7 @@ export const createShoppingList = (dispatch, listTitle, ingredientList, navigati
     url: `${ApiUrl}/api/shopping_lists`,
     data: {
       shopping_list: {
-        user_id: 2,
+        user_id: 1,
         name: listTitle,
         ingredient_ids: ingredientList,
       },

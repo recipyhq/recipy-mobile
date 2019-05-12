@@ -5,6 +5,8 @@ import {
   getAllRecipeBookRequest, getAllRecipeBookSuccess, getRecipeBookFailure,
   getRecipeBookRequest, getRecipeBookSuccess, searchRecipeBookFailure,
   searchRecipeBookRequest, searchRecipeBookSuccess,
+  addRecipeToRecipeBookRequest, addRecipeToRecipeBookFailure, addRecipeToRecipeBookSuccess,
+  removeRecipeToRecipeBookRequest, removeRecipeToRecipeBookFailure, removeRecipeToRecipeBookSuccess,
 } from '../actions/recipebook';
 import ApiUrl from '../config/api';
 
@@ -57,5 +59,45 @@ export const searchForRecipeBook = (dispatch, search) => {
     dispatch(searchRecipeBookSuccess(response));
   }).catch((error) => {
     dispatch(searchRecipeBookFailure(error));
+  });
+};
+
+export const addRecipeToRecipeBook = (dispatch, title, user_id, recipe_id, notebook_id) => {
+  dispatch(addRecipeToRecipeBookRequest());
+  return axios({
+    method: 'post',
+    url: `${ApiUrl}/api/notebooks/${notebook_id}/add_recipe`,
+    data: {
+      notebook: {
+        title: title,
+        user_id: user_id,
+        recipe_id: recipe_id,
+      },
+    },
+    config: { headers: { 'Content-Type': 'application/json' } },
+  }).then((response) => {
+    dispatch(addRecipeToRecipeBookSuccess(response));
+  }).catch((error) => {
+    dispatch(addRecipeToRecipeBookFailure(error));
+  });
+};
+
+export const removeRecipeToRecipeBook = (dispatch, title, user_id, recipe_id, notebook_id) => {
+  dispatch(removeRecipeToRecipeBookRequest());
+  return axios({
+    method: 'post',
+    url: `${ApiUrl}/api/notebooks/${notebook_id}/remove_recipe`,
+    data: {
+      notebook: {
+        title: title,
+        user_id: user_id,
+        recipe_id: recipe_id,
+      },
+    },
+    config: { headers: { 'Content-Type': 'application/json' } },
+  }).then(() => {
+    dispatch(removeRecipeToRecipeBookSuccess());
+  }).catch((error) => {
+    dispatch(removeRecipeToRecipeBookFailure(error));
   });
 };

@@ -15,7 +15,7 @@ const AllShoppingListItems = ({
         { shoppingList.name }
       </Text>
       <Text style={style.description}>
-        {shoppingList.ingredients.toString()}
+        {Object.keys(shoppingList.ingredients).toString()}
       </Text>
     </View>
   </TouchableHighlight>

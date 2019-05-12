@@ -105,7 +105,6 @@ const RecipeDescriptionItem = ({
 
 );
 
-
 RecipeDescriptionItem.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   recipe: PropTypes.object.isRequired,

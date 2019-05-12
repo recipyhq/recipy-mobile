@@ -11,7 +11,6 @@ import ButtonStd from '../../../components/Buttons/ButtonStd';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import style from '../../../components/Recipe/descriptionStyle';
 
-
 class ShoppingListConsult extends Component {
   get isLoading() {
     const { isLoading } = this.props;

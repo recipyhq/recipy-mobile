@@ -9,6 +9,12 @@ import {
   SEARCH_RECIPE_BOOK_FAILURE,
   SEARCH_RECIPE_BOOK_REQUEST,
   SEARCH_RECIPE_BOOK_SUCCESS,
+  ADD_RECIPE_TO_RECIPE_BOOK_REQUEST,
+  ADD_RECIPE_TO_RECIPE_BOOK_SUCCESS,
+  ADD_RECIPE_TO_RECIPE_BOOK_FAILURE,
+  REMOVE_RECIPE_TO_RECIPE_BOOK_REQUEST,
+  REMOVE_RECIPE_TO_RECIPE_BOOK_SUCCESS,
+  REMOVE_RECIPE_TO_RECIPE_BOOK_FAILURE,
 } from '../actions/recipebook';
 
 const initialState = {
@@ -73,6 +79,40 @@ const reducer = (state = initialState, action) => {
     case SEARCH_RECIPE_BOOK_FAILURE:
       return {
         ...state,
+      };
+    case ADD_RECIPE_TO_RECIPE_BOOK_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+
+      };
+    case ADD_RECIPE_TO_RECIPE_BOOK_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+
+      };
+    case ADD_RECIPE_TO_RECIPE_BOOK_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case REMOVE_RECIPE_TO_RECIPE_BOOK_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+
+      };
+    case REMOVE_RECIPE_TO_RECIPE_BOOK_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+
+      };
+    case REMOVE_RECIPE_TO_RECIPE_BOOK_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

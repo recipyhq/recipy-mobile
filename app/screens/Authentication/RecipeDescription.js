@@ -30,7 +30,7 @@ class RecipeDescription extends Component {
     const recipe = navigation.getParam('item', 'NO-ID');
     return (
       <View style={{ backgroundColor: colors.primaryWhite }}>
-        <ModalItem dropDownInfo={searchBookList} />
+        <ModalItem dropDownInfo={searchBookList} currentRecipe={recipe} />
         <RecipeDescriptionItem
           key={recipe.id.toString()}
           recipe={recipe}

@@ -5,11 +5,12 @@ import {
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import colors from '../../../config/colors';
-import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import { getAllRecipe, getRecipe } from '../../../api/recipe';
 import { showRecipe } from '../../../actions/recipe';
 import style from '../../../components/Style/style';
+import RecipeBookContentItem from '../../../components/Recipe/RecipeBookContent/RecipeBookContentItem';
+import { removeRecipeToRecipeBook } from '../../../api/recipebook';
 
 class RecipeBookContent extends Component {
   componentDidMount() {
@@ -37,9 +38,15 @@ class RecipeBookContent extends Component {
     getAllRecipe(dispatch);
   }
 
+  handleDeleteRecipeFromNotebook(book, recipe) {
+    const { dispatch } = this.props;
+    removeRecipeToRecipeBook(dispatch, book.title, 1, recipe.id, book.id); // TODO Mettre le bon id
+  }
+
   render() {
     const { navigation } = this.props;
     const book = navigation.getParam('item', 'NO-ID');
+    console.ignoredYellowBox = ['Warning: Failed prop type: Invalid prop `title` of type `object` supplied to `Button`, expected `string`'];
     return (
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
@@ -49,14 +56,16 @@ class RecipeBookContent extends Component {
       >
         <Loader isLoading={this.isLoading} />
         <View style={style.view}>
-
           {
           book.recipes.map(recipe => (
-            <MyRecipeItem
+            <RecipeBookContentItem
               key={recipe.id.toString()}
               recipe={recipe}
               onPress={() => (
                 this.handlePressNext(recipe))
+              }
+              onPressDelete={() => (
+                this.handleDeleteRecipeFromNotebook(book, recipe))
               }
             />
           ))

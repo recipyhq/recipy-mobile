@@ -8,6 +8,8 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 import style from './descriptionStyle';
 import ButtonStd from '../Buttons/ButtonStd';
 import colors from '../../config/colors';
+import { createShoppingList } from '../../api/recipe';
+import { addRecipeToRecipeBook } from '../../api/recipebook';
 
 class ModalItem extends Component {
   static get defaultProps() {
@@ -19,7 +21,7 @@ class ModalItem extends Component {
     return {
       dropDownInfo: PropTypes.array.isRequired,
       // eslint-disable-next-line react/forbid-prop-types
-      currentRecipe: PropTypes.object,
+      currentRecipe: PropTypes.object.isRequired,
       // eslint-disable-next-line react/forbid-prop-types
       navigation: PropTypes.object.isRequired,
       dispatch: PropTypes.func.isRequired,
@@ -28,10 +30,30 @@ class ModalItem extends Component {
 
   state = {
     modalVisible: false,
+    text: '',
+    item: null,
   };
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
+  }
+
+  handleAddToRecipeBook() {
+    const {
+      dispatch, navigation, dropDownInfo, currentRecipe,
+    } = this.props;
+    if (this.state.item == null) this.state.item = dropDownInfo.find(x => x.name.toLowerCase() === this.state.text.toLowerCase());
+    console.log(JSON.stringify(this.state.item));
+    addRecipeToRecipeBook(dispatch, this.state.item.name, 1, currentRecipe.id, this.state.item.id);
+  }
+
+  handleTextChange(text) {
+    this.state.text = text;
+    this.state.item = null;
+  }
+
+  handleItemChange(item) {
+    this.state.item = item;
   }
 
   render() {
@@ -50,8 +72,8 @@ class ModalItem extends Component {
             <View>
               <Text style={style.pageTitleBlack}>Choissisez un carnet</Text>
               <SearchableDropdown
-                onTextChange={text => text}
-                onItemSelect={item => item}
+                onTextChange={text => this.handleTextChange(text)}
+                onItemSelect={item => this.handleItemChange(item)}
                 containerStyle={{ paddingTop: 5, paddingBottom: 5 }}
                 textInputStyle={{
                   padding: 12,
@@ -70,7 +92,6 @@ class ModalItem extends Component {
                 itemTextStyle={{ color: '#222' }}
                 itemsContainerStyle={{ maxHeight: 140 }}
                 items={dropDownInfo}
-                defaultIndex={1}
                 placeholder="Carnet"
                 resetValue={false}
                 underlineColorAndroid="transparent"
@@ -79,7 +100,7 @@ class ModalItem extends Component {
                 <ButtonStd
                   title="Sauvegarder"
                   onPress={() => {
-                    this.setModalVisible(!this.state.modalVisible);
+                    this.handleAddToRecipeBook();
                   }}
                   buttonStyle={style.btnSendForm}
                   fontSize={15}

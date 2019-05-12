@@ -12,7 +12,7 @@ const ShoppingListItemConsult = ({ list }) => (
       { list.name }
     </Text>
     <FlatList
-      data={list.ingredients}
+      data={Object.keys(list.ingredients)}
       renderItem={({ item }) => (
         <View style={style.listItem}>
           <Text style={style.listText}>{item.toString()}</Text>

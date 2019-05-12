@@ -79,15 +79,18 @@ const reducer = (state = initialState, action) => {
     case GET_ALL_RECIPE_REQUEST:
       return {
         ...state,
+        isLoading: true,
       };
     case GET_ALL_RECIPE_SUCCESS:
       return {
         ...state,
         list: action.resultList,
+        isLoading: false,
       };
     case GET_ALL_RECIPE_FAILURE:
       return {
         ...state,
+        isLoading: false,
       };
     case GET_RECIPE_REQUEST:
       return {
