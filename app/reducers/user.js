@@ -55,7 +55,6 @@ const reducer = (state = initialState, action) => {
     case SIGN_IN_USER_SUCCESS:
       return {
         ...state,
-        id: action.userId,
         isLoading: false,
       };
     case SIGN_IN_USER_FAILURE:
