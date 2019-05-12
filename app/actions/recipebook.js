@@ -125,11 +125,11 @@ export const addRecipeToRecipeBookRequest = () => ({
 
 export const addRecipeToRecipeBookSuccess = () => {
   Alert.alert(
-    'L\'ajout a reussi boyz',
-    'CA MARCHE',
+    'L\'ajout dans le notebook a réussi',
+    'La recette a bien été ajouté',
     [
       {
-        text: 'OK',
+        text: 'Super !',
         onPress: () => {
         },
       },
@@ -161,8 +161,8 @@ export const removeRecipeToRecipeBookRequest = () => ({
 
 export const removeRecipeToRecipeBookSuccess = () => {
   Alert.alert(
-    'L\'ajout a reussi boyz',
-    'CA MARCHE',
+    'La suppression de la recette dans le notebook a réussi',
+    'La recette a pu être supprimé',
     [
       {
         text: 'OK',
@@ -177,8 +177,8 @@ export const removeRecipeToRecipeBookSuccess = () => {
 
 export const removeRecipeToRecipeBookFailure = () => {
   Alert.alert(
-    'L\'ajout a échoué',
-    'Une erreur s\'est produite pendant l\'ajout de la recette.',
+    'La suppression de la recette dans le notebook a échoué',
+    'La recette n\'a pas pu être supprimé du notebook',
     [
       {
         text: 'OK',

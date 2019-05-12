@@ -55,8 +55,8 @@ const RecipeBookContentItem = ({
           backgroundColor={colors.primaryGrey}
           buttonStyle={
           {
-            height: 20,
-            width: 20,
+            height: 50,
+            width: 50,
           }
         }
           title={deleteIcon()}
