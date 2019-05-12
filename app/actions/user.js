@@ -49,7 +49,10 @@ export const signInUserSuccess = (response, navigation) => {
   refreshAuthCredentials(response.headers);
   // Redirect to the Cooker home
   navigation.navigate('Cooker');
-  return ({ type: SIGN_IN_USER_SUCCESS });
+  return ({
+    type: SIGN_IN_USER_SUCCESS,
+    userId: response.data.data.id,
+  });
 };
 
 export const signInUserFailure = () => {
