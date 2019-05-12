@@ -22,6 +22,7 @@ import RecipeBookContent from '../screens/Cooker/RecipeBookContent/RecipeBookCon
 import AllShoppingList from '../screens/Cooker/ShoppingList/AllShoppingList';
 import ShoppingListConsult from '../screens/Cooker/ShoppingList/ShoppingListConsult';
 import Profile from '../screens/Cooker/Profile';
+import ProducerProfile from '../screens/Producer/Profile';
 
 const ProfileStack = createStackNavigator(
   {
@@ -42,11 +43,21 @@ const ProfileStack = createStackNavigator(
   },
 );
 
+const ProducerProfileStack = createStackNavigator(
+  {
+    ProducerProfile,
+  },
+  {
+    headerMode: 'none',
+  },
+);
+
 const AccountStack = createStackNavigator(
   {
     Settings,
     ProfileEdit,
     ProfileStack,
+    ProducerProfileStack,
   },
   {
     headerMode: 'none',
