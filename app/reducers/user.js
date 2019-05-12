@@ -21,6 +21,7 @@ const initialState = {
   email: '',
   password: '',
   password_confirmation: '',
+  id: 0,
   isLoading: false,
 };
 
@@ -54,6 +55,7 @@ const reducer = (state = initialState, action) => {
     case SIGN_IN_USER_SUCCESS:
       return {
         ...state,
+        id: action.userId,
         isLoading: false,
       };
     case SIGN_IN_USER_FAILURE:
