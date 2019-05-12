@@ -23,9 +23,9 @@ class AllShoppingList extends Component {
   }
 
   handlePressNext(shoppinglist) {
-    const { dispatch, navigation } = this.props;
+    const { dispatch, navigation, user } = this.props;
     const promiseGetShoppingList = id => new Promise((resolve, reject) => {
-      getShoppingList(dispatch, id, resolve, reject);
+      getShoppingList(dispatch, id, resolve, reject, user);
     });
     promiseGetShoppingList(shoppinglist.id).then(() => {
       const { currentShoppingList } = this.props;
@@ -34,8 +34,8 @@ class AllShoppingList extends Component {
   }
 
   handleGetAllShoppingList() {
-    const { dispatch } = this.props;
-    getAllShoppingList(dispatch);
+    const { dispatch, user } = this.props;
+    getAllShoppingList(dispatch, user);
   }
 
   handleDeleteShoppingList(id) {
@@ -64,7 +64,9 @@ class AllShoppingList extends Component {
           />
         </View>
         <ScrollView
-          contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
+          contentContainerStyle={{
+            flexGrow: 1, alignItems: 'center', justifyContent: 'center',
+          }}
           style={{
             backgroundColor: colors.primaryWhite,
           }}
@@ -107,6 +109,8 @@ AllShoppingList.propTypes = {
   allShopListItems: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   currentShoppingList: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -115,6 +119,7 @@ function mapStateToProps(state) {
     isLoading: state.recipe.isLoading,
     allShopListItems: state.recipe.allShopListItems,
     currentShoppingList: state.recipe.currentShoppingList,
+    user: state.user,
   };
 }
 

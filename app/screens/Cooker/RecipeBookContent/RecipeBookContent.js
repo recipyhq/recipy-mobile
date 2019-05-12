@@ -34,8 +34,8 @@ class RecipeBookContent extends Component {
   }
 
   handleGetAllRecipe() {
-    const { dispatch } = this.props;
-    getAllRecipe(dispatch);
+    const { dispatch, user } = this.props;
+    getAllRecipe(dispatch, user);
   }
 
   handleDeleteRecipeFromNotebook(book, recipe) {
@@ -89,6 +89,8 @@ RecipeBookContent.propTypes = {
   isLoading: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
   currentRecipe: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -96,6 +98,7 @@ function mapStateToProps(state) {
     recipesList: state.recipe.list,
     isLoading: state.recipe.isLoading,
     currentRecipe: state.recipe.currentRecipe,
+    user: state.user,
   };
 }
 

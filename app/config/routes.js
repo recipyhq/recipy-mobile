@@ -18,6 +18,7 @@ import ShoppingList from '../screens/Cooker/ShoppingList/ShoppingList';
 import RecipeDescription from '../screens/Authentication/RecipeDescription';
 import Settings from '../screens/Account';
 import RecipeBook from '../screens/Cooker/RecipeBook/RecipeBook';
+import CreateRecipeBook from '../screens/Cooker/RecipeBook/CreateRecipeBook';
 import RecipeBookContent from '../screens/Cooker/RecipeBookContent/RecipeBookContent';
 import AllShoppingList from '../screens/Cooker/ShoppingList/AllShoppingList';
 import ShoppingListConsult from '../screens/Cooker/ShoppingList/ShoppingListConsult';
@@ -111,6 +112,16 @@ const RecipeListStack = createStackNavigator({
       },
     },
   },
+  CreateRecipeBook: {
+    screen: CreateRecipeBook,
+    navigationOptions: {
+      title: 'Créer un carnet',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
   RecipeBookContent: {
     screen: RecipeBookContent,
     navigationOptions: {
@@ -178,6 +189,16 @@ const MyRecipeStack = createStackNavigator({
     screen: RecipeBook,
     navigationOptions: {
       title: 'Mes Carnets de recettes',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  CreateRecipeBook: {
+    screen: CreateRecipeBook,
+    navigationOptions: {
+      title: 'Créer un carnet',
       headerTintColor: colors.primaryGrey,
       headerStyle: {
         backgroundColor: colors.primaryOrange,

@@ -9,6 +9,7 @@ import { getAllRecipeBook, getRecipeBook } from '../../../api/recipebook';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import { showRecipeBook } from '../../../actions/recipebook';
 import style from '../../../components/Style/style';
+import ButtonStd from '../../../components/Buttons/ButtonStd';
 
 class RecipeBook extends Component {
   componentDidMount() {
@@ -21,8 +22,8 @@ class RecipeBook extends Component {
   }
 
   handleGetAllRecipeBook() {
-    const { dispatch } = this.props;
-    getAllRecipeBook(dispatch);
+    const { dispatch, user } = this.props;
+    getAllRecipeBook(dispatch, user);
   }
 
   handlePressNext(book) {
@@ -36,18 +37,38 @@ class RecipeBook extends Component {
     });
   }
 
+  handleCreateNoteBook() {
+    const { navigation } = this.props;
+    navigation.navigate('CreateRecipeBook');
+  }
+
   render() {
     const { resultBookList } = this.props;
     return (
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
-        style={{
-          backgroundColor: colors.primaryWhite,
-        }}
+      <View style={{
+        backgroundColor: colors.primaryWhite,
+      }}
       >
-        <Loader isLoading={this.isLoading} />
-        <View style={style.view}>
-          {
+        <View style={style.buttonContainer}>
+          <ButtonStd
+            title="Créer un carnet de recette"
+            onPress={() => {
+              this.handleCreateNoteBook();
+            }}
+            buttonStyle={style.btnSendForm}
+            fontSize={15}
+            color={colors.primaryWhite}
+          />
+        </View>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
+          style={{
+            backgroundColor: colors.primaryWhite,
+          }}
+        >
+          <Loader isLoading={this.isLoading} />
+          <View style={style.view}>
+            {
           resultBookList.map(book => (
             <RecipeBookItem
               key={book.id.toString()}
@@ -58,8 +79,9 @@ class RecipeBook extends Component {
             />
           ))
         }
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -76,6 +98,7 @@ function mapStateToProps(state) {
     resultBookList: state.recipebook.resultBookList,
     isLoading: state.user.isLoading,
     currentRecipeBook: state.recipebook.currentRecipeBook,
+    user: state.user,
   };
 }
 
@@ -89,5 +112,7 @@ RecipeBook.propTypes = {
   resultBookList: PropTypes.array,
   // eslint-disable-next-line react/forbid-prop-types
   currentRecipeBook: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
 };
 export default connect(mapStateToProps)(RecipeBook);

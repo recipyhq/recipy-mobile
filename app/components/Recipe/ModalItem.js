@@ -25,6 +25,8 @@ class ModalItem extends Component {
       // eslint-disable-next-line react/forbid-prop-types
       navigation: PropTypes.object.isRequired,
       dispatch: PropTypes.func.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
+      user: PropTypes.object.isRequired,
     };
   }
 
@@ -33,18 +35,17 @@ class ModalItem extends Component {
     text: '',
     item: null,
   };
-
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
 
   handleAddToRecipeBook() {
     const {
-      dispatch, navigation, dropDownInfo, currentRecipe,
+      dispatch, navigation, dropDownInfo, currentRecipe, user
     } = this.props;
     if (this.state.item == null) this.state.item = dropDownInfo.find(x => x.name.toLowerCase() === this.state.text.toLowerCase());
     console.log(JSON.stringify(this.state.item));
-    addRecipeToRecipeBook(dispatch, this.state.item.name, 1, currentRecipe.id, this.state.item.id);
+    addRecipeToRecipeBook(dispatch, this.state.item.name, user, currentRecipe.id, this.state.item.id);
   }
 
   handleTextChange(text) {
@@ -138,8 +139,9 @@ class ModalItem extends Component {
   }
 }
 
-function mapStateToProps() {
+function mapStateToProps(state) {
   return {
+    user: state.user,
   };
 }
 

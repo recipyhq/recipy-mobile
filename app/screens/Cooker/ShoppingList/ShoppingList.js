@@ -37,8 +37,8 @@ class ShoppingList extends Component {
   handleCreateList(title, list) {
     const ingId = [];
     list.map(ingredient => ingId.push(ingredient.id));
-    const { dispatch, navigation } = this.props;
-    createShoppingList(dispatch, title, ingId, navigation);
+    const { dispatch, navigation, user } = this.props;
+    createShoppingList(dispatch, title, ingId, navigation, user);
   }
 
   addIngredient(eleminList) {
@@ -150,6 +150,7 @@ function mapStateToProps(state) {
     isLoading: state.user.isLoading,
     search: state.recipe.search,
     resultsIngredientList: state.recipe.ingredientList,
+    user: state.user,
   };
 }
 
@@ -166,5 +167,7 @@ ShoppingList.propTypes = {
   search: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   resultsIngredientList: PropTypes.array,
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
 };
 export default connect(mapStateToProps)(ShoppingList);

@@ -1,9 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Image, Text, TouchableHighlight, View, ProgressBarAndroid,
 } from 'react-native';
-import { Button } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome';
 import style from '../../Style/style';
 import colors from '../../../config/colors';
@@ -51,17 +51,6 @@ const RecipeBookContentItem = ({
             {recipe.view}
           </Text>
         </View>
-        <Button
-          backgroundColor={colors.primaryGrey}
-          buttonStyle={
-          {
-            height: 50,
-            width: 50,
-          }
-        }
-          title={deleteIcon()}
-          onPress={onPressDelete}
-        />
       </View>
     </View>
   </TouchableHighlight>
