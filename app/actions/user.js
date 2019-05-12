@@ -47,12 +47,10 @@ export const refreshAuthCredentials = (headers) => {
 
 export const signInUserSuccess = (response, navigation) => {
   refreshAuthCredentials(response.headers);
+  SecureStore.setItemAsync('userId', response.data.data.id.toString());
   // Redirect to the Cooker home
   navigation.navigate('Cooker');
-  return ({
-    type: SIGN_IN_USER_SUCCESS,
-    userId: response.data.data.id,
-  });
+  return ({ type: SIGN_IN_USER_SUCCESS });
 };
 
 export const signInUserFailure = () => {
