@@ -7,14 +7,31 @@ const style = EStyleSheet.create({
     marginTop: 25,
     padding: 5,
     backgroundColor: colors.mediumGrey,
-    width: 250,
-    height: 250,
     borderRadius: 7,
+    height: 300,
+  },
+  containerShopList: {
+    marginLeft: 5,
+    marginTop: 25,
+    padding: 5,
+    backgroundColor: colors.mediumGrey,
+    borderRadius: 7,
+    height: 130,
+  },
+  touch: {
+    width: '50%',
+  },
+  view: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    flexGrow: 0,
+    justifyContent: 'center',
   },
   imageStyle: {
     flexGrow: 0.8,
     width: '100%',
-    height: 70,
+    height: '10%',
   },
   userStyle: {
     fontSize: 18,
@@ -66,6 +83,36 @@ const style = EStyleSheet.create({
     color: colors.primaryWhite,
     marginTop: 5,
     marginLeft: 5,
+  },
+  listItem: {
+    paddingTop: 6,
+    paddingBottom: 6,
+    flexDirection: 'row',
+    borderRadius: 1,
+    borderBottomWidth: 0.2,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  listText: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 15,
+  },
+  title: {
+    fontSize: 25,
+    margin: 5,
+    color: colors.primaryGrey,
+  },
+  buttonContainer: {
+    width: '100%',
+    backgroundColor: colors.primaryGrey,
+  },
+  btnSendForm: {
+    width: '100%',
+    backgroundColor: colors.primaryGrey,
+    padding: 10,
   },
 });
 

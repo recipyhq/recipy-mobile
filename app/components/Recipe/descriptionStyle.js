@@ -4,53 +4,53 @@ import colors from '../../config/colors';
 const descriptionStyle = EStyleSheet.create({
   // Section Title
   sectionTitle: {
-    fontSize: 20,
-    paddingTop: 5,
-    paddingBottom: 10,
-    margin: 12,
-    borderBottomWidth: 0.2,
-    borderBottomColor: colors.veryLightGrey,
-    textAlign: 'center',
-  },
-
-  sectionTitleBorder: {
-    fontSize: 20,
-    paddingTop: 10,
-    textAlign: 'center',
-    borderRadius: 2,
-    borderTopWidth: 0.5,
-    borderColor: '#d6d7da',
-  },
-
-  sectionStep: {
-    fontSize: 15,
-    paddingTop: 10,
+    fontSize: 25,
+    margin: 5,
     color: colors.primaryOrange,
+  },
+  sectionStep: {
+    fontSize: 18,
+    color: colors.primaryOrange,
+    marginLeft: 25,
   },
 
   // Section Text
   sectionText: {
-    paddingLeft: 20,
+    paddingLeft: 45,
+    fontSize: 15,
   },
 
   pageTitle: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 30,
     textAlign: 'center',
+    color: colors.primaryWhite,
   },
-
+  pageTitleBlack: {
+    fontWeight: 'bold',
+    fontSize: 30,
+    textAlign: 'center',
+    color: colors.primaryGrey,
+  },
+  titleView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+    backgroundColor: colors.primaryOrange,
+  },
+  infoView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.primaryGrey,
+  },
   infoContainer: {
     paddingRight: 15,
     paddingLeft: 15,
     marginTop: 15,
     marginBottom: 10,
-    borderRightWidth: 0.5,
-  },
-  infoContainerLast: {
-    paddingRight: 15,
-    paddingLeft: 15,
-    marginTop: 15,
-    marginBottom: 10,
+    width: '25%',
   },
   indicator: {
     fontSize: 12,
@@ -59,8 +59,8 @@ const descriptionStyle = EStyleSheet.create({
   },
 
   information: {
-    fontSize: 30,
-    color: colors.primaryOrange,
+    fontSize: 13,
+    color: colors.primaryWhite,
   },
 
   informationEnd: {
@@ -69,11 +69,28 @@ const descriptionStyle = EStyleSheet.create({
   },
 
   imageStyle: {
-    width: 275,
+    width: '100%',
     height: 275,
     alignItems: 'center',
-    borderRadius: 5,
-    marginLeft: '12%',
+  },
+  buttonContainer: {
+    width: '100%',
+    backgroundColor: colors.primaryGrey,
+  },
+  buttonContainerWithSpace: {
+    width: '100%',
+    backgroundColor: colors.primaryGrey,
+    marginTop: 2,
+    marginBottom: 2,
+  },
+  btnSendForm: {
+    width: '100%',
+    backgroundColor: colors.primaryGrey,
+    padding: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
 
