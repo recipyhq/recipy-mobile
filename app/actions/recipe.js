@@ -20,10 +20,15 @@ export const GET_RECIPE_REQUEST = 'GET_RECIPE_REQUEST';
 export const GET_RECIPE_SUCCESS = 'GET_RECIPE_SUCCESS';
 export const GET_RECIPE_FAILURE = 'GET_RECIPE_FAILURE';
 
+// GET_USER_RECIPES
+export const GET_PROFILE_RECIPES_REQUEST = 'GET_PROFILE_RECIPES_REQUEST';
+export const GET_PROFILE_RECIPES_SUCCESS = 'GET_PROFILE_RECIPES_SUCCESS';
+export const GET_PROFILE_RECIPES_FAILURE = 'GET_PROFILE_RECIPES_FAILURE';
+
 // GET_ALL_RECIPE
-export const GET_ALL_RECIPE_REQUEST = 'GET_ALL_RECIPE_REQUEST';
-export const GET_ALL_RECIPE_SUCCESS = 'GET_ALL_RECIPE_SUCCESS';
-export const GET_ALL_RECIPE_FAILURE = 'GET_ALL_RECIPE_FAILURE';
+export const GET_MY_RECIPE_LIST_REQUEST = 'GET_MY_RECIPE_LIST_REQUEST';
+export const GET_MY_RECIPE_LIST_SUCCESS = 'GET_MY_RECIPE_LIST_SUCCESS';
+export const GET_MY_RECIPE_LIST_FAILURE = 'GET_MY_RECIPE_LIST_FAILURE';
 
 // SHOPPING LIST MANIPULATION
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
@@ -127,21 +132,21 @@ export const showRecipe = (navigation, recipe) => {
   };
 };
 
-export const getAllRecipeRequest = () => ({
-  type: GET_ALL_RECIPE_REQUEST,
+export const getMyRecipeListRequest = () => ({
+  type: GET_MY_RECIPE_LIST_REQUEST,
 });
 
-export const getAllRecipeSuccess = (response) => {
+export const getMyRecipeListSuccess = (response) => {
   refreshAuthCredentials(response.headers);
   let resultList = [];
   if (response.data) resultList = response.data;
   return ({
-    type: GET_ALL_RECIPE_SUCCESS,
+    type: GET_MY_RECIPE_LIST_SUCCESS,
     resultList,
   });
 };
 
-export const getAllRecipeFailure = (error) => {
+export const getMyRecipeListFailure = (error) => {
   const { response } = error;
   Alert.alert(
     'Une erreur est survenue lors de la récupération des recette',
@@ -151,7 +156,7 @@ export const getAllRecipeFailure = (error) => {
     ],
     { cancelable: false },
   );
-  return ({ type: GET_ALL_RECIPE_FAILURE });
+  return ({ type: GET_MY_RECIPE_LIST_FAILURE });
 };
 
 export const getRecipeRequest = () => ({
@@ -325,3 +330,21 @@ export const deleteShoppingListFailure = (error) => {
   );
   return ({ type: DELETE_SHOPPING_LIST_FAILURE });
 };
+
+export const getProfileRecipesRequest = () => ({
+  type: GET_PROFILE_RECIPES_REQUEST,
+});
+
+export const getProfileRecipesSuccess = (response) => {
+  let profileRecipes = [];
+  if (response.data) profileRecipes = response.data;
+  return {
+    type: GET_PROFILE_RECIPES_SUCCESS,
+    profileRecipes,
+  };
+};
+
+export const getProfileRecipesFailure = () => ({
+  type: GET_PROFILE_RECIPES_FAILURE,
+  errorText: 'Une erreur est survenue pendant la récupération de la liste des recettes de l\'utilisateur',
+});

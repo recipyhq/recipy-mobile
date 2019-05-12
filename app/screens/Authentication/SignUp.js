@@ -5,7 +5,6 @@ import { PropTypes } from 'prop-types';
 import InputWithLabelAndIcon from '../../components/Inputs/InputWithLabelAndIcon';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import {
-  changeAccountType,
   changeEmail, changePassword, changePasswordConfirmation,
 } from '../../actions/user';
 import ButtonStd from '../../components/Buttons/ButtonStd';
@@ -14,8 +13,6 @@ import colors from '../../config/colors';
 import styles from './styles';
 import { signUpUser } from '../../api/user';
 import Loader from '../../components/Loaders/Loader/Loader';
-import Select from '../../components/Inputs/Select/Select';
-import SelectItem from '../../components/Inputs/Select/SelectItem';
 
 const backgroundImage = require('../../../assets/bg-auth.jpg');
 
@@ -62,11 +59,6 @@ class SignUp extends Component {
     dispatch(changePasswordConfirmation(passwordConfirmation));
   }
 
-  handleChangeAccountType(accountType) {
-    const { dispatch } = this.props;
-    dispatch(changeAccountType(accountType));
-  }
-
   render() {
     return (
       <ContainerView>
@@ -90,17 +82,6 @@ class SignUp extends Component {
             <InputWithLabelAndIcon label="Courriel" iconName="envelope" onChangeText={(text) => { this.handleChangeEmail(text); }} keyboardType="email-address" />
             <InputWithLabelAndIcon label="Mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePassword(text); }} secureTextEntry />
             <InputWithLabelAndIcon label="Confirmation de mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }} secureTextEntry />
-            <Select
-              label="Vous êtes..."
-              selectedValue={() => {
-                const { user } = this.props;
-                return user.accountType;
-              }}
-              onValueChange={itemValue => this.handleChangeAccountType(itemValue)}
-            >
-              <SelectItem label="Cuisinier" value="COOKER" />
-              <SelectItem label="Producteur" value="PRODUCER" />
-            </Select>
           </View>
           <View style={styles.buttonContainer}>
             <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>

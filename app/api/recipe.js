@@ -4,9 +4,9 @@ import {
   searchRecipeFailure,
   searchRecipeRequest,
   searchRecipeSuccess,
-  getAllRecipeFailure,
-  getAllRecipeRequest,
-  getAllRecipeSuccess,
+  getMyRecipeListFailure,
+  getMyRecipeListRequest,
+  getMyRecipeListSuccess,
   getRecipeRequest,
   getRecipeSuccess,
   getRecipeFailure,
@@ -23,6 +23,7 @@ import {
   deleteShoppingListSuccess,
   deleteShoppingListFailure, searchIngredientRequest,
   searchIngredientSuccess, searchIngredientFailure,
+  getProfileRecipesRequest, getProfileRecipesSuccess, getProfileRecipesFailure,
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
 
@@ -77,15 +78,28 @@ export const searchForIngredient = (dispatch, search) => {
 };
 
 export const getAllRecipe = (dispatch) => {
-  dispatch(getAllRecipeRequest());
+  dispatch(getMyRecipeListRequest());
   const headers = { 'Content-Type': 'application/json' };
   return axios(`${ApiUrl}/api/recipes`,
     {
       headers,
     }).then((response) => {
-    dispatch(getAllRecipeSuccess(response));
+    dispatch(getMyRecipeListSuccess(response));
   }).catch((error) => {
-    dispatch(getAllRecipeFailure(error));
+    dispatch(getMyRecipeListFailure(error));
+  });
+};
+
+export const getProfileRecipes = (dispatch) => {
+  dispatch(getProfileRecipesRequest());
+  const headers = { 'Content-Type': 'application/json' };
+  return axios(`${ApiUrl}/api/recipes`,
+    {
+      headers,
+    }).then((response) => {
+    dispatch(getProfileRecipesSuccess(response));
+  }).catch((error) => {
+    dispatch(getProfileRecipesFailure(error));
   });
 };
 

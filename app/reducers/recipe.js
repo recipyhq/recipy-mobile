@@ -1,8 +1,6 @@
 import {
   CHANGE_SEARCH_QUERY,
-  GET_ALL_RECIPE_FAILURE,
-  GET_ALL_RECIPE_REQUEST,
-  GET_ALL_RECIPE_SUCCESS, GET_RECIPE_FAILURE, GET_RECIPE_REQUEST, GET_RECIPE_SUCCESS,
+  GET_RECIPE_FAILURE, GET_RECIPE_REQUEST, GET_RECIPE_SUCCESS,
   SEARCH_RECIPE_FAILURE, SEARCH_RECIPE_REQUEST, SEARCH_RECIPE_SUCCESS,
   SHOW_RECIPE, ADD_INGREDIENT, ADD_INGREDIENT_LIST,
   CHANGE_TITLE, CHANGE_INGREDIENT, DELETE_INGREDIENT,
@@ -12,15 +10,23 @@ import {
   DELETE_SHOPPING_LIST_REQUEST, DELETE_SHOPPING_LIST_SUCCESS, DELETE_SHOPPING_LIST_FAILURE,
   SHOW_SHOPPING_LIST, SEARCH_INGREDIENT_REQUEST,
   SEARCH_INGREDIENT_FAILURE, SEARCH_INGREDIENT_SUCCESS,
+  GET_MY_RECIPE_LIST_FAILURE,
+  GET_MY_RECIPE_LIST_REQUEST,
+  GET_MY_RECIPE_LIST_SUCCESS, GET_PROFILE_RECIPES_FAILURE,
+  GET_PROFILE_RECIPES_REQUEST,
+  GET_PROFILE_RECIPES_SUCCESS,
 } from '../actions/recipe';
 
 const initialState = {
-  list: [],
   ingredientList: [],
   allShopListItems: [],
   shoplist: [],
   shoplistTitle: '',
   shoplistIngredient: '',
+  searchList: [],
+  myRecipeList: [],
+  profileRecipes: [],
+  profileRecipesErrorText: '',
   search: {
     q: '',
     ingredients: [],
@@ -45,18 +51,16 @@ const reducer = (state = initialState, action) => {
     case SEARCH_RECIPE_REQUEST:
       return {
         ...state,
-        isLoading: true,
       };
     case SEARCH_RECIPE_SUCCESS:
       return {
         ...state,
-        list: action.resultList,
-        isLoading: false,
+        searchList: action.resultList,
       };
     case SEARCH_RECIPE_FAILURE:
       return {
         ...state,
-        isLoading: false,
+        searchList: [],
       };
     case SEARCH_INGREDIENT_REQUEST:
       return {
@@ -76,18 +80,18 @@ const reducer = (state = initialState, action) => {
         ...state,
         currentRecipe: action.currentRecipe,
       };
-    case GET_ALL_RECIPE_REQUEST:
+    case GET_MY_RECIPE_LIST_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
-    case GET_ALL_RECIPE_SUCCESS:
+    case GET_MY_RECIPE_LIST_SUCCESS:
       return {
         ...state,
-        list: action.resultList,
+        myRecipeList: action.resultList,
         isLoading: false,
       };
-    case GET_ALL_RECIPE_FAILURE:
+    case GET_MY_RECIPE_LIST_FAILURE:
       return {
         ...state,
         isLoading: false,
@@ -201,6 +205,24 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case GET_PROFILE_RECIPES_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GET_PROFILE_RECIPES_SUCCESS:
+      return {
+        ...state,
+        profileRecipes: action.profileRecipes,
+        isLoading: false,
+        profileRecipesErrorText: '',
+      };
+    case GET_PROFILE_RECIPES_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        profileRecipesErrorText: action.errorText,
       };
     default:
       return state;

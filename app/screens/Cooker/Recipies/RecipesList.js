@@ -74,7 +74,7 @@ class RecipesList extends Component {
 
 function mapStateToProps(state) {
   return {
-    resultsList: state.recipe.list,
+    resultsList: state.recipe.searchList,
     isLoading: state.ingredient.isLoading,
     search: state.recipe.search,
   };

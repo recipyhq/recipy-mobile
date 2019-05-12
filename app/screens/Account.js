@@ -30,13 +30,18 @@ const styles = EStyleSheet.create({
   },
 });
 
-class Settings extends Component {
+class Account extends Component {
   static get propTypes() {
     return {
       dispatch: PropTypes.func.isRequired,
       // eslint-disable-next-line react/forbid-prop-types
       navigation: PropTypes.object.isRequired,
     };
+  }
+
+  handleShowPublicProfile() {
+    const { navigation } = this.props;
+    navigation.navigate('Profile');
   }
 
   handlePressSignOut() {
@@ -52,8 +57,14 @@ class Settings extends Component {
   render() {
     const SettingsItem = [
       {
-        title: 'Notifications',
-        subtitle: 'COMING SOON',
+        title: 'Mon profil',
+        subtitle: 'Visualiser mon profil public',
+        icon: 'id-card',
+        onPress: () => this.handleShowPublicProfile(),
+      },
+      {
+        title: 'Espace producteur',
+        subtitle: 'Accéder à mon espace producteur',
         icon: 'bell',
       },
       {
@@ -105,7 +116,11 @@ class Settings extends Component {
                   type: 'font-awesome',
                 }}
                 title={`${item.title}`}
-                subtitle={item.subtitle}
+                subtitle={(
+                  <View style={styles.subtitleView}>
+                    <Text style={styles.ratingText}>{item.subtitle}</Text>
+                  </View>
+                )}
                 containerStyle={{}}
                 onPress={(item.onPress) ? item.onPress : null}
               />
@@ -118,4 +133,4 @@ class Settings extends Component {
   }
 }
 
-export default connect()(Settings);
+export default connect()(Account);

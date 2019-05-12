@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
-import { Button, Card } from 'react-native-elements';
+import { Text, TouchableWithoutFeedback } from 'react-native';
+import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-import colors from '../../../../config/colors';
 import style from './style';
 import { showRecipe } from '../../../../actions/recipe';
 import { getRecipe } from '../../../../api/recipe';
@@ -48,7 +47,7 @@ class RecipeListItem extends Component {
   render() {
     const { recipe } = this.props;
     return (
-      <View style={style.container}>
+      <TouchableWithoutFeedback onPress={() => this.handlePressShowDetails()}>
         <Card
           title={recipe.title}
           image={{ uri: recipe.image_url }}
@@ -57,28 +56,10 @@ class RecipeListItem extends Component {
             {recipe.description}
           </Text>
           <Text style={style.recipeTime}>
-            {`Temps de réalisation : ${recipe.time} minutes`}
+            {`Durée de réalisation : ${recipe.preparation_time + recipe.cooking_time} minutes`}
           </Text>
-          <Button
-            icon={{
-              name: 'cutlery',
-              color: colors.primaryWhite,
-              size: 15,
-              type: 'font-awesome',
-            }}
-            backgroundColor="#03A9F4"
-            onPress={() => {
-              this.handlePressShowDetails();
-            }}
-            buttonStyle={
-              {
-                borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0,
-              }
-            }
-            title="Je veux cuisiner !"
-          />
         </Card>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

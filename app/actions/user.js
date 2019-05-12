@@ -5,7 +5,6 @@ export const CHANGE_EMAIL = 'CHANGE_EMAIL';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const CHANGE_PASSWORD_CONFIRMATION = 'CHANGE_PASSWORD_CONFIRMATION';
 export const CHANGE_CURRENT_PASSWORD = 'CHANGE_CURRENT_PASSWORD';
-export const CHANGE_ACCOUNT_TYPE = 'CHANGE_ACCOUNT_TYPE';
 
 // SIGN_IN_USER
 export const SIGN_IN_USER_REQUEST = 'SIGN_IN_USER_REQUEST';
@@ -50,7 +49,10 @@ export const signInUserSuccess = (response, navigation) => {
   refreshAuthCredentials(response.headers);
   // Redirect to the Cooker home
   navigation.navigate('Cooker');
-  return ({ type: SIGN_IN_USER_SUCCESS });
+  return ({
+    type: SIGN_IN_USER_SUCCESS,
+    userId: response.data.data.id,
+  });
 };
 
 export const signInUserFailure = () => {
@@ -228,11 +230,6 @@ export const changePasswordConfirmation = passwordConfirmation => ({
 export const changeCurrentPassword = currentPassword => ({
   type: CHANGE_CURRENT_PASSWORD,
   current_password: currentPassword,
-});
-
-export const changeAccountType = type => ({
-  type: CHANGE_ACCOUNT_TYPE,
-  accountType: type,
 });
 
 export const SignOutUser = (navigation) => {

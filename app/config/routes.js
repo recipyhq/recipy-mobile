@@ -9,24 +9,44 @@ import React from 'react';
 import SignIn from '../screens/Authentication/SignIn';
 import SignUp from '../screens/Authentication/SignUp';
 import ForgottenPassword from '../screens/Authentication/ForgottenPassword';
-import Home from '../screens/Cooker/Home';
 import HomeAuth from '../screens/Authentication/Home';
-import Profile from '../screens/Profile';
+import ProfileEdit from '../screens/ProfileEdit';
 import colors from './colors';
 import RecipesList from '../screens/Cooker/Recipies/RecipesList';
 import MyRecipes from '../screens/Cooker/Recipies/MyRecipes';
 import ShoppingList from '../screens/Cooker/ShoppingList/ShoppingList';
 import RecipeDescription from '../screens/Authentication/RecipeDescription';
-import Settings from '../screens/Settings';
+import Settings from '../screens/Account';
 import RecipeBook from '../screens/Cooker/RecipeBook/RecipeBook';
 import RecipeBookContent from '../screens/Cooker/RecipeBookContent/RecipeBookContent';
 import AllShoppingList from '../screens/Cooker/ShoppingList/AllShoppingList';
 import ShoppingListConsult from '../screens/Cooker/ShoppingList/ShoppingListConsult';
+import Profile from '../screens/Cooker/Profile';
 
-const SettingsStack = createStackNavigator(
+const ProfileStack = createStackNavigator(
+  {
+    Profile,
+    RecipeDescription: {
+      screen: RecipeDescription,
+      navigationOptions: {
+        title: 'Description de la recette',
+        headerTintColor: colors.primaryGrey,
+        headerStyle: {
+          backgroundColor: colors.primaryOrange,
+        },
+      },
+    },
+  },
+  {
+    headerMode: 'none',
+  },
+);
+
+const AccountStack = createStackNavigator(
   {
     Settings,
-    Profile,
+    ProfileEdit,
+    ProfileStack,
   },
   {
     headerMode: 'none',
@@ -191,11 +211,11 @@ bookIcon.propTypes = {
   tintColor: PropTypes.string.isRequired,
 };
 
-function cogIcon({ tintColor }) {
-  return (<FontAwesome5 name="cog" color={tintColor} size={24} />);
+function userIcon({ tintColor }) {
+  return (<FontAwesome5 name="user" color={tintColor} size={24} />);
 }
 
-cogIcon.propTypes = {
+userIcon.propTypes = {
   tintColor: PropTypes.string.isRequired,
 };
 
@@ -230,31 +250,10 @@ const TabCooker = createBottomTabNavigator({
     },
   },
   Settings: {
-    screen: SettingsStack,
+    screen: AccountStack,
     navigationOptions: {
-      tabBarLabel: 'Paramétres',
-      tabBarIcon: cogIcon,
-    },
-  },
-}, {
-  tabBarOptions: {
-    activeTintColor: colors.primaryOrange,
-  },
-});
-
-const TabProducer = createBottomTabNavigator({
-  Home: {
-    screen: Home,
-    navigationOptions: {
-      tabBarLabel: 'Explorer',
-      tabBarIcon: compassIcon,
-    },
-  },
-  Settings: {
-    screen: SettingsStack,
-    navigationOptions: {
-      tabBarLabel: 'Paramétres',
-      tabBarIcon: cogIcon,
+      tabBarLabel: 'Mon compte',
+      tabBarIcon: userIcon,
     },
   },
 }, {
@@ -270,7 +269,6 @@ const NavigatorAuth = createStackNavigator({
 
 const Navigator = createSwitchNavigator({
   Cooker: TabCooker,
-  Producer: TabProducer,
   NavigatorAuth,
 },
 {

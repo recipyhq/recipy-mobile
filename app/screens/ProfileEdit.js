@@ -34,7 +34,7 @@ const styles = EStyleSheet.create({
   },
 });
 
-class Profile extends Component {
+class ProfileEdit extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(changeEmail(''));
@@ -165,7 +165,7 @@ function mapStateToProps(state) {
   };
 }
 
-Profile.propTypes = {
+ProfileEdit.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   dispatch: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
@@ -177,7 +177,7 @@ Profile.propTypes = {
   isLoading: PropTypes.bool,
 };
 
-Profile.defaultProps = {
+ProfileEdit.defaultProps = {
   errorManager: {
     current_password: '',
     email: '',
@@ -187,4 +187,4 @@ Profile.defaultProps = {
   isLoading: false,
 };
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps)(ProfileEdit);
