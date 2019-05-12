@@ -62,16 +62,16 @@ export const searchForRecipeBook = (dispatch, search) => {
   });
 };
 
-export const addRecipeToRecipeBook = (dispatch, title, user_id, recipe_id, notebook_id) => {
+export const addRecipeToRecipeBook = (dispatch, title, userId, recipeId, notebookId) => {
   dispatch(addRecipeToRecipeBookRequest());
   return axios({
     method: 'post',
-    url: `${ApiUrl}/api/notebooks/${notebook_id}/add_recipe`,
+    url: `${ApiUrl}/api/notebooks/${notebookId}/add_recipe`,
     data: {
       notebook: {
-        title: title,
-        user_id: user_id,
-        recipe_id: recipe_id,
+        title,
+        userId,
+        recipeId,
       },
     },
     config: { headers: { 'Content-Type': 'application/json' } },
@@ -82,16 +82,16 @@ export const addRecipeToRecipeBook = (dispatch, title, user_id, recipe_id, noteb
   });
 };
 
-export const removeRecipeToRecipeBook = (dispatch, title, user_id, recipe_id, notebook_id) => {
+export const removeRecipeToRecipeBook = (dispatch, title, userId, recipeId, notebookId) => {
   dispatch(removeRecipeToRecipeBookRequest());
   return axios({
     method: 'post',
-    url: `${ApiUrl}/api/notebooks/${notebook_id}/remove_recipe`,
+    url: `${ApiUrl}/api/notebooks/${notebookId}/remove_recipe`,
     data: {
       notebook: {
-        title: title,
-        user_id: user_id,
-        recipe_id: recipe_id,
+        title,
+        userId,
+        recipeId,
       },
     },
     config: { headers: { 'Content-Type': 'application/json' } },
