@@ -3,14 +3,19 @@ import PropTypes from 'prop-types';
 import {
   Image, Text, TouchableHighlight, View, ProgressBarAndroid,
 } from 'react-native';
-import style from '../Style/style';
-import colors from '../../config/colors';
+import { Button } from 'react-native-elements';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome';
+import style from '../../Style/style';
+import colors from '../../../config/colors';
 
-const MyRecipeItem = ({
-  onPress, recipe, ...props
+function deleteIcon() {
+  return (<FontAwesome5 name="trash" color={colors.primaryRed} size={18} />);
+}
+
+const RecipeBookContentItem = ({
+  onPress, recipe, onPressDelete, ...props
 }) => (
   <TouchableHighlight onPress={onPress} style={style.touch}>
-
     <View style={style.container} onPress={onPress} {...props}>
       <Image
         style={style.imageStyle}
@@ -38,22 +43,37 @@ const MyRecipeItem = ({
         color={colors.primaryOrange}
         progress={recipe.difficulty / 10}
       />
-      <View>
-        <Text style={style.attribute}>
-        Vues:
-          {' '}
-          {recipe.view}
-        </Text>
+      <View style={{ flexDirection: 'row' }}>
+        <View>
+          <Text style={style.attribute}>
+          Vues:
+            {' '}
+            {recipe.view}
+          </Text>
+        </View>
+        <Button
+          backgroundColor={colors.primaryGrey}
+          buttonStyle={
+          {
+            height: 50,
+            width: 50,
+          }
+        }
+          title={deleteIcon()}
+          onPress={onPressDelete}
+        />
       </View>
     </View>
   </TouchableHighlight>
 
 );
 
-MyRecipeItem.propTypes = {
+RecipeBookContentItem.propTypes = {
   onPress: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   recipe: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  onPressDelete: PropTypes.func.isRequired,
 };
 
-export default MyRecipeItem;
+export default RecipeBookContentItem;

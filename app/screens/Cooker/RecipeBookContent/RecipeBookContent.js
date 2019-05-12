@@ -5,16 +5,14 @@ import {
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import colors from '../../../config/colors';
-import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import { getAllRecipe, getRecipe } from '../../../api/recipe';
 import { showRecipe } from '../../../actions/recipe';
-import styles from '../../Authentication/styles';
 import style from '../../../components/Style/style';
+import RecipeBookContentItem from '../../../components/Recipe/RecipeBookContent/RecipeBookContentItem';
+import { removeRecipeToRecipeBook } from '../../../api/recipebook';
 
-import ButtonStd from '../../../components/Buttons/ButtonStd';
-
-class MyRecipes extends Component {
+class RecipeBookContent extends Component {
   componentDidMount() {
     this.handleGetAllRecipe();
   }
@@ -35,23 +33,20 @@ class MyRecipes extends Component {
     });
   }
 
-  handlePressShop() {
-    const { navigation } = this.props;
-    navigation.navigate('AllShoppingList');
-  }
-
-  handlePressBook() {
-    const { navigation } = this.props;
-    navigation.navigate('RecipeBook');
-  }
-
   handleGetAllRecipe() {
     const { dispatch } = this.props;
     getAllRecipe(dispatch);
   }
 
+  handleDeleteRecipeFromNotebook(book, recipe) {
+    const { dispatch } = this.props;
+    removeRecipeToRecipeBook(dispatch, book.title, 1, recipe.id, book.id); // TODO Mettre le bon id
+  }
+
   render() {
-    const { recipesList } = this.props;
+    const { navigation } = this.props;
+    const book = navigation.getParam('item', 'NO-ID');
+    console.ignoredYellowBox = ['Warning: Failed prop type: Invalid prop `title` of type `object` supplied to `Button`, expected `string`'];
     return (
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
@@ -59,44 +54,19 @@ class MyRecipes extends Component {
           backgroundColor: colors.primaryWhite,
         }}
       >
-        <ButtonStd
-          onPress={() => (this.handlePressShop())}
-          title="ShoppingList"
-          leftIcon={{
-            name: 'arrow-left',
-            color: colors.primaryGrey,
-            size: 5,
-            type: 'font-awesome',
-          }}
-          buttonStyle={styles.btnBack}
-          transparent
-          color={colors.primaryGrey}
-          fontSize={10}
-        />
-        <ButtonStd
-          onPress={() => (this.handlePressBook())}
-          title="RecipeBook"
-          leftIcon={{
-            name: 'arrow-left',
-            color: colors.primaryGrey,
-            size: 5,
-            type: 'font-awesome',
-          }}
-          buttonStyle={styles.btnBack}
-          transparent
-          color={colors.primaryGrey}
-          fontSize={10}
-        />
         <Loader isLoading={this.isLoading} />
         <View style={style.view}>
           {
-          recipesList.map(recipe => (
-            <MyRecipeItem
+          book.recipes.map(recipe => (
+            <RecipeBookContentItem
               key={recipe.id.toString()}
               recipe={recipe}
               onPress={() => (
                 this.handlePressNext(recipe))
-          }
+              }
+              onPressDelete={() => (
+                this.handleDeleteRecipeFromNotebook(book, recipe))
+              }
             />
           ))
         }
@@ -106,29 +76,27 @@ class MyRecipes extends Component {
   }
 }
 
-MyRecipes.defaultProps = {
+RecipeBookContent.defaultProps = {
   isLoading: true,
   currentRecipe: null,
 };
 
-MyRecipes.propTypes = {
+RecipeBookContent.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   dispatch: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
-  recipesList: PropTypes.array.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   currentRecipe: PropTypes.object,
 };
 
 function mapStateToProps(state) {
   return {
-    recipesList: state.recipe.myRecipeList,
+    recipesList: state.recipe.list,
     isLoading: state.recipe.isLoading,
     currentRecipe: state.recipe.currentRecipe,
   };
 }
 
-export default connect(mapStateToProps)(MyRecipes);
+export default connect(mapStateToProps)(RecipeBookContent);
