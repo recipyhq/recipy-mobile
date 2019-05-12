@@ -71,7 +71,7 @@ class ModalItem extends Component {
         >
           <View style={style.modalContainer}>
             <View>
-              <Text style={style.pageTitleBlack}>Choissisez un carnet</Text>
+              <Text style={style.pageTitleBlack}>Choisissez un carnet</Text>
               <SearchableDropdown
                 onTextChange={text => this.handleTextChange(text)}
                 onItemSelect={item => this.handleItemChange(item)}
