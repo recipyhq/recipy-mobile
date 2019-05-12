@@ -16,8 +16,8 @@ class RecipeDescription extends Component {
   }
 
   handlePressSearchButton(search) {
-    const { dispatch } = this.props;
-    searchForRecipeBook(dispatch, search);
+    const { dispatch, user } = this.props;
+    searchForRecipeBook(dispatch, search, user);
   }
 
   handlePressShop(recipe) {
@@ -52,6 +52,7 @@ function mapStateToProps(state) {
   return {
     search: state.recipebook.search,
     searchBookList: state.recipebook.searchBookList,
+    user: state.user,
   };
 }
 
@@ -64,6 +65,8 @@ RecipeDescription.propTypes = {
   navigation: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   searchBookList: PropTypes.array,
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
 
 };
 export default connect(mapStateToProps)(RecipeDescription);

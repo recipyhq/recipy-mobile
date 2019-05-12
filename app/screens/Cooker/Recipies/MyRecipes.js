@@ -9,10 +9,7 @@ import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import { getAllRecipe, getRecipe } from '../../../api/recipe';
 import { showRecipe } from '../../../actions/recipe';
-import styles from '../../Authentication/styles';
 import style from '../../../components/Style/style';
-
-import ButtonStd from '../../../components/Buttons/ButtonStd';
 
 class MyRecipes extends Component {
   componentDidMount() {
@@ -36,8 +33,8 @@ class MyRecipes extends Component {
   }
 
   handleGetAllRecipe() {
-    const { dispatch } = this.props;
-    getAllRecipe(dispatch);
+    const { dispatch, user } = this.props;
+    getAllRecipe(dispatch, user);
   }
 
   render() {
@@ -83,6 +80,8 @@ MyRecipes.propTypes = {
   recipesList: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   currentRecipe: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -90,6 +89,7 @@ function mapStateToProps(state) {
     recipesList: state.recipe.myRecipeList,
     isLoading: state.recipe.isLoading,
     currentRecipe: state.recipe.currentRecipe,
+    user: state.user,
   };
 }
 

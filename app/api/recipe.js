@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
+import * as SecureStore from 'expo/src/SecureStore';
 import qs from 'qs';
 import {
   searchRecipeFailure,
@@ -77,12 +79,16 @@ export const searchForIngredient = (dispatch, search) => {
   });
 };
 
-export const getAllRecipe = (dispatch) => {
+export const getAllRecipe = async (dispatch, user) => {
   dispatch(getMyRecipeListRequest());
   const headers = { 'Content-Type': 'application/json' };
-  return axios(`${ApiUrl}/api/recipes`,
+  const uid = await SecureStore.getItemAsync('userId');
+  return axios(`${ApiUrl}/api/my_recipes`,
     {
       headers,
+      params: {
+        user_id: uid,
+      },
     }).then((response) => {
     dispatch(getMyRecipeListSuccess(response));
   }).catch((error) => {
@@ -118,14 +124,15 @@ export const getRecipe = (dispatch, id, resolve, reject) => {
   });
 };
 
-export const getAllShoppingList = (dispatch) => {
+export const getAllShoppingList = async (dispatch, user) => {
   dispatch(getAllShoppingListRequest());
   const headers = { 'Content-Type': 'application/json' };
+  const uid = await SecureStore.getItemAsync('userId');
   return axios(`${ApiUrl}/api/shopping_lists`,
     {
       headers,
       params: {
-        user_id: 1,
+        user_id: uid,
       },
     }).then((response) => {
     dispatch(getAllShoppingListSuccess(response));
@@ -134,14 +141,15 @@ export const getAllShoppingList = (dispatch) => {
   });
 };
 
-export const getShoppingList = (dispatch, id, resolve, reject) => {
+export const getShoppingList = async (dispatch, id, resolve, reject, user) => {
   dispatch(getShoppingListRequest());
   const headers = { 'Content-Type': 'application/json' };
+  const uid = await SecureStore.getItemAsync('userId');
   return axios(`${ApiUrl}/api/shopping_lists/${id}`,
     {
       headers,
       params: {
-        user_id: 1,
+        user_id: uid,
       },
     }).then((response) => {
     dispatch(getShoppingListSuccess(response));
@@ -152,14 +160,15 @@ export const getShoppingList = (dispatch, id, resolve, reject) => {
   });
 };
 
-export const createShoppingList = (dispatch, listTitle, ingredientList, navigation) => {
+export const createShoppingList = async (dispatch, listTitle, ingredientList, navigation, user) => {
   dispatch(createShoppingListRequest());
+  const uid = await SecureStore.getItemAsync('userId');
   return axios({
     method: 'post',
     url: `${ApiUrl}/api/shopping_lists`,
     data: {
       shopping_list: {
-        user_id: 1,
+        user_id: uid,
         name: listTitle,
         ingredient_ids: ingredientList,
       },

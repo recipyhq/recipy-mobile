@@ -15,6 +15,11 @@ import {
   REMOVE_RECIPE_TO_RECIPE_BOOK_REQUEST,
   REMOVE_RECIPE_TO_RECIPE_BOOK_SUCCESS,
   REMOVE_RECIPE_TO_RECIPE_BOOK_FAILURE,
+  CREATE_RECIPE_BOOK_REQUEST,
+  CREATE_RECIPE_BOOK_SUCCESS,
+  CREATE_RECIPE_BOOK_FAILURE,
+  CHANGE_TITLE,
+  CHANGE_DESCRIPTION,
 } from '../actions/recipebook';
 
 const initialState = {
@@ -26,6 +31,8 @@ const initialState = {
     q: '',
     notebooks: [],
   },
+  recipeBookTitleCreation: '',
+  recipeBookDescriptionCreation: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -110,6 +117,33 @@ const reducer = (state = initialState, action) => {
 
       };
     case REMOVE_RECIPE_TO_RECIPE_BOOK_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case CHANGE_TITLE:
+      return {
+        ...state,
+        recipeBookTitleCreation: action.title,
+      };
+    case CHANGE_DESCRIPTION:
+      return {
+        ...state,
+        recipeBookDescriptionCreation: action.description,
+      };
+    case CREATE_RECIPE_BOOK_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+
+      };
+    case CREATE_RECIPE_BOOK_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+
+      };
+    case CREATE_RECIPE_BOOK_FAILURE:
       return {
         ...state,
         isLoading: false,

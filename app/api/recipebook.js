@@ -1,23 +1,41 @@
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
 import qs from 'qs';
+import * as SecureStore from 'expo/src/SecureStore';
 import {
   getAllRecipeBookFailure,
-  getAllRecipeBookRequest, getAllRecipeBookSuccess, getRecipeBookFailure,
-  getRecipeBookRequest, getRecipeBookSuccess, searchRecipeBookFailure,
-  searchRecipeBookRequest, searchRecipeBookSuccess,
-  addRecipeToRecipeBookRequest, addRecipeToRecipeBookFailure, addRecipeToRecipeBookSuccess,
-  removeRecipeToRecipeBookRequest, removeRecipeToRecipeBookFailure, removeRecipeToRecipeBookSuccess,
+  getAllRecipeBookRequest,
+  getAllRecipeBookSuccess,
+  getRecipeBookFailure,
+  getRecipeBookRequest,
+  getRecipeBookSuccess,
+  searchRecipeBookFailure,
+  searchRecipeBookRequest,
+  searchRecipeBookSuccess,
+  addRecipeToRecipeBookRequest,
+  addRecipeToRecipeBookFailure,
+  addRecipeToRecipeBookSuccess,
+  removeRecipeToRecipeBookRequest,
+  removeRecipeToRecipeBookFailure,
+  removeRecipeToRecipeBookSuccess,
+  createRecipeBookFailure,
+  createRecipeBookRequest,
+  createRecipeBookSuccess,
 } from '../actions/recipebook';
 import ApiUrl from '../config/api';
 
-export const getAllRecipeBook = (dispatch) => {
+export const getAllRecipeBook = async (dispatch, user) => {
   dispatch(getAllRecipeBookRequest());
   const headers = { 'Content-Type': 'application/json' };
-  return axios(`${ApiUrl}/api/notebooks`,
+  const uid = await SecureStore.getItemAsync('userId');
+  return axios(`${ApiUrl}/api/my_notebooks`,
     {
       headers,
+      params: {
+        user_id: uid,
+      },
     }).then((response) => {
-    dispatch(getAllRecipeBookSuccess(response));
+    dispatch(getAllRecipeBookSuccess(response, uid));
   }).catch((error) => {
     dispatch(getAllRecipeBookFailure(error));
   });
@@ -38,14 +56,16 @@ export const getRecipeBook = (dispatch, id, resolve, reject) => {
   });
 };
 
-export const searchForRecipeBook = (dispatch, search) => {
+export const searchForRecipeBook = async (dispatch, search, user) => {
   dispatch(searchRecipeBookRequest());
   const headers = { 'Content-Type': 'application/json' };
+  const uid = await SecureStore.getItemAsync('userId');
   return axios.get(
-    `${ApiUrl}/api/notebooks/`,
+    `${ApiUrl}/api/my_notebooks`,
     {
       headers,
       params: {
+        user_id: uid,
         search: {
           q: search.q || undefined,
           notebooks: search.notebooks || undefined,
@@ -56,22 +76,23 @@ export const searchForRecipeBook = (dispatch, search) => {
       },
     },
   ).then((response) => {
-    dispatch(searchRecipeBookSuccess(response));
+    dispatch(searchRecipeBookSuccess(response, uid));
   }).catch((error) => {
     dispatch(searchRecipeBookFailure(error));
   });
 };
 
-export const addRecipeToRecipeBook = (dispatch, title, userId, recipeId, notebookId) => {
+export const addRecipeToRecipeBook = async (dispatch, title, user, recipeId, notebookId) => {
   dispatch(addRecipeToRecipeBookRequest());
+  const uid = await SecureStore.getItemAsync('userId');
   return axios({
     method: 'post',
     url: `${ApiUrl}/api/notebooks/${notebookId}/add_recipe`,
     data: {
       notebook: {
         title,
-        userId,
-        recipeId,
+        user_id: uid,
+        recipe_id: recipeId,
       },
     },
     config: { headers: { 'Content-Type': 'application/json' } },
@@ -82,16 +103,17 @@ export const addRecipeToRecipeBook = (dispatch, title, userId, recipeId, noteboo
   });
 };
 
-export const removeRecipeToRecipeBook = (dispatch, title, userId, recipeId, notebookId) => {
+export const removeRecipeToRecipeBook = async (dispatch, title, user, recipeId, notebookId) => {
   dispatch(removeRecipeToRecipeBookRequest());
+  const uid = await SecureStore.getItemAsync('userId');
   return axios({
     method: 'post',
     url: `${ApiUrl}/api/notebooks/${notebookId}/remove_recipe`,
     data: {
       notebook: {
         title,
-        userId,
-        recipeId,
+        user_id: uid,
+        recipe_id: recipeId,
       },
     },
     config: { headers: { 'Content-Type': 'application/json' } },
@@ -99,5 +121,27 @@ export const removeRecipeToRecipeBook = (dispatch, title, userId, recipeId, note
     dispatch(removeRecipeToRecipeBookSuccess());
   }).catch((error) => {
     dispatch(removeRecipeToRecipeBookFailure(error));
+  });
+};
+
+export const createRecipeBook = async (dispatch, user, title, description, navigation) => {
+  dispatch(createRecipeBookRequest());
+  const uid = await SecureStore.getItemAsync('userId');
+  return axios({
+    method: 'post',
+    url: `${ApiUrl}/api/notebooks`,
+    data: {
+      notebook: {
+        title,
+        description,
+        user_id: uid,
+      },
+    },
+    config: { headers: { 'Content-Type': 'application/json' } },
+  }).then(() => {
+    dispatch(createRecipeBookSuccess());
+    navigation.navigate('RecipeBook');
+  }).catch((error) => {
+    dispatch(createRecipeBookFailure(error));
   });
 };

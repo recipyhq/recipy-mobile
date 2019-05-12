@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Alert } from 'react-native';
 import { refreshAuthCredentials } from './user';
 
@@ -21,16 +22,25 @@ export const REMOVE_RECIPE_TO_RECIPE_BOOK_REQUEST = 'REMOVE_RECIPE_TO_RECIPE_BOO
 export const REMOVE_RECIPE_TO_RECIPE_BOOK_SUCCESS = 'REMOVE_RECIPE_TO_RECIPE_BOOK_SUCCESS';
 export const REMOVE_RECIPE_TO_RECIPE_BOOK_FAILURE = 'REMOVE_RECIPE_TO_RECIPE_BOOK_FAILURE';
 
+export const CREATE_RECIPE_BOOK_REQUEST = 'CREATE_RECIPE_BOOK_REQUEST';
+export const CREATE_RECIPE_BOOK_SUCCESS = 'CREATE_RECIPE_BOOK_SUCCESS';
+export const CREATE_RECIPE_BOOK_FAILURE = 'CREATE_RECIPE_BOOK_FAILURE';
+
+export const CHANGE_TITLE = 'CHANGE_TITLE';
+export const CHANGE_DESCRIPTION = 'CHANGE_DESCRIPTION';
+
 export const SHOW_RECIPE_BOOK = 'SHOW_RECIPE_BOOK';
 
 export const getAllRecipeBookRequest = () => ({
   type: GET_ALL_RECIPE_BOOK_REQUEST,
 });
 
-export const getAllRecipeBookSuccess = (response) => {
+export const getAllRecipeBookSuccess = (response, user) => {
   refreshAuthCredentials(response.headers);
   let resultBookList = [];
-  if (response.data) resultBookList = response.data;
+  if (response.data) {
+    resultBookList = response.data;
+  }
 
   return ({
     type: GET_ALL_RECIPE_BOOK_SUCCESS,
@@ -91,7 +101,7 @@ export const searchRecipeBookRequest = () => ({
   type: SEARCH_RECIPE_BOOK_REQUEST,
 });
 
-export const searchRecipeBookSuccess = (response) => {
+export const searchRecipeBookSuccess = (response, user) => {
   refreshAuthCredentials(response.headers);
   let resultList = [];
   const formatedList = [];
@@ -190,3 +200,37 @@ export const removeRecipeToRecipeBookFailure = () => {
   );
   return ({ type: ADD_RECIPE_TO_RECIPE_BOOK_FAILURE });
 };
+
+export const createRecipeBookRequest = () => ({
+  type: CREATE_RECIPE_BOOK_REQUEST,
+});
+
+export const createRecipeBookSuccess = () => ({
+  type: CREATE_RECIPE_BOOK_SUCCESS,
+});
+
+export const createRecipeBookFailure = () => {
+  Alert.alert(
+    'La création à échoué',
+    'Une erreur s\'est produite pendant la création de la liste',
+    [
+      {
+        text: 'OK',
+        onPress: () => {
+        },
+      },
+    ],
+    { cancelable: false },
+  );
+  return ({ type: CREATE_RECIPE_BOOK_FAILURE });
+};
+
+export const changeTitle = title => ({
+  type: CHANGE_TITLE,
+  title,
+});
+
+export const changeDescription = description => ({
+  type: CHANGE_DESCRIPTION,
+  description,
+});
