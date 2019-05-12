@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { PropTypes } from 'prop-types';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import colors from '../../config/colors';
 import OvalSquare from '../../components/Shapes/OvalSquare';
@@ -63,6 +64,20 @@ const styles = EStyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
   },
+  mapContainer: {
+    flex: 1,
+    height: 300,
+    alignItems: 'center',
+    marginLeft: 15,
+    marginRight: 15,
+  },
+  map: {
+    ...EStyleSheet.absoluteFillObject,
+  },
+  pointOfSalesContainer: {
+    marginLeft: 15,
+    flex: 1,
+  },
 });
 
 class Profile extends Component {
@@ -112,35 +127,35 @@ class Profile extends Component {
               Carte des points de vente
             </Text>
           </View>
-          <ScrollView horizontal>
-            <Image
-              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-              style={styles.producerPicture}
-              borderRadius={100}
-            />
-            <Image
-              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-              style={styles.producerPicture}
-              borderRadius={100}
-            />
-            <Image
-              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-              style={styles.producerPicture}
-              borderRadius={100}
-            />
-            <Image
-              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-              style={styles.producerPicture}
-              borderRadius={100}
-            />
-
-          </ScrollView>
+          <View style={styles.mapContainer}>
+            <MapView
+              provider={PROVIDER_GOOGLE}
+              style={styles.map}
+              region={{
+                latitude: 50.6319422,
+                longitude: 3.057544,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.0121,
+              }}
+            >
+              <Marker
+                title="Biocoop"
+                pinColor={colors.primaryOrange}
+                coordinate={{
+                  latitude: 37.78825,
+                  longitude: -122.4324,
+                  latitudeDelta: 0.015,
+                  longitudeDelta: 0.0121,
+                }}
+              />
+            </MapView>
+          </View>
           <View style={styles.container}>
             <Text style={styles.sectionTitle}>
               Proche de vous
             </Text>
           </View>
-          <ScrollView horizontal>
+          <ScrollView horizontal style={styles.pointOfSalesContainer}>
             <Image
               source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
               style={styles.producerPicture}
