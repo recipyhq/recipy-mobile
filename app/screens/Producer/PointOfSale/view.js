@@ -1,17 +1,36 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import {
-  Image, ScrollView,
-  Text,
-  View,
-} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
+import {
+  Image, ScrollView, Text, View,
+} from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import ContainerView from '../../components/ContainerView/ContainerView';
-import colors from '../../config/colors';
-import OvalSquare from '../../components/Shapes/OvalSquare';
-import ButtonStd from '../../components/Buttons/ButtonStd';
+import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import colors from '../../../config/colors';
+import ContainerView from '../../../components/ContainerView/ContainerView';
+import OvalSquare from '../../../components/Shapes/OvalSquare';
+
+const styleOpeningHours = EStyleSheet.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+  },
+  entry: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginLeft: 15,
+    flex: 1,
+  },
+  day: {
+    color: colors.primaryWhite,
+    width: 100,
+  },
+  time: {
+    color: colors.primaryWhite,
+  },
+});
 
 const styles = EStyleSheet.create({
   header: {
@@ -43,9 +62,7 @@ const styles = EStyleSheet.create({
   },
   ovalSquare: {
   },
-  shortDescription: {
-    color: colors.primaryWhite,
-    fontSize: 15,
+  pointOfSaleHeaderInfoContainer: {
     paddingLeft: 15,
     paddingRight: 15,
     paddingBottom: 30,
@@ -53,6 +70,21 @@ const styles = EStyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: colors.primaryGrey,
+  },
+  pointOfSaleHeaderRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    flex: 1,
+  },
+  placeholder: {
+    color: colors.primaryOrange,
+    marginLeft: 15,
+    fontSize: 15,
+  },
+  location: {
+    color: colors.primaryWhite,
+    marginLeft: 15,
+    fontSize: 15,
   },
   container: {
     paddingLeft: 15,
@@ -91,14 +123,7 @@ class Profile extends Component {
     return {
       // eslint-disable-next-line react/forbid-prop-types
       isLoading: PropTypes.bool.isRequired,
-      // eslint-disable-next-line react/forbid-prop-types
-      navigation: PropTypes.object.isRequired,
     };
-  }
-
-  handlePressPointOfSale() {
-    const { navigation } = this.props;
-    navigation.navigate('PointOfSaleView');
   }
 
   render() {
@@ -125,14 +150,77 @@ class Profile extends Component {
               color={colors.primaryGrey}
               bgColor={colors.primaryOrange}
             />
-            <Text style={styles.shortDescription}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Maecenas sed ipsum lorem. Mauris mauris dolor, eleifend sed est quis, euismod.
-            </Text>
+            <View style={styles.pointOfSaleHeaderInfoContainer}>
+              <View style={styles.pointOfSaleHeaderRow}>
+                <Icon style={styles.headerIcon} name="user" size={30} color={colors.primaryOrange} />
+                <Text style={styles.placeholder}>
+                  Biocoop est propriétaire de ce point de vente
+                </Text>
+              </View>
+              <View style={styles.pointOfSaleHeaderRow}>
+                <Icon style={styles.headerIcon} name="map-marker" size={30} color={colors.primaryOrange} />
+                <Text style={styles.location}>
+                  180 rue de Tolbiac, 75013 Paris, France
+                </Text>
+              </View>
+              <View style={styles.pointOfSaleHeaderRow}>
+                <Icon style={styles.headerIcon} name="clock-o" size={30} color={colors.primaryOrange} />
+                <View style={styleOpeningHours.container}>
+                  <View style={styleOpeningHours.entry}>
+                    <Text style={styleOpeningHours.day}>
+                      Lundi
+                    </Text>
+                    <Text style={styleOpeningHours.time}>
+                      09:00 12:00 | 14:00 20:00
+                    </Text>
+                  </View>
+                  <View style={styleOpeningHours.entry}>
+                    <Text style={styleOpeningHours.day}>
+                      Mardi
+                    </Text>
+                    <Text style={styleOpeningHours.time}>
+                      09:00 12:00 | 14:00 20:00
+                    </Text>
+                  </View>
+                  <View style={styleOpeningHours.entry}>
+                    <Text style={styleOpeningHours.day}>
+                      Mercredi
+                    </Text>
+                    <Text style={styleOpeningHours.time}>
+                      09:00 12:00 | 14:00 20:00
+                    </Text>
+                  </View>
+                  <View style={styleOpeningHours.entry}>
+                    <Text style={styleOpeningHours.day}>
+                      Jeudi
+                    </Text>
+                    <Text style={styleOpeningHours.time}>
+                      09:00 12:00 | 14:00 20:00
+                    </Text>
+                  </View>
+                  <View style={styleOpeningHours.entry}>
+                    <Text style={styleOpeningHours.day}>
+                      Vendredi
+                    </Text>
+                    <Text style={styleOpeningHours.time}>
+                      09:00 12:00 | 14:00 20:00
+                    </Text>
+                  </View>
+                  <View style={styleOpeningHours.entry}>
+                    <Text style={styleOpeningHours.day}>
+                      Samedi
+                    </Text>
+                    <Text style={styleOpeningHours.time}>
+                      09:00 12:00 | 14:00 20:00
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
           </View>
           <View style={styles.container}>
             <Text style={styles.sectionTitle}>
-              Carte des points de vente
+              Localisation
             </Text>
           </View>
           <View style={styles.mapContainer}>
@@ -147,31 +235,11 @@ class Profile extends Component {
               }}
             >
               <Marker
-                title="Biocoop 1"
+                title="Biocoop"
                 pinColor={colors.primaryOrange}
                 coordinate={{
                   latitude: 50.6319422,
                   longitude: 3.057544,
-                  latitudeDelta: 0.015,
-                  longitudeDelta: 0.0121,
-                }}
-              />
-              <Marker
-                title="Biocoop 2"
-                pinColor={colors.primaryOrange}
-                coordinate={{
-                  latitude: 50.6311422,
-                  longitude: 3.057144,
-                  latitudeDelta: 0.015,
-                  longitudeDelta: 0.0121,
-                }}
-              />
-              <Marker
-                title="Biocoop 3"
-                pinColor={colors.primaryOrange}
-                coordinate={{
-                  latitude: 50.6319422,
-                  longitude: 3.051144,
                   latitudeDelta: 0.015,
                   longitudeDelta: 0.0121,
                 }}
@@ -205,7 +273,6 @@ class Profile extends Component {
               borderRadius={100}
             />
           </ScrollView>
-          <ButtonStd title="Point de vente" onPress={() => this.handlePressPointOfSale()} />
         </ScrollView>
       </ContainerView>
     );
