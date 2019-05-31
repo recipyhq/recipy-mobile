@@ -10,63 +10,51 @@ import ButtonStd from '../Buttons/ButtonStd';
 import colors from '../../config/colors';
 import { createShoppingList } from '../../api/recipe';
 import { addRecipeToRecipeBook } from '../../api/recipebook';
+import { changeModalItem, changeModalText, changeModalVisible } from '../../actions/recipebook';
 
 class ModalItem extends Component {
-  static get defaultProps() {
-    return {
-    };
-  }
-
-  static get propTypes() {
-    return {
-      dropDownInfo: PropTypes.array.isRequired,
-      // eslint-disable-next-line react/forbid-prop-types
-      currentRecipe: PropTypes.object.isRequired,
-      // eslint-disable-next-line react/forbid-prop-types
-      navigation: PropTypes.object.isRequired,
-      dispatch: PropTypes.func.isRequired,
-      // eslint-disable-next-line react/forbid-prop-types
-      user: PropTypes.object.isRequired,
-    };
-  }
-
-  state = {
-    modalVisible: false,
-    text: '',
-    item: null,
-  };
   setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
+    const { dispatch } = this.props;
+    dispatch(changeModalVisible(visible));
   }
 
   handleAddToRecipeBook() {
     const {
-      dispatch, navigation, dropDownInfo, currentRecipe, user
+      dispatch, navigation, dropDownInfo, currentRecipe, user, text,
     } = this.props;
-    if (this.state.item == null) this.state.item = dropDownInfo.find(x => x.name.toLowerCase() === this.state.text.toLowerCase());
-    console.log(JSON.stringify(this.state.item));
-    addRecipeToRecipeBook(dispatch, this.state.item.name, user, currentRecipe.id, this.state.item.id);
+    let {
+      item,
+    } = this.props;
+    if (item == null) item = dropDownInfo.find(x => x.name.toLowerCase() === text.toLowerCase());
+    console.log(JSON.stringify(item));
+    if (typeof item === 'undefined') {
+      addRecipeToRecipeBook(dispatch, '', user, currentRecipe.id, '');
+    } else { addRecipeToRecipeBook(dispatch, item.name, user, currentRecipe.id, item.id); }
   }
 
   handleTextChange(text) {
-    this.state.text = text;
-    this.state.item = null;
+    const { dispatch } = this.props;
+    dispatch(changeModalText(text));
+    dispatch(changeModalItem(null));
   }
 
   handleItemChange(item) {
-    this.state.item = item;
+    const { dispatch } = this.props;
+
+    dispatch(changeModalItem(item));
+    console.log(item);
   }
 
   render() {
-    const { dropDownInfo } = this.props;
+    const { dropDownInfo, visible } = this.props;
     return (
       <View>
         <Modal
           animationType="slide"
           transparent={false}
-          visible={this.state.modalVisible}
+          visible={visible}
           onRequestClose={() => {
-            this.setModalVisible(!this.state.modalVisible);
+            this.setModalVisible(!visible);
           }}
         >
           <View style={style.modalContainer}>
@@ -112,7 +100,7 @@ class ModalItem extends Component {
                 <ButtonStd
                   title="Fermer"
                   onPress={() => {
-                    this.setModalVisible(!this.state.modalVisible);
+                    this.setModalVisible(!visible);
                   }}
                   buttonStyle={style.btnSendForm}
                   fontSize={15}
@@ -142,7 +130,30 @@ class ModalItem extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
+    visible: state.recipebook.modalVisible,
+    text: state.recipebook.modalText,
+    item: state.recipebook.modalItem,
   };
 }
 
-export default connect(mapStateToProps)(withNavigation(ModalItem));
+ModalItem.defaultProps = {
+  text: '',
+  item: null,
+  visible: false,
+};
+
+ModalItem.propTypes = {
+  dropDownInfo: PropTypes.array.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  currentRecipe: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  navigation: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
+  text: PropTypes.string,
+  item: PropTypes.object,
+  visible: PropTypes.bool,
+};
+
+export default connect(mapStateToProps)(ModalItem);

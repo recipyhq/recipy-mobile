@@ -29,6 +29,10 @@ export const CREATE_RECIPE_BOOK_FAILURE = 'CREATE_RECIPE_BOOK_FAILURE';
 export const CHANGE_TITLE = 'CHANGE_TITLE';
 export const CHANGE_DESCRIPTION = 'CHANGE_DESCRIPTION';
 
+export const CHANGE_MODAL_VISIBLE = 'CHANGE_MODAL_VISIBLE';
+export const CHANGE_MODAL_TEXT = 'CHANGE_MODAL_TEXT';
+export const CHANGE_MODAL_ITEM = 'CHANGE_MODAL_ITEM';
+
 export const SHOW_RECIPE_BOOK = 'SHOW_RECIPE_BOOK';
 
 export const getAllRecipeBookRequest = () => ({
@@ -233,4 +237,19 @@ export const changeTitle = title => ({
 export const changeDescription = description => ({
   type: CHANGE_DESCRIPTION,
   description,
+});
+
+export const changeModalVisible = visible => ({
+  type: CHANGE_MODAL_VISIBLE,
+  visible,
+});
+
+export const changeModalText = text => ({
+  type: CHANGE_MODAL_TEXT,
+  text,
+});
+
+export const changeModalItem = item => ({
+  type: CHANGE_MODAL_ITEM,
+  item,
 });

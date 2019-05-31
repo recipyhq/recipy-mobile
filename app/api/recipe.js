@@ -176,6 +176,7 @@ export const createShoppingList = async (dispatch, listTitle, ingredientList, na
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then(() => {
     dispatch(createShoppingListSuccess());
+    getAllShoppingList(dispatch);
     navigation.navigate('AllShoppingList');
   }).catch((error) => {
     dispatch(createShoppingListFailure(error));
@@ -190,6 +191,7 @@ export const deleteShoppingList = (dispatch, id, navigation) => {
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then(() => {
     dispatch(deleteShoppingListSuccess(navigation));
+    getAllShoppingList(dispatch);
   }).catch((error) => {
     dispatch(deleteShoppingListFailure(error));
   });
