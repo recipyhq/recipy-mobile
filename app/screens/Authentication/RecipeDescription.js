@@ -37,7 +37,8 @@ class RecipeDescription extends Component {
           dropDownInfo={searchBookList}
           onPress={() => (
             this.handlePressShop(recipe))
-        }
+          }
+          navigation={navigation}
         />
       </View>
     );

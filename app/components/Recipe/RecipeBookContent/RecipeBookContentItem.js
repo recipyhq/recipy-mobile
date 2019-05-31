@@ -8,10 +8,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome';
 import style from '../../Style/style';
 import colors from '../../../config/colors';
 
-function deleteIcon() {
-  return (<FontAwesome5 name="trash" color={colors.primaryRed} size={18} />);
-}
-
 const RecipeBookContentItem = ({
   onPress, recipe, onPressDelete, ...props
 }) => (

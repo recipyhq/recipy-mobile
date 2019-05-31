@@ -56,6 +56,10 @@ export const DELETE_SHOPPING_LIST_FAILURE = 'DELETE_SHOPPING_LIST_FAILURE';
 
 export const SHOW_SHOPPING_LIST = 'SHOW_SHOPPING_LIST';
 
+// RECIPE ADVICES
+export const SHOW_CREATE_RECIPE_ADVICE_FORM = 'SHOW_RECIPE_ADVICE_FORM';
+export const HIDE_CREATE_RECIPE_ADVICE_FORM = 'HIDE_CREATE_RECIPE_ADVICE_FORM';
+
 
 export const searchRecipeRequest = () => ({
   type: SEARCH_RECIPE_REQUEST,
@@ -347,4 +351,12 @@ export const getProfileRecipesSuccess = (response) => {
 export const getProfileRecipesFailure = () => ({
   type: GET_PROFILE_RECIPES_FAILURE,
   errorText: 'Une erreur est survenue pendant la récupération de la liste des recettes de l\'utilisateur',
+});
+
+export const showCreateRecipeAdviceForm = () => ({
+  type: SHOW_CREATE_RECIPE_ADVICE_FORM,
+});
+
+export const hideCreateRecipeAdviceForm = () => ({
+  type: HIDE_CREATE_RECIPE_ADVICE_FORM,
 });

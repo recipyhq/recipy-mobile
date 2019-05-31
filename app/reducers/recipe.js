@@ -14,7 +14,7 @@ import {
   GET_MY_RECIPE_LIST_REQUEST,
   GET_MY_RECIPE_LIST_SUCCESS, GET_PROFILE_RECIPES_FAILURE,
   GET_PROFILE_RECIPES_REQUEST,
-  GET_PROFILE_RECIPES_SUCCESS,
+  GET_PROFILE_RECIPES_SUCCESS, SHOW_CREATE_RECIPE_ADVICE_FORM, HIDE_CREATE_RECIPE_ADVICE_FORM,
 } from '../actions/recipe';
 
 const initialState = {
@@ -35,6 +35,7 @@ const initialState = {
   },
   currentRecipe: null,
   currentShoppingList: null,
+  displayRecipeAdviceModal: false,
   isLoading: false,
 };
 
@@ -223,6 +224,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         profileRecipesErrorText: action.errorText,
+      };
+    case SHOW_CREATE_RECIPE_ADVICE_FORM:
+      return {
+        ...state,
+        displayRecipeAdviceModal: true,
+      };
+    case HIDE_CREATE_RECIPE_ADVICE_FORM:
+      return {
+        ...state,
+        displayRecipeAdviceModal: false,
       };
     default:
       return state;
