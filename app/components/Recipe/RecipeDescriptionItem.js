@@ -11,6 +11,7 @@ import colors from '../../config/colors';
 import ButtonStd from '../Buttons/ButtonStd';
 import RecipeAdviceItem from '../RecipeAdviceItem/RecipeAdviceItem';
 import { hideCreateRecipeAdviceForm, showCreateRecipeAdviceForm } from '../../actions/recipe';
+import RecipeAdviceFormModal from "../RecipeAdviceFormModal/RecipeAdviceFormModal";
 
 class RecipeDescriptionItem extends Component {
   handlePressAddAdvice() {
@@ -32,13 +33,11 @@ class RecipeDescriptionItem extends Component {
       <ScrollView style={{ backgroundColor: colors.primaryWhite, marginBottom: 40 }}>
         <Modal
           animationType="slide"
-          transparent={false}
           visible={displayRecipeAdviceModal}
           onRequestClose={() => this.handleRequestCloseModalRecipeAdvice()}
+          transparent={true}
         >
-          <View>
-            <Text>Laisser un avis</Text>
-          </View>
+          <RecipeAdviceFormModal />
         </Modal>
         <View style={style.titleView}>
           <Text style={style.pageTitle}>

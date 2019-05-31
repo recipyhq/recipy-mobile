@@ -42,7 +42,7 @@
     "react-native-autocomplete-input": "^3.6.0",
     "react-native-dialog": "^5.4.0",
     "react-native-dropdownalert": "^3.7.0",
-    "react-native-elements": "^0.19.1",
+    "react-native-elements": "^1.1.0",
     "react-native-extended-stylesheet": "^0.10.0",
     "react-native-linear-gradient": "^2.4.3",
     "react-native-maps": "^0.24.2",

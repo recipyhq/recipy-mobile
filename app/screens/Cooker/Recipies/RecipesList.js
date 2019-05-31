@@ -58,7 +58,8 @@ class RecipesList extends Component {
             const { search } = this.props;
             search.q = '';
           }}
-          placeholder="Boeuf carrottes ..."
+          placeholder="Rechercher une recette, ingrédient ..."
+          value={this.props.search.q}
           lightTheme
           round
         />
