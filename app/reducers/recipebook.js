@@ -20,6 +20,9 @@ import {
   CREATE_RECIPE_BOOK_FAILURE,
   CHANGE_TITLE,
   CHANGE_DESCRIPTION,
+  CHANGE_MODAL_VISIBLE,
+  CHANGE_MODAL_TEXT,
+  CHANGE_MODAL_ITEM,
 } from '../actions/recipebook';
 
 const initialState = {
@@ -33,6 +36,9 @@ const initialState = {
   },
   recipeBookTitleCreation: '',
   recipeBookDescriptionCreation: '',
+  modalVisible: false,
+  modalText: '',
+  modalItem: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -147,6 +153,21 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case CHANGE_MODAL_VISIBLE:
+      return {
+        ...state,
+        modalVisible: action.visible,
+      };
+    case CHANGE_MODAL_TEXT:
+      return {
+        ...state,
+        modalText: action.text,
+      };
+    case CHANGE_MODAL_ITEM:
+      return {
+        ...state,
+        modalItem: action.item,
       };
     default:
       return state;

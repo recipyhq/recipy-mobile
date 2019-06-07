@@ -19,11 +19,6 @@ const MyRecipeItem = ({
       <Text style={style.recipeTitle}>
         {recipe.title}
       </Text>
-      <Text style={style.score}>
-        {'Note: '}
-        {recipe.score}
-        {'/10'}
-      </Text>
       <Text style={style.description}>
         {recipe.description.substring(0, 40)}
         {recipe.description.length > 40 ? '...' : '' }

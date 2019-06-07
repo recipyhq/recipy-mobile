@@ -140,6 +140,7 @@ export const createRecipeBook = async (dispatch, user, title, description, navig
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then(() => {
     dispatch(createRecipeBookSuccess());
+    getAllRecipeBook(dispatch, user);
     navigation.navigate('RecipeBook');
   }).catch((error) => {
     dispatch(createRecipeBookFailure(error));
