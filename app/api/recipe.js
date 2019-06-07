@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
-import * as SecureStore from 'expo/src/SecureStore';
 import qs from 'qs';
+import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import {
   searchRecipeFailure,
   searchRecipeRequest,
@@ -79,7 +79,7 @@ export const searchForIngredient = (dispatch, search) => {
   });
 };
 
-export const getAllRecipe = async (dispatch, user) => {
+export const getAllRecipe = async (dispatch) => {
   dispatch(getMyRecipeListRequest());
   const headers = { 'Content-Type': 'application/json' };
   const uid = await SecureStore.getItemAsync('userId');
@@ -124,7 +124,7 @@ export const getRecipe = (dispatch, id, resolve, reject) => {
   });
 };
 
-export const getAllShoppingList = async (dispatch, user) => {
+export const getAllShoppingList = async (dispatch) => {
   dispatch(getAllShoppingListRequest());
   const headers = { 'Content-Type': 'application/json' };
   const uid = await SecureStore.getItemAsync('userId');
@@ -141,7 +141,7 @@ export const getAllShoppingList = async (dispatch, user) => {
   });
 };
 
-export const getShoppingList = async (dispatch, id, resolve, reject, user) => {
+export const getShoppingList = async (dispatch, id, resolve, reject) => {
   dispatch(getShoppingListRequest());
   const headers = { 'Content-Type': 'application/json' };
   const uid = await SecureStore.getItemAsync('userId');
@@ -160,7 +160,7 @@ export const getShoppingList = async (dispatch, id, resolve, reject, user) => {
   });
 };
 
-export const createShoppingList = async (dispatch, listTitle, ingredientList, navigation, user) => {
+export const createShoppingList = async (dispatch, listTitle, ingredientList, navigation) => {
   dispatch(createShoppingListRequest());
   const uid = await SecureStore.getItemAsync('userId');
   return axios({
@@ -176,6 +176,7 @@ export const createShoppingList = async (dispatch, listTitle, ingredientList, na
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then(() => {
     dispatch(createShoppingListSuccess());
+    getAllShoppingList(dispatch);
     navigation.navigate('AllShoppingList');
   }).catch((error) => {
     dispatch(createShoppingListFailure(error));
@@ -190,6 +191,7 @@ export const deleteShoppingList = (dispatch, id, navigation) => {
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then(() => {
     dispatch(deleteShoppingListSuccess(navigation));
+    getAllShoppingList(dispatch);
   }).catch((error) => {
     dispatch(deleteShoppingListFailure(error));
   });

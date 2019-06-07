@@ -6,8 +6,8 @@ import {
 import styles from './styles';
 import colors from '../../config/colors';
 
-const ContainerView = ({ children, style, ...props }) => (
-  <ScrollView keyboardShouldPersistTaps="handled" style={[styles.container, style]} {...props}>
+const ContainerView = ({ children, ...props }) => (
+  <ScrollView keyboardShouldPersistTaps="handled" style={[styles.container]} {...props}>
     <StatusBar
       barStyle="light-content"
       backgroundColor={colors.primaryOrange}

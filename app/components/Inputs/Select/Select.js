@@ -22,5 +22,10 @@ const Select = ({
 Select.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   children: PropTypes.any.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  selectedValue: PropTypes.any.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  onValueChange: PropTypes.func.isRequired,
+
 };
 export default Select;

@@ -1,4 +1,4 @@
-import * as SecureStore from 'expo/src/SecureStore';
+import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import { Alert } from 'react-native';
 
 export const CHANGE_EMAIL = 'CHANGE_EMAIL';

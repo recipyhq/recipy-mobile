@@ -8,7 +8,6 @@ import RecipeDescriptionItem from '../../components/Recipe/RecipeDescriptionItem
 import { searchForRecipeBook } from '../../api/recipebook';
 import ModalItem from '../../components/Recipe/ModalItem';
 
-
 class RecipeDescription extends Component {
   componentDidMount() {
     const { search } = this.props;
