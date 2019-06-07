@@ -6,9 +6,9 @@ import {
 import styles from './styles';
 import colors from '../../config/colors';
 
-const ContainerView = ({ children, style, ...props }) => (
+const ContainerView = ({ children, ...props }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    <View style={[styles.container, style]} {...props}>
+    <View style={[styles.container]} {...props}>
       <StatusBar
         barStyle="light-content"
         backgroundColor={colors.primaryOrange}

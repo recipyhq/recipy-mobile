@@ -99,7 +99,8 @@ const RecipeDescriptionItem = ({
         renderSectionHeader={
           ({ section }) => <Text style={style.sectionStep}>{section.title}</Text>
         }
-      />))
+      />
+    ))
     }
   </ScrollView>
 

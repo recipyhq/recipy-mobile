@@ -44,7 +44,6 @@ class ModalItem extends Component {
       dispatch, navigation, dropDownInfo, currentRecipe, user
     } = this.props;
     if (this.state.item == null) this.state.item = dropDownInfo.find(x => x.name.toLowerCase() === this.state.text.toLowerCase());
-    console.log(JSON.stringify(this.state.item));
     addRecipeToRecipeBook(dispatch, this.state.item.name, user, currentRecipe.id, this.state.item.id);
   }
 

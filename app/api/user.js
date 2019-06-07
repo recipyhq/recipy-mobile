@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as SecureStore from 'expo/src/SecureStore';
+import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import ApiUrl from '../config/api';
 import {
   resetPasswordFailure,

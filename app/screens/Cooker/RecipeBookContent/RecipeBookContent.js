@@ -46,7 +46,6 @@ class RecipeBookContent extends Component {
   render() {
     const { navigation } = this.props;
     const book = navigation.getParam('item', 'NO-ID');
-    console.ignoredYellowBox = ['Warning: Failed prop type: Invalid prop `title` of type `object` supplied to `Button`, expected `string`'];
     return (
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
