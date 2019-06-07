@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars,react/forbid-prop-types,react/require-default-props,react/no-unused-prop-types,react/no-unused-prop-types,react/destructuring-assignment,no-undef,max-len */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Modal } from 'react-native';

@@ -105,7 +105,7 @@ class Profile extends Component {
   render() {
     return (
       <ContainerView>
-        <View style={styles.ovalShape}>
+        <View>
           <View style={styles.header}>
             <View style={styles.headerLeft}>
               <Image
@@ -145,6 +145,7 @@ class Profile extends Component {
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
             }}
+            scrollEnabled={false}
           >
             <Marker
               title="Biocoop 1"

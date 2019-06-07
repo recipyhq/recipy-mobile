@@ -52,16 +52,19 @@ const reducer = (state = initialState, action) => {
     case SEARCH_RECIPE_REQUEST:
       return {
         ...state,
+        isLoading: true,
       };
     case SEARCH_RECIPE_SUCCESS:
       return {
         ...state,
         searchList: action.resultList,
+        isLoading: false,
       };
     case SEARCH_RECIPE_FAILURE:
       return {
         ...state,
         searchList: [],
+        isLoading: false,
       };
     case SEARCH_INGREDIENT_REQUEST:
       return {

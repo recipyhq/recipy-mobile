@@ -11,7 +11,7 @@ import colors from '../../config/colors';
 import ButtonStd from '../Buttons/ButtonStd';
 import RecipeAdviceItem from '../RecipeAdviceItem/RecipeAdviceItem';
 import { hideCreateRecipeAdviceForm, showCreateRecipeAdviceForm } from '../../actions/recipe';
-import RecipeAdviceFormModal from "../RecipeAdviceFormModal/RecipeAdviceFormModal";
+import RecipeAdviceFormModal from '../RecipeAdviceFormModal/RecipeAdviceFormModal';
 
 class RecipeDescriptionItem extends Component {
   handlePressAddAdvice() {
@@ -35,7 +35,7 @@ class RecipeDescriptionItem extends Component {
           animationType="slide"
           visible={displayRecipeAdviceModal}
           onRequestClose={() => this.handleRequestCloseModalRecipeAdvice()}
-          transparent={true}
+          transparent
         >
           <RecipeAdviceFormModal />
         </Modal>
@@ -125,7 +125,8 @@ class RecipeDescriptionItem extends Component {
               renderSectionHeader={
                 ({ section }) => <Text style={style.sectionStep}>{section.title}</Text>
               }
-            />))
+            />
+          ))
         }
         <View style={style.advicesContainer}>
           <Text style={style.adviceContainerTitle}>Tous les avis</Text>

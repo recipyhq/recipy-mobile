@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../../../config/colors';
 import ContainerView from '../../../components/ContainerView/ContainerView';
 import OvalSquare from '../../../components/Shapes/OvalSquare';
+import EntityPreviewItem from "../../../components/EntityPreviewItem/EntityPreviewItem";
 
 const styleOpeningHours = EStyleSheet.create({
   container: {
@@ -220,6 +221,23 @@ class Profile extends Component {
           </View>
           <View style={styles.container}>
             <Text style={styles.sectionTitle}>
+              Produits populaires
+            </Text>
+          </View>
+          <ScrollView horizontal style={styles.pointOfSalesContainer}>
+            <EntityPreviewItem
+              image="https://cdn4.fermedesaintemarthe.com/I-Autre-23623_1200x1200-carotte-nantaise-2-ab.net.jpg"
+              onPress={() => this.handlePressPointOfSale()}
+              text="Carottes"
+            />
+            <EntityPreviewItem
+              image="https://www.avogel.fr/blog/wp-content/uploads/2014/11/le-jus-de-pomme-de-terre-l-allie-de-votre-estomac-1-1580x770.jpg"
+              onPress={() => this.handlePressPointOfSale()}
+              text="Pommes de terre"
+            />
+          </ScrollView>
+          <View style={styles.container}>
+            <Text style={styles.sectionTitle}>
               Localisation
             </Text>
           </View>
@@ -233,6 +251,7 @@ class Profile extends Component {
                 latitudeDelta: 0.015,
                 longitudeDelta: 0.0121,
               }}
+              scrollEnabled={false}
             >
               <Marker
                 title="Biocoop"
@@ -246,33 +265,6 @@ class Profile extends Component {
               />
             </MapView>
           </View>
-          <View style={styles.container}>
-            <Text style={styles.sectionTitle}>
-              Proche de vous
-            </Text>
-          </View>
-          <ScrollView horizontal style={styles.pointOfSalesContainer}>
-            <Image
-              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-              style={styles.producerPicture}
-              borderRadius={100}
-            />
-            <Image
-              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-              style={styles.producerPicture}
-              borderRadius={100}
-            />
-            <Image
-              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-              style={styles.producerPicture}
-              borderRadius={100}
-            />
-            <Image
-              source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1K_C-OZoaeFxO1Kjdj39n6w0awvDx5qtHMW2xMbS-pPqo-uM' }}
-              style={styles.producerPicture}
-              borderRadius={100}
-            />
-          </ScrollView>
         </ScrollView>
       </ContainerView>
     );

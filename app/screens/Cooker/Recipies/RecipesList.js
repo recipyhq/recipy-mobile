@@ -47,7 +47,6 @@ class RecipesList extends Component {
     const { resultsList } = this.props;
     return (
       <ContainerView>
-        <Loader isLoading={this.isLoading} />
         <SearchBar
           onChangeText={(text) => {
             this.handleChangeSearchQuery(text);
@@ -60,6 +59,7 @@ class RecipesList extends Component {
           }}
           placeholder="Rechercher une recette, ingrédient ..."
           value={this.props.search.q}
+          showLoading={this.props.isLoading}
           lightTheme
           round
         />
@@ -76,7 +76,7 @@ class RecipesList extends Component {
 function mapStateToProps(state) {
   return {
     resultsList: state.recipe.searchList,
-    isLoading: state.ingredient.isLoading,
+    isLoading: state.recipe.isLoading,
     search: state.recipe.search,
   };
 }

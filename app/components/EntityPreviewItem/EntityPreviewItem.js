@@ -15,6 +15,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'column',
   },
   image: {
+    width: 200,
     height: 150,
     flex: 1,
     borderTopLeftRadius: 10,

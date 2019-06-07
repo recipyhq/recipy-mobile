@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Input } from 'react-native-elements';
 import style from './style';
+import ButtonStd from '../Buttons/ButtonStd';
 
 class RecipeAdviceFormModal extends Component {
   render() {
@@ -17,6 +18,7 @@ class RecipeAdviceFormModal extends Component {
             placeholder="Commentaire de la recette"
             inputStyle={style.input}
           />
+          <ButtonStd title="Enregistrer mon avis" onPress={() => {}} />
         </View>
       </View>
     );
