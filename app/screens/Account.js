@@ -5,7 +5,7 @@ import {
   View, Text, Image,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { List, ListItem } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 import ContainerView from '../components/ContainerView/ContainerView';
 import colors from '../config/colors';
 import ButtonStd from '../components/Buttons/ButtonStd';
@@ -132,8 +132,7 @@ class Account extends Component {
           </View>
         </View>
         <View>
-          <List>
-            {
+          {
             SettingsItem.map(item => (
               <ListItem
                 key={item.title}
@@ -153,8 +152,7 @@ class Account extends Component {
                 onPress={(item.onPress) ? item.onPress : null}
               />
             ))
-            }
-          </List>
+          }
         </View>
       </ContainerView>
     );
