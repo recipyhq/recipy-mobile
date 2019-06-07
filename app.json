@@ -1,11 +1,13 @@
 {
   "expo": {
     "name": "Recipy",
-    "description": "This project is really great.",
-    "slug": "recipy",
+    "slug": "Recipy",
     "privacy": "public",
-    "sdkVersion": "30.0.0",
-    "platforms": ["ios", "android"],
+    "sdkVersion": "32.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,7 +23,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": true
     }
   }
 }

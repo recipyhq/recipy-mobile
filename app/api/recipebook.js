@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
 import qs from 'qs';
-import * as SecureStore from 'expo/src/SecureStore';
+import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import {
   getAllRecipeBookFailure,
   getAllRecipeBookRequest,
@@ -24,7 +24,7 @@ import {
 } from '../actions/recipebook';
 import ApiUrl from '../config/api';
 
-export const getAllRecipeBook = async (dispatch, user) => {
+export const getAllRecipeBook = async (dispatch) => {
   dispatch(getAllRecipeBookRequest());
   const headers = { 'Content-Type': 'application/json' };
   const uid = await SecureStore.getItemAsync('userId');
@@ -56,7 +56,7 @@ export const getRecipeBook = (dispatch, id, resolve, reject) => {
   });
 };
 
-export const searchForRecipeBook = async (dispatch, search, user) => {
+export const searchForRecipeBook = async (dispatch, search) => {
   dispatch(searchRecipeBookRequest());
   const headers = { 'Content-Type': 'application/json' };
   const uid = await SecureStore.getItemAsync('userId');

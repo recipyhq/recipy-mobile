@@ -79,7 +79,6 @@ class ShoppingList extends Component {
       recipe.ingredients.splice(0, recipe.ingredients.length);
     }
     const { resultsIngredientList } = this.props;
-    console.ignoredYellowBox = ['Warning: Failed prop type: Invalid prop `title` of type `object` supplied to `Button`, expected `string`'];
     return (
       <View style={{ backgroundColor: colors.primaryWhite, flex: 1 }}>
         <Loader isLoading={this.isLoading} />
