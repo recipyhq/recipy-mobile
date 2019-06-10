@@ -8,12 +8,14 @@ import {
   Dimensions,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Divider } from 'react-native-elements';
 import { PropTypes } from 'prop-types';
+import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import colors from '../../config/colors';
 import RecipeListItem from '../../components/Recipe/RecipeList/RecipeListItem/RecipeListItem';
-import { getProfileRecipes } from '../../api/recipe';
+import { getUserRecipeList } from '../../api/recipe';
+import Loader from '../../components/Loaders/Loader/Loader';
+import { getCurrentUser } from '../../api/user';
 
 const { width } = Dimensions.get('window');
 
@@ -68,12 +70,14 @@ const styles = EStyleSheet.create({
 
 class Profile extends Component {
   componentWillMount() {
+    this.fetchCurrentUser();
     this.getRecipesForUser();
   }
 
-  getRecipesForUser() {
+  async getRecipesForUser() {
     const { dispatch } = this.props;
-    getProfileRecipes(dispatch);
+    const currentUid = await SecureStore.getItemAsync('userId');
+    getUserRecipeList(dispatch, currentUid);
   }
 
   get isLoading() {
@@ -81,9 +85,22 @@ class Profile extends Component {
     return isLoading;
   }
 
+  get UserFirstName() {
+    const { currentUser } = this.props;
+    if (currentUser) return currentUser.firstname;
+    return null;
+  }
+
+  get UserProfileImage() {
+    const { currentUser } = this.props;
+    if (currentUser) return currentUser.url;
+    return null;
+  }
+
   static get defaultProps() {
     return {
       profileRecipes: [],
+      currentUser: null,
     };
   }
 
@@ -95,24 +112,37 @@ class Profile extends Component {
       // eslint-disable-next-line react/forbid-prop-types
       profileRecipes: PropTypes.array,
       profileRecipesErrorText: PropTypes.string.isRequired,
+      currentUser: PropTypes.shape({
+        email: PropTypes.string,
+        firstname: PropTypes.string,
+        lastname: PropTypes.string,
+        url: PropTypes.string,
+      }),
     };
+  }
+
+  fetchCurrentUser() {
+    const { dispatch } = this.props;
+    getCurrentUser(dispatch);
   }
 
   render() {
     const { profileRecipes, profileRecipesErrorText } = this.props;
     return (
       <ContainerView>
+        <Loader isLoading={this.isLoading} />
         <ScrollView style={styles.scrollViewContainer}>
           <View style={styles.profilePictureContainer}>
             <View style={styles.profilePictureBackground}>
               <Image
                 style={styles.profilePicture}
-                source={{ uri: 'https://scontent.fbcn1-1.fna.fbcdn.net/v/t1.0-9/27459906_1035169356624876_1812717769621987621_n.jpg?_nc_cat=110&_nc_ht=scontent.fbcn1-1.fna&oh=0604b5a65a51d76d8e2474b287eeec61&oe=5CDD2DE9' }}
+                source={{ uri: this.UserProfileImage }}
               />
             </View>
           </View>
-          <Text style={styles.profileName}>Guillaume</Text>
-          <Divider style={styles.divider} />
+          <Text style={styles.profileName}>
+            {this.UserFirstName}
+          </Text>
           <Text style={styles.sectionTitle}>DERNIERES RECETTES</Text>
           {
             profileRecipes.map(recipe => <RecipeListItem key={recipe.id} recipe={recipe} />)
@@ -129,8 +159,9 @@ class Profile extends Component {
 function mapStateToProps(state) {
   return {
     profileRecipes: state.recipe.profileRecipes,
-    isLoading: state.recipe.isLoading,
+    isLoading: state.user.isLoading,
     profileRecipesErrorText: state.recipe.profileRecipesErrorText,
+    currentUser: state.user.currentUser,
   };
 }
 

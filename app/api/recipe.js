@@ -6,9 +6,9 @@ import {
   searchRecipeFailure,
   searchRecipeRequest,
   searchRecipeSuccess,
-  getMyRecipeListFailure,
-  getMyRecipeListRequest,
-  getMyRecipeListSuccess,
+  GetUserRecipeListFailure,
+  GetUserRecipeListRequest,
+  GetUserRecipeListSuccess,
   getRecipeRequest,
   getRecipeSuccess,
   getRecipeFailure,
@@ -79,10 +79,9 @@ export const searchForIngredient = (dispatch, search) => {
   });
 };
 
-export const getAllRecipe = async (dispatch) => {
-  dispatch(getMyRecipeListRequest());
+export const getUserRecipeList = async (dispatch, uid) => {
+  dispatch(GetUserRecipeListRequest());
   const headers = { 'Content-Type': 'application/json' };
-  const uid = await SecureStore.getItemAsync('userId');
   return axios(`${ApiUrl}/api/my_recipes`,
     {
       headers,
@@ -90,9 +89,9 @@ export const getAllRecipe = async (dispatch) => {
         user_id: uid,
       },
     }).then((response) => {
-    dispatch(getMyRecipeListSuccess(response));
+    dispatch(GetUserRecipeListSuccess(response));
   }).catch((error) => {
-    dispatch(getMyRecipeListFailure(error));
+    dispatch(GetUserRecipeListFailure(error));
   });
 };
 

@@ -19,6 +19,7 @@ const styles = EStyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     height: 25,
+    overflow: 'hidden',
   },
   container: {
     display: 'flex',

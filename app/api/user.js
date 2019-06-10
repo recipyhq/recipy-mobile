@@ -13,7 +13,7 @@ import {
   signUpUserSuccess,
   editUserRequest,
   editUserSuccess,
-  editUserFailure,
+  editUserFailure, GetCurrentUserRequest, GetCurrentUserSuccess, GetCurrentUserFailure,
 } from '../actions/user';
 
 export const signInUser = (dispatch, navigation, user) => {
@@ -102,4 +102,15 @@ export const editUser = async (dispatch, user, errorManager) => {
   }).catch((error) => {
     dispatch(editUserFailure(error, errorManager));
   });
+};
+
+export const getCurrentUser = async (dispatch) => {
+  dispatch(GetCurrentUserRequest());
+  const userId = await SecureStore.getItemAsync('userId');
+  return axios.get(`${ApiUrl}/api/user?user_id=${userId}`)
+    .then((response) => {
+      dispatch(GetCurrentUserSuccess(response));
+    }).catch((error) => {
+      dispatch(GetCurrentUserFailure(error));
+    });
 };
