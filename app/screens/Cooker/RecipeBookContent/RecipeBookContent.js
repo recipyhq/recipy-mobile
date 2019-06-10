@@ -6,11 +6,12 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import colors from '../../../config/colors';
 import Loader from '../../../components/Loaders/Loader/Loader';
-import { getAllRecipe, getRecipe } from '../../../api/recipe';
+import { getUserRecipeList, getRecipe } from '../../../api/recipe';
 import { showRecipe } from '../../../actions/recipe';
 import style from '../../../components/Style/style';
 import RecipeBookContentItem from '../../../components/Recipe/RecipeBookContent/RecipeBookContentItem';
 import { removeRecipeToRecipeBook } from '../../../api/recipebook';
+import * as SecureStore from "expo/build/SecureStore/SecureStore";
 
 class RecipeBookContent extends Component {
   componentDidMount() {
@@ -33,9 +34,11 @@ class RecipeBookContent extends Component {
     });
   }
 
-  handleGetAllRecipe() {
-    const { dispatch, user } = this.props;
-    getAllRecipe(dispatch, user);
+  async handleGetAllRecipe() {
+    const { dispatch } = this.props;
+    const currentUid = await SecureStore.getItemAsync('userId');
+    getUserRecipeList(dispatch, currentUid);
+    // TODO Faire un vrai appel vers /recipes pour pouvoir ajouter toutes les recettes
   }
 
   handleDeleteRecipeFromNotebook(book, recipe) {

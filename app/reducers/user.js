@@ -14,7 +14,11 @@ import {
   RESET_PASSWORD_FAILURE,
   EDIT_USER_REQUEST,
   EDIT_USER_SUCCESS,
-  EDIT_USER_FAILURE, SIGN_OUT_USER,
+  EDIT_USER_FAILURE,
+  SIGN_OUT_USER,
+  GET_CURRENT_USER_REQUEST,
+  GET_CURRENT_USER_FAILURE,
+  GET_CURRENT_USER_SUCCESS,
 } from '../actions/user';
 
 const initialState = {
@@ -23,6 +27,7 @@ const initialState = {
   password_confirmation: '',
   id: 0,
   isLoading: false,
+  currentUser: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -106,6 +111,22 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case GET_CURRENT_USER_REQUEST:
+      return {
+        isLoading: true,
+        ...state,
+      };
+    case GET_CURRENT_USER_SUCCESS:
+      return {
+        isLoading: false,
+        ...state,
+        currentUser: action.currentUser,
+      };
+    case GET_CURRENT_USER_FAILURE:
+      return {
+        isLoading: false,
+        ...state,
       };
     case SIGN_OUT_USER:
       return initialState;

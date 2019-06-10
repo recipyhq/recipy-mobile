@@ -25,10 +25,10 @@ export const GET_PROFILE_RECIPES_REQUEST = 'GET_PROFILE_RECIPES_REQUEST';
 export const GET_PROFILE_RECIPES_SUCCESS = 'GET_PROFILE_RECIPES_SUCCESS';
 export const GET_PROFILE_RECIPES_FAILURE = 'GET_PROFILE_RECIPES_FAILURE';
 
-// GET_ALL_RECIPE
-export const GET_MY_RECIPE_LIST_REQUEST = 'GET_MY_RECIPE_LIST_REQUEST';
-export const GET_MY_RECIPE_LIST_SUCCESS = 'GET_MY_RECIPE_LIST_SUCCESS';
-export const GET_MY_RECIPE_LIST_FAILURE = 'GET_MY_RECIPE_LIST_FAILURE';
+// GET_USER_RECIPE_LIST
+export const GET_USER_RECIPE_LIST_REQUEST = 'GET_USER_RECIPE_LIST_REQUEST';
+export const GET_USER_RECIPE_LIST_SUCCESS = 'GET_USER_RECIPE_LIST_SUCCESS';
+export const GET_USER_RECIPE_LIST_FAILURE = 'GET_USER_RECIPE_LIST_FAILURE';
 
 // SHOPPING LIST MANIPULATION
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
@@ -136,21 +136,21 @@ export const showRecipe = (navigation, recipe) => {
   };
 };
 
-export const getMyRecipeListRequest = () => ({
-  type: GET_MY_RECIPE_LIST_REQUEST,
+export const GetUserRecipeListRequest = () => ({
+  type: GET_USER_RECIPE_LIST_REQUEST,
 });
 
-export const getMyRecipeListSuccess = (response) => {
+export const GetUserRecipeListSuccess = (response) => {
   refreshAuthCredentials(response.headers);
   let resultList = [];
   if (response.data) resultList = response.data;
   return ({
-    type: GET_MY_RECIPE_LIST_SUCCESS,
+    type: GET_USER_RECIPE_LIST_SUCCESS,
     resultList,
   });
 };
 
-export const getMyRecipeListFailure = (error) => {
+export const GetUserRecipeListFailure = (error) => {
   const { response } = error;
   Alert.alert(
     'Une erreur est survenue lors de la récupération des recette',
@@ -160,7 +160,7 @@ export const getMyRecipeListFailure = (error) => {
     ],
     { cancelable: false },
   );
-  return ({ type: GET_MY_RECIPE_LIST_FAILURE });
+  return ({ type: GET_USER_RECIPE_LIST_FAILURE });
 };
 
 export const getRecipeRequest = () => ({
