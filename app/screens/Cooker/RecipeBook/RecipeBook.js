@@ -61,7 +61,9 @@ class RecipeBook extends Component {
           />
         </View>
         <ScrollView
-          contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
+          contentContainerStyle={{
+            flexGrow: 1, alignItems: 'center', justifyContent: 'center', minHeight: '100%',
+          }}
           style={{
             backgroundColor: colors.primaryWhite,
           }}
@@ -96,7 +98,7 @@ RecipeBook.defaultProps = {
 function mapStateToProps(state) {
   return {
     resultBookList: state.recipebook.resultBookList,
-    isLoading: state.user.isLoading,
+    isLoading: state.recipebook.isLoading,
     currentRecipeBook: state.recipebook.currentRecipeBook,
     user: state.user,
   };

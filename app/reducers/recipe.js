@@ -14,10 +14,14 @@ import {
   GET_USER_RECIPE_LIST_REQUEST,
   GET_USER_RECIPE_LIST_SUCCESS, GET_PROFILE_RECIPES_FAILURE,
   GET_PROFILE_RECIPES_REQUEST,
-  GET_PROFILE_RECIPES_SUCCESS, SHOW_CREATE_RECIPE_ADVICE_FORM, HIDE_CREATE_RECIPE_ADVICE_FORM,
+  GET_PROFILE_RECIPES_SUCCESS,
+  UPDATE_INGREDIENT_LIST,
+  SHOW_CREATE_RECIPE_ADVICE_FORM,
+  HIDE_CREATE_RECIPE_ADVICE_FORM,
 } from '../actions/recipe';
 
 const initialState = {
+  allIngredientList: [],
   ingredientList: [],
   allShopListItems: [],
   shoplist: [],
@@ -73,7 +77,7 @@ const reducer = (state = initialState, action) => {
     case SEARCH_INGREDIENT_SUCCESS:
       return {
         ...state,
-        ingredientList: action.formatedList,
+        allIngredientList: action.formatedList,
       };
     case SEARCH_INGREDIENT_FAILURE:
       return {
@@ -126,6 +130,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         shoplist: action.curList,
       };
+    case UPDATE_INGREDIENT_LIST:
+      return {
+        ...state,
+        ingredientList: state.ingredientList.concat(action.listIngr),
+      };
     case CHANGE_TITLE:
       return {
         ...state,
@@ -139,6 +148,7 @@ const reducer = (state = initialState, action) => {
     case DELETE_INGREDIENT:
       return {
         ...state,
+        ingredientList: state.ingredientList.concat(state.shoplist[action.index]),
         shoplist: state.shoplist.filter((_, i) => i !== action.index),
       };
     case GET_ALL_SHOPPING_LIST_REQUEST:

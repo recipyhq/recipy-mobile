@@ -10,6 +10,7 @@ class RecipeAdviceItem extends Component {
     return {
       // eslint-disable-next-line react/forbid-prop-types
       navigation: PropTypes.object.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
       data: PropTypes.object.isRequired,
     };
   }

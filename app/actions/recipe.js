@@ -33,6 +33,7 @@ export const GET_USER_RECIPE_LIST_FAILURE = 'GET_USER_RECIPE_LIST_FAILURE';
 // SHOPPING LIST MANIPULATION
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const ADD_INGREDIENT_LIST = 'ADD_INGREDIENT_LIST';
+export const UPDATE_INGREDIENT_LIST = 'UPDATE_INGREDIENT_LIST';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 export const CHANGE_TITLE = 'CHANGE_TITLE';
 export const CHANGE_INGREDIENT = 'CHANGE_INGREDIENT';
@@ -190,14 +191,25 @@ export const getRecipeFailure = (error) => {
   return ({ type: GET_RECIPE_FAILURE });
 };
 
-export const addIngredientToList = (ingredient) => {
+export const addIngredientToList = (ingredient, list) => {
   const ingre = [];
   ingre.push(ingredient);
+
+  for (let i = list.length - 1; i >= 0; i -= 1) {
+    if (list[i] === ingredient || list[i].name === ingredient.name) {
+      list.splice(i, 1);
+    }
+  }
   return ({
     type: ADD_INGREDIENT,
     ingre,
   });
 };
+
+export const updateIngredientList = listIngr => ({
+  type: UPDATE_INGREDIENT_LIST,
+  listIngr,
+});
 
 export const addIngredientListToList = (list) => {
   let curList = [];

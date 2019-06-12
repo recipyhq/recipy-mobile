@@ -26,6 +26,8 @@ Select.propTypes = {
   selectedValue: PropTypes.any.isRequired,
   // eslint-disable-next-line react/require-default-props
   onValueChange: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  label: PropTypes.string.isRequired,
 
 };
 export default Select;

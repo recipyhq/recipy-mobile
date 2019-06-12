@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
+import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import colors from '../../../config/colors';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import { getUserRecipeList, getRecipe } from '../../../api/recipe';
@@ -11,7 +12,6 @@ import { showRecipe } from '../../../actions/recipe';
 import style from '../../../components/Style/style';
 import RecipeBookContentItem from '../../../components/Recipe/RecipeBookContent/RecipeBookContentItem';
 import { removeRecipeToRecipeBook } from '../../../api/recipebook';
-import * as SecureStore from "expo/build/SecureStore/SecureStore";
 
 class RecipeBookContent extends Component {
   componentDidMount() {
@@ -92,13 +92,12 @@ RecipeBookContent.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   currentRecipe: PropTypes.object,
   // eslint-disable-next-line react/forbid-prop-types
-  user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     recipesList: state.recipe.list,
-    isLoading: state.recipe.isLoading,
+    isLoading: state.recipebook.isLoading,
     currentRecipe: state.recipe.currentRecipe,
     user: state.user,
   };

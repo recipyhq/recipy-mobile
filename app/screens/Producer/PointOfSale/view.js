@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../../../config/colors';
 import ContainerView from '../../../components/ContainerView/ContainerView';
 import OvalSquare from '../../../components/Shapes/OvalSquare';
-import EntityPreviewItem from "../../../components/EntityPreviewItem/EntityPreviewItem";
+import EntityPreviewItem from '../../../components/EntityPreviewItem/EntityPreviewItem';
 
 const styleOpeningHours = EStyleSheet.create({
   container: {

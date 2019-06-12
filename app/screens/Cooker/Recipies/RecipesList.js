@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { ScrollView } from 'react-native';
 import ContainerView from '../../../components/ContainerView/ContainerView';
-import Loader from '../../../components/Loaders/Loader/Loader';
 import { changeSearchQuery } from '../../../actions/recipe';
 import { searchForRecipe } from '../../../api/recipe';
 import RecipeListItem from '../../../components/Recipe/RecipeList/RecipeListItem/RecipeListItem';

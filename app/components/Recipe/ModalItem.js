@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Modal } from 'react-native';
 import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import style from './descriptionStyle';
 import ButtonStd from '../Buttons/ButtonStd';
 import colors from '../../config/colors';
-import { createShoppingList } from '../../api/recipe';
 import { addRecipeToRecipeBook } from '../../api/recipebook';
 import { changeModalItem, changeModalText, changeModalVisible } from '../../actions/recipebook';
 
@@ -19,7 +17,7 @@ class ModalItem extends Component {
 
   handleAddToRecipeBook() {
     const {
-      dispatch, navigation, dropDownInfo, currentRecipe, user, text,
+      dispatch, dropDownInfo, currentRecipe, user, text,
     } = this.props;
     let {
       item,
@@ -39,9 +37,7 @@ class ModalItem extends Component {
 
   handleItemChange(item) {
     const { dispatch } = this.props;
-
     dispatch(changeModalItem(item));
-    console.log(item);
   }
 
   render() {
@@ -142,15 +138,16 @@ ModalItem.defaultProps = {
 };
 
 ModalItem.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   dropDownInfo: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   currentRecipe: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  navigation: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
   text: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
   item: PropTypes.object,
   visible: PropTypes.bool,
 };

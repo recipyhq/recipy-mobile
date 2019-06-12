@@ -12,7 +12,7 @@ import ShoppingListItem from '../../../components/ShoppingList/ShoppingListItem'
 import {
   addIngredientToList,
   changeTitle,
-  changeIngredient, changeSearchQuery,
+  changeIngredient, changeSearchQuery, updateIngredientList,
 } from '../../../actions/recipe';
 import { createShoppingList, searchForIngredient } from '../../../api/recipe';
 import Loader from '../../../components/Loaders/Loader/Loader';
@@ -20,9 +20,7 @@ import style from '../../../components/Style/style';
 
 class ShoppingList extends Component {
   componentDidMount() {
-    this.handleChangeSearchQuery('');
-    const { search } = this.props;
-    this.handlePressSearchButton(search);
+    this.handleUpdate();
   }
 
   get isLoading() {
@@ -42,8 +40,8 @@ class ShoppingList extends Component {
   }
 
   addIngredient(eleminList) {
-    const { dispatch } = this.props;
-    dispatch(addIngredientToList(eleminList));
+    const { dispatch, resultsIngredientList } = this.props;
+    dispatch(addIngredientToList(eleminList, resultsIngredientList));
   }
 
   handleChangeTitle(text) {
@@ -67,18 +65,27 @@ class ShoppingList extends Component {
     searchForIngredient(dispatch, search);
   }
 
-  render() {
+  handleUpdate() {
     const {
-      navigation, shoplist, shoplistTitle, dispatch,
+      navigation, shoplist, dispatch, allIngredientList, resultsIngredientList,
     } = this.props;
+    dispatch(updateIngredientList(allIngredientList));
+    console.log(resultsIngredientList);
     const recipe = navigation.getParam('item', 'NO-ID');
     if (recipe !== null && recipe.ingredients.length !== 0) {
       this.handleChangeTitle(recipe.title);
       shoplist.splice(0, shoplist.length);
-      recipe.ingredients.map(ingredient => shoplist.push(ingredient.ingredient));
+      recipe.ingredients.map(ingredient => this.addIngredient(ingredient.ingredient));
       recipe.ingredients.splice(0, recipe.ingredients.length);
     }
-    const { resultsIngredientList } = this.props;
+  }
+
+  render() {
+    const {
+      shoplist, shoplistTitle, dispatch, resultsIngredientList,
+    } = this.props;
+
+    console.ignoredYellowBox = ['Warning: Failed prop type: Invalid prop `title` of type `object` supplied to `Button`, expected `string`'];
     return (
       <View style={{ backgroundColor: colors.primaryWhite, flex: 1 }}>
         <Loader isLoading={this.isLoading} />
@@ -137,7 +144,6 @@ class ShoppingList extends Component {
 ShoppingList.defaultProps = {
   shoplist: [],
   isLoading: true,
-  resultsIngredientList: [],
   shoplistTitle: '',
 };
 
@@ -147,7 +153,7 @@ function mapStateToProps(state) {
     shoplistTitle: state.recipe.shoplistTitle,
     shoplistIngredient: state.recipe.shoplistIngredient,
     isLoading: state.user.isLoading,
-    search: state.recipe.search,
+    allIngredientList: state.recipe.allIngredientList,
     resultsIngredientList: state.recipe.ingredientList,
     user: state.user,
   };
@@ -163,9 +169,9 @@ ShoppingList.propTypes = {
   shoplistTitle: PropTypes.string,
   isLoading: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
-  search: PropTypes.object.isRequired,
+  allIngredientList: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  resultsIngredientList: PropTypes.array,
+  resultsIngredientList: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
 };

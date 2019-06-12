@@ -83,7 +83,6 @@ MyRecipes.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   currentRecipe: PropTypes.object,
   // eslint-disable-next-line react/forbid-prop-types
-  user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
