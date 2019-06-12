@@ -24,6 +24,7 @@ import AllShoppingList from '../screens/Cooker/ShoppingList/AllShoppingList';
 import ShoppingListConsult from '../screens/Cooker/ShoppingList/ShoppingListConsult';
 import Profile from '../screens/Cooker/Profile';
 import ProducerProfile from '../screens/Producer/Profile';
+import PointOfSaleView from '../screens/Producer/PointOfSale/view';
 
 const ProfileStack = createStackNavigator(
   {
@@ -47,6 +48,7 @@ const ProfileStack = createStackNavigator(
 const ProducerProfileStack = createStackNavigator(
   {
     ProducerProfile,
+    PointOfSaleView,
   },
   {
     headerMode: 'none',

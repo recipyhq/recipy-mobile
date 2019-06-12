@@ -10,12 +10,14 @@ import {
   DELETE_SHOPPING_LIST_REQUEST, DELETE_SHOPPING_LIST_SUCCESS, DELETE_SHOPPING_LIST_FAILURE,
   SHOW_SHOPPING_LIST, SEARCH_INGREDIENT_REQUEST,
   SEARCH_INGREDIENT_FAILURE, SEARCH_INGREDIENT_SUCCESS,
-  GET_MY_RECIPE_LIST_FAILURE,
-  GET_MY_RECIPE_LIST_REQUEST,
-  GET_MY_RECIPE_LIST_SUCCESS, GET_PROFILE_RECIPES_FAILURE,
+  GET_USER_RECIPE_LIST_FAILURE,
+  GET_USER_RECIPE_LIST_REQUEST,
+  GET_USER_RECIPE_LIST_SUCCESS, GET_PROFILE_RECIPES_FAILURE,
   GET_PROFILE_RECIPES_REQUEST,
   GET_PROFILE_RECIPES_SUCCESS,
   UPDATE_INGREDIENT_LIST,
+  SHOW_CREATE_RECIPE_ADVICE_FORM,
+  HIDE_CREATE_RECIPE_ADVICE_FORM,
 } from '../actions/recipe';
 
 const initialState = {
@@ -37,6 +39,7 @@ const initialState = {
   },
   currentRecipe: null,
   currentShoppingList: null,
+  displayRecipeAdviceModal: false,
   isLoading: false,
 };
 
@@ -53,16 +56,19 @@ const reducer = (state = initialState, action) => {
     case SEARCH_RECIPE_REQUEST:
       return {
         ...state,
+        isLoading: true,
       };
     case SEARCH_RECIPE_SUCCESS:
       return {
         ...state,
         searchList: action.resultList,
+        isLoading: false,
       };
     case SEARCH_RECIPE_FAILURE:
       return {
         ...state,
         searchList: [],
+        isLoading: false,
       };
     case SEARCH_INGREDIENT_REQUEST:
       return {
@@ -82,18 +88,18 @@ const reducer = (state = initialState, action) => {
         ...state,
         currentRecipe: action.currentRecipe,
       };
-    case GET_MY_RECIPE_LIST_REQUEST:
+    case GET_USER_RECIPE_LIST_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
-    case GET_MY_RECIPE_LIST_SUCCESS:
+    case GET_USER_RECIPE_LIST_SUCCESS:
       return {
         ...state,
         myRecipeList: action.resultList,
         isLoading: false,
       };
-    case GET_MY_RECIPE_LIST_FAILURE:
+    case GET_USER_RECIPE_LIST_FAILURE:
       return {
         ...state,
         isLoading: false,
@@ -231,6 +237,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         profileRecipesErrorText: action.errorText,
+      };
+    case SHOW_CREATE_RECIPE_ADVICE_FORM:
+      return {
+        ...state,
+        displayRecipeAdviceModal: true,
+      };
+    case HIDE_CREATE_RECIPE_ADVICE_FORM:
+      return {
+        ...state,
+        displayRecipeAdviceModal: false,
       };
     default:
       return state;

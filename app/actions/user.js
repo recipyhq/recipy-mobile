@@ -1,4 +1,4 @@
-import * as SecureStore from 'expo/src/SecureStore';
+import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import { Alert } from 'react-native';
 
 export const CHANGE_EMAIL = 'CHANGE_EMAIL';
@@ -25,6 +25,11 @@ export const RESET_PASSWORD_FAILURE = 'RESET_PASSWORD_FAILURE';
 export const EDIT_USER_REQUEST = 'EDIT_USER_REQUEST';
 export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';
 export const EDIT_USER_FAILURE = 'EDIT_USER_FAILURE';
+
+// GET CURRENT USER
+export const GET_CURRENT_USER_REQUEST = 'GET_CURRENT_USER_REQUEST';
+export const GET_CURRENT_USER_SUCCESS = 'GET_CURRENT_USER_SUCCESS';
+export const GET_CURRENT_USER_FAILURE = 'GET_CURRENT_USER_FAILURE';
 
 // SIGN_OUT
 export const SIGN_OUT_USER = 'SIGN_OUT_USER';
@@ -237,5 +242,24 @@ export const SignOutUser = (navigation) => {
   navigation.navigate('NavigatorAuth');
   return {
     type: SIGN_OUT_USER,
+  };
+};
+
+export const GetCurrentUserRequest = () => ({
+  type: GET_CURRENT_USER_REQUEST,
+});
+
+export const GetCurrentUserSuccess = (response) => {
+  const currentUser = response.data;
+  return {
+    type: GET_CURRENT_USER_SUCCESS,
+    currentUser,
+  };
+};
+
+export const GetCurrentUserFailure = (error) => {
+  console.log(error);
+  return {
+    type: GET_CURRENT_USER_FAILURE,
   };
 };

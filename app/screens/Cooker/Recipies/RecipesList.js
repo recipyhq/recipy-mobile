@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { ScrollView } from 'react-native';
 import ContainerView from '../../../components/ContainerView/ContainerView';
-import Loader from '../../../components/Loaders/Loader/Loader';
 import { changeSearchQuery } from '../../../actions/recipe';
 import { searchForRecipe } from '../../../api/recipe';
 import RecipeListItem from '../../../components/Recipe/RecipeList/RecipeListItem/RecipeListItem';
@@ -47,7 +46,6 @@ class RecipesList extends Component {
     const { resultsList } = this.props;
     return (
       <ContainerView>
-        <Loader isLoading={this.isLoading} />
         <SearchBar
           onChangeText={(text) => {
             this.handleChangeSearchQuery(text);
@@ -58,7 +56,9 @@ class RecipesList extends Component {
             const { search } = this.props;
             search.q = '';
           }}
-          placeholder="Boeuf carrottes ..."
+          placeholder="Rechercher une recette, ingrédient ..."
+          value={this.props.search.q}
+          showLoading={this.props.isLoading}
           lightTheme
           round
         />
@@ -75,7 +75,7 @@ class RecipesList extends Component {
 function mapStateToProps(state) {
   return {
     resultsList: state.recipe.searchList,
-    isLoading: state.ingredient.isLoading,
+    isLoading: state.recipe.isLoading,
     search: state.recipe.search,
   };
 }

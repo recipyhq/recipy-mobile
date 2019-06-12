@@ -4,10 +4,11 @@ import {
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
+import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import colors from '../../../config/colors';
 import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 import Loader from '../../../components/Loaders/Loader/Loader';
-import { getAllRecipe, getRecipe } from '../../../api/recipe';
+import { getUserRecipeList, getRecipe } from '../../../api/recipe';
 import { showRecipe } from '../../../actions/recipe';
 import style from '../../../components/Style/style';
 
@@ -32,9 +33,10 @@ class MyRecipes extends Component {
     });
   }
 
-  handleGetAllRecipe() {
-    const { dispatch, user } = this.props;
-    getAllRecipe(dispatch, user);
+  async handleGetAllRecipe() {
+    const { dispatch } = this.props;
+    const currentUid = await SecureStore.getItemAsync('userId');
+    getUserRecipeList(dispatch, currentUid);
   }
 
   render() {
@@ -81,7 +83,6 @@ MyRecipes.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   currentRecipe: PropTypes.object,
   // eslint-disable-next-line react/forbid-prop-types
-  user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

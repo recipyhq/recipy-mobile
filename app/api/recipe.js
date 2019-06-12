@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
-import * as SecureStore from 'expo/src/SecureStore';
 import qs from 'qs';
+import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import {
   searchRecipeFailure,
   searchRecipeRequest,
   searchRecipeSuccess,
-  getMyRecipeListFailure,
-  getMyRecipeListRequest,
-  getMyRecipeListSuccess,
+  GetUserRecipeListFailure,
+  GetUserRecipeListRequest,
+  GetUserRecipeListSuccess,
   getRecipeRequest,
   getRecipeSuccess,
   getRecipeFailure,
@@ -79,10 +79,9 @@ export const searchForIngredient = (dispatch, search) => {
   });
 };
 
-export const getAllRecipe = async (dispatch, user) => {
-  dispatch(getMyRecipeListRequest());
+export const getUserRecipeList = async (dispatch, uid) => {
+  dispatch(GetUserRecipeListRequest());
   const headers = { 'Content-Type': 'application/json' };
-  const uid = await SecureStore.getItemAsync('userId');
   return axios(`${ApiUrl}/api/my_recipes`,
     {
       headers,
@@ -90,9 +89,9 @@ export const getAllRecipe = async (dispatch, user) => {
         user_id: uid,
       },
     }).then((response) => {
-    dispatch(getMyRecipeListSuccess(response));
+    dispatch(GetUserRecipeListSuccess(response));
   }).catch((error) => {
-    dispatch(getMyRecipeListFailure(error));
+    dispatch(GetUserRecipeListFailure(error));
   });
 };
 
@@ -124,7 +123,7 @@ export const getRecipe = (dispatch, id, resolve, reject) => {
   });
 };
 
-export const getAllShoppingList = async (dispatch, user) => {
+export const getAllShoppingList = async (dispatch) => {
   dispatch(getAllShoppingListRequest());
   const headers = { 'Content-Type': 'application/json' };
   const uid = await SecureStore.getItemAsync('userId');
@@ -141,7 +140,7 @@ export const getAllShoppingList = async (dispatch, user) => {
   });
 };
 
-export const getShoppingList = async (dispatch, id, resolve, reject, user) => {
+export const getShoppingList = async (dispatch, id, resolve, reject) => {
   dispatch(getShoppingListRequest());
   const headers = { 'Content-Type': 'application/json' };
   const uid = await SecureStore.getItemAsync('userId');
@@ -160,7 +159,7 @@ export const getShoppingList = async (dispatch, id, resolve, reject, user) => {
   });
 };
 
-export const createShoppingList = async (dispatch, listTitle, ingredientList, navigation, user) => {
+export const createShoppingList = async (dispatch, listTitle, ingredientList, navigation) => {
   dispatch(createShoppingListRequest());
   const uid = await SecureStore.getItemAsync('userId');
   return axios({

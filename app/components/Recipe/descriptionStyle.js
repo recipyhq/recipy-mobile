@@ -92,6 +92,22 @@ const descriptionStyle = EStyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+
+  // Advices
+  advicesContainer: {
+    backgroundColor: colors.primaryGrey,
+    padding: 15,
+    paddingTop: 30,
+    marginTop: 30,
+  },
+  adviceContainerTitle: {
+    color: colors.primaryOrange,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  btnLeaveAdvice: {
+    backgroundColor: colors.primaryOrange,
+  },
 });
 
 export default descriptionStyle;
