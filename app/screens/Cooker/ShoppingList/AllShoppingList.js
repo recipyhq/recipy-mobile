@@ -3,9 +3,9 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import {
-  deleteShoppingList, getAllShoppingList, getShoppingList,
+  deleteShoppingList, getAllShoppingList, getShoppingList, searchForIngredient,
 } from '../../../api/recipe';
-import { showShoppingList } from '../../../actions/recipe';
+import { changeSearchQuery, showShoppingList } from '../../../actions/recipe';
 import colors from '../../../config/colors';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import AllShoppingListItems from '../../../components/ShoppingList/AllShoppingListItems';
@@ -15,11 +15,24 @@ import ButtonStd from '../../../components/Buttons/ButtonStd';
 class AllShoppingList extends Component {
   componentDidMount() {
     this.handleGetAllShoppingList();
+    this.handleChangeSearchQuery('');
+    const { search } = this.props;
+    this.handlePressSearchButton(search);
   }
 
   get isLoading() {
     const { isLoading } = this.props;
     return isLoading;
+  }
+
+  handleChangeSearchQuery(text) {
+    const { dispatch } = this.props;
+    dispatch(changeSearchQuery(text));
+  }
+
+  handlePressSearchButton(search) {
+    const { dispatch } = this.props;
+    searchForIngredient(dispatch, search);
   }
 
   handlePressNext(shoppinglist) {
@@ -65,7 +78,7 @@ class AllShoppingList extends Component {
         </View>
         <ScrollView
           contentContainerStyle={{
-            flexGrow: 1, alignItems: 'center', justifyContent: 'center',
+            flexGrow: 1, alignItems: 'center', justifyContent: 'center', minHeight: '100%',
           }}
           style={{
             backgroundColor: colors.primaryWhite,
@@ -111,6 +124,8 @@ AllShoppingList.propTypes = {
   currentShoppingList: PropTypes.object,
   // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  search: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -120,6 +135,7 @@ function mapStateToProps(state) {
     allShopListItems: state.recipe.allShopListItems,
     currentShoppingList: state.recipe.currentShoppingList,
     user: state.user,
+    search: state.recipe.search,
   };
 }
 

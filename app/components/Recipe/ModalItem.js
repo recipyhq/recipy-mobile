@@ -20,7 +20,7 @@ class ModalItem extends Component {
 
   handleAddToRecipeBook() {
     const {
-      dispatch, navigation, dropDownInfo, currentRecipe, user, text,
+      dispatch, dropDownInfo, currentRecipe, user, text,
     } = this.props;
     let {
       item,
@@ -40,9 +40,7 @@ class ModalItem extends Component {
 
   handleItemChange(item) {
     const { dispatch } = this.props;
-
     dispatch(changeModalItem(item));
-    console.log(item);
   }
 
   render() {
@@ -147,7 +145,7 @@ ModalItem.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   currentRecipe: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  navigation: PropTypes.object.isRequired,
+  navigation: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,

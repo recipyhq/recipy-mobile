@@ -96,7 +96,7 @@ RecipeBookContent.propTypes = {
 function mapStateToProps(state) {
   return {
     recipesList: state.recipe.list,
-    isLoading: state.recipe.isLoading,
+    isLoading: state.recipebook.isLoading,
     currentRecipe: state.recipe.currentRecipe,
     user: state.user,
   };
