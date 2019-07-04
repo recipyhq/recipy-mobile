@@ -25,6 +25,7 @@ import ShoppingListConsult from '../screens/Cooker/ShoppingList/ShoppingListCons
 import Profile from '../screens/Cooker/Profile';
 import ProducerProfile from '../screens/Producer/Profile';
 import PointOfSaleView from '../screens/Producer/PointOfSale/view';
+import Planning from '../screens/Cooker/Planning/Planning';
 
 const ProfileStack = createStackNavigator(
   {
@@ -144,6 +145,16 @@ const RecipeListStack = createStackNavigator({
       },
     },
   },
+  Planning: {
+    screen: Planning,
+    navigationOptions: {
+      title: 'Planning de repas',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
 });
 
 const MyRecipeStack = createStackNavigator({
@@ -221,6 +232,16 @@ const MyRecipeStack = createStackNavigator({
     screen: AllShoppingList,
     navigationOptions: {
       title: 'Mes listes de courses',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
+    },
+  },
+  Planning: {
+    screen: Planning,
+    navigationOptions: {
+      title: 'Planning de repas',
       headerTintColor: colors.primaryGrey,
       headerStyle: {
         backgroundColor: colors.primaryOrange,

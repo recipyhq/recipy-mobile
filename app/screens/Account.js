@@ -69,6 +69,11 @@ class Account extends Component {
     navigation.navigate('AllShoppingList');
   }
 
+  handlePressPlanning() {
+    const { navigation } = this.props;
+    navigation.navigate('Planning');
+  }
+
   render() {
     const SettingsItem = [
       {
@@ -94,6 +99,12 @@ class Account extends Component {
         subtitle: 'Prévoyez à l\'avance vos prochaines courses',
         icon: 'list-alt',
         onPress: () => this.handlePressShoppingList(),
+      },
+      {
+        title: 'Planning de repas',
+        subtitle: 'Prévoyez vos prochain repas',
+        icon: 'list-alt',
+        onPress: () => this.handlePressPlanning(),
       },
       {
         title: 'Déconnexion',
