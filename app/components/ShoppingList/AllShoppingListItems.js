@@ -4,28 +4,24 @@ import {
   Text, TouchableHighlight, View,
 } from 'react-native';
 import style from '../Style/style';
+import styles from '../../screens/Authentication/styles';
 
 const AllShoppingListItems = ({
-  onPress, shoppingList, onDelete, ...props
+  onPress, shoppingList,
 }) => (
-  <TouchableHighlight onPress={onPress} style={style.touch}>
-
-    <View style={style.containerShopList} {...props}>
-      <Text style={style.recipeTitle}>
+  <View style={styles.container}>
+    <TouchableHighlight onPress={onPress}>
+      <Text style={style.shoppingListTitle}>
         { shoppingList.name }
       </Text>
-      <Text style={style.description}>
-        {Object.keys(shoppingList.ingredients).toString()}
-      </Text>
-    </View>
-  </TouchableHighlight>
+    </TouchableHighlight>
+  </View>
 );
 
 AllShoppingListItems.propTypes = {
   onPress: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   shoppingList: PropTypes.object.isRequired,
-  onDelete: PropTypes.func.isRequired,
 };
 
 export default AllShoppingListItems;

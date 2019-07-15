@@ -121,7 +121,7 @@ export const searchRecipeBookSuccess = (response, user) => {
 
 export const searchRecipeBookFailure = () => {
   Alert.alert(
-    'Recherche un ingredient',
+    'Recherche un carnet de recette',
     'Une erreur inconnue s\'est produite',
     [
       { text: 'OK' },

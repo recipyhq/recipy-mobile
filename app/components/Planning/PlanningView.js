@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableWithoutFeedback } from 'react-native';
+import {
+  View, TouchableWithoutFeedback, Text,
+} from 'react-native';
 import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { showRecipe } from '../../actions/recipe';
 import { getRecipe } from '../../api/recipe';
+import colors from '../../config/colors';
+import style from '../Style/style';
+import ButtonStd from '../../screens/Cooker/ShoppingList/AllShoppingList';
 
 class PlanningView extends Component {
   static get defaultProps() {
@@ -43,15 +48,54 @@ class PlanningView extends Component {
     });
   }
 
+  handlePressShoppingList() {
+    const { navigation } = this.props;
+    navigation.navigate('ShoppingList', { item: null });
+  }
+
   render() {
     return (
-      <TouchableWithoutFeedback onPress={() => this.handlePressShowDetails()}>
-        <View>
-          <Card image={{ uri: 'https://img-3.journaldesfemmes.fr/vCNeVFvdxQToSZ6PDys2Xhdd8UE=/748x499/smart/3091d3c67b5947cfacdd9b1bee285d80/recipe-jdf/10018082.jpg' }} />
-          <Card image={{ uri: 'http://www.mesinspirationsculinaires.com/wp-content/uploads/2013/07/salade-de-tomate-avocat3.jpg' }} />
-          <Card image={{ uri: 'https://static.cuisineaz.com/400x320/i76902-salade-de-riz-complete.jpg' }} />
+      <View>
+        <View style={style.buttonContainer}>
+          <ButtonStd
+            title="Créer une liste de course à partir du planning actuel"
+            onPress={() => {
+              this.handlePressShoppingList();
+            }}
+            buttonStyle={style.btnSendForm}
+            fontSize={15}
+            color={colors.primaryWhite}
+          />
         </View>
-      </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => this.handlePressShowDetails()}>
+          <View>
+            <Card image={{ uri: 'https://img-3.journaldesfemmes.fr/vCNeVFvdxQToSZ6PDys2Xhdd8UE=/748x499/smart/3091d3c67b5947cfacdd9b1bee285d80/recipe-jdf/10018082.jpg' }}>
+              <View style={{
+                position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center',
+              }}
+              >
+                <Text style={{ fontWeight: 'bold', color: colors.primaryOrange, fontSize: 20 }}>Gauffre</Text>
+              </View>
+            </Card>
+            <Card image={{ uri: 'http://www.mesinspirationsculinaires.com/wp-content/uploads/2013/07/salade-de-tomate-avocat3.jpg' }}>
+              <View style={{
+                position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center',
+              }}
+              >
+                <Text style={{ fontWeight: 'bold', color: colors.primaryOrange, fontSize: 20 }}>Salade de tomate avocat</Text>
+              </View>
+            </Card>
+            <Card image={{ uri: 'https://static.cuisineaz.com/400x320/i76902-salade-de-riz-complete.jpg' }}>
+              <View style={{
+                position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center',
+              }}
+              >
+                <Text style={{ fontWeight: 'bold', color: colors.primaryOrange, fontSize: 20 }}>Salade de riz</Text>
+              </View>
+            </Card>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
     );
   }
 }

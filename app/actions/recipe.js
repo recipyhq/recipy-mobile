@@ -51,6 +51,10 @@ export const CREATE_SHOPPING_LIST_REQUEST = 'CREATE_SHOPPING_LIST_REQUEST';
 export const CREATE_SHOPPING_LIST_SUCCESS = 'CREATE_SHOPPING_LIST_SUCCESS';
 export const CREATE_SHOPPING_LIST_FAILURE = 'CREATE_SHOPPING_LIST_FAILURE';
 
+export const UPDATE_SHOPPING_LIST_REQUEST = 'UPDATE_SHOPPING_LIST_REQUEST';
+export const UPDATE_SHOPPING_LIST_SUCCESS = 'UPDATE_SHOPPING_LIST_SUCCESS';
+export const UPDATE_SHOPPING_LIST_FAILURE = 'UPDATE_SHOPPING_LIST_FAILURE';
+
 export const DELETE_SHOPPING_LIST_REQUEST = 'DELETE_SHOPPING_LIST_REQUEST';
 export const DELETE_SHOPPING_LIST_SUCCESS = 'DELETE_SHOPPING_LIST_SUCCESS';
 export const DELETE_SHOPPING_LIST_FAILURE = 'DELETE_SHOPPING_LIST_FAILURE';
@@ -61,6 +65,9 @@ export const SHOW_SHOPPING_LIST = 'SHOW_SHOPPING_LIST';
 export const SHOW_CREATE_RECIPE_ADVICE_FORM = 'SHOW_RECIPE_ADVICE_FORM';
 export const HIDE_CREATE_RECIPE_ADVICE_FORM = 'HIDE_CREATE_RECIPE_ADVICE_FORM';
 
+export const CHANGE_LIST_MODAL_VISIBLE = 'CHANGE_LIST_MODAL_VISIBLE';
+export const CHANGE_LIST_MODAL_TEXT = 'CHANGE_LIST_MODAL_TEXT';
+export const CHANGE_LIST_MODAL_ITEM = 'CHANGE_LIST_MODAL_ITEM';
 
 export const searchRecipeRequest = () => ({
   type: SEARCH_RECIPE_REQUEST,
@@ -206,11 +213,13 @@ export const addIngredientToList = (ingredient, list) => {
   });
 };
 
-export const updateIngredientList = listIngr => ({
-  type: UPDATE_INGREDIENT_LIST,
-  listIngr,
-});
-
+export const updateIngredientList = (listIngr) => {
+  listIngr.sort((a, b) => a.name.localeCompare(b.name));
+  return ({
+    type: UPDATE_INGREDIENT_LIST,
+    listIngr,
+  });
+};
 export const addIngredientListToList = (list) => {
   let curList = [];
   curList = list;
@@ -323,6 +332,30 @@ export const createShoppingListFailure = () => {
   return ({ type: CREATE_SHOPPING_LIST_FAILURE });
 };
 
+export const updateShoppingListRequest = () => ({
+  type: UPDATE_SHOPPING_LIST_REQUEST,
+});
+
+export const updateShoppingListSuccess = () => ({
+  type: UPDATE_SHOPPING_LIST_SUCCESS,
+});
+
+export const updateShoppingListFailure = () => {
+  Alert.alert(
+    'La modification à échoué',
+    'Une erreur s\'est produite pendant la modification de la liste',
+    [
+      {
+        text: 'OK',
+        onPress: () => {
+        },
+      },
+    ],
+    { cancelable: false },
+  );
+  return ({ type: UPDATE_SHOPPING_LIST_FAILURE });
+};
+
 export const deleteShoppingListRequest = () => ({
   type: DELETE_SHOPPING_LIST_REQUEST,
 });
@@ -371,4 +404,19 @@ export const showCreateRecipeAdviceForm = () => ({
 
 export const hideCreateRecipeAdviceForm = () => ({
   type: HIDE_CREATE_RECIPE_ADVICE_FORM,
+});
+
+export const changeListModalVisible = visible => ({
+  type: CHANGE_LIST_MODAL_VISIBLE,
+  visible,
+});
+
+export const changeListModalText = text => ({
+  type: CHANGE_LIST_MODAL_TEXT,
+  text,
+});
+
+export const changeListModalItem = item => ({
+  type: CHANGE_LIST_MODAL_ITEM,
+  item,
 });

@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
-import qs from 'qs';
 import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import {
   getAllRecipeBookFailure,
@@ -70,9 +69,6 @@ export const searchForRecipeBook = async (dispatch, search) => {
           q: search.q || undefined,
           notebooks: search.notebooks || undefined,
         },
-      },
-      paramsSerializer(params) {
-        return qs.stringify(params, { arrayFormat: 'repeat' });
       },
     },
   ).then((response) => {

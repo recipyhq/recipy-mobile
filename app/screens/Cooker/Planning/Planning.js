@@ -1,12 +1,27 @@
 /* eslint-disable react/prefer-stateless-function */
+
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import {
+  ScrollView, View,
+  StyleSheet,
+} from 'react-native';
 import { PropTypes } from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
-import colors from '../../../config/colors';
-import style from '../../../components/Style/style';
-import ButtonStd from '../../../components/Buttons/ButtonStd';
+import Swiper from 'react-native-swiper';
 import PlanningView from '../../../components/Planning/PlanningView';
+import PlanningViewTmp1 from '../../../components/Planning/PlanningViewTmp1';
+import PlanningViewTmp2 from '../../../components/Planning/PlanningViewTmp2';
+
+
+const styles = StyleSheet.create({
+  wrapper: {
+  },
+  text: {
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+});
 
 class Planning extends Component {
   get isLoading() {
@@ -16,25 +31,17 @@ class Planning extends Component {
 
   render() {
     return (
-      <View style={{
-        backgroundColor: colors.primaryWhite,
-      }}
-      >
-        <View style={style.buttonContainer}>
-          <ButtonStd
-            title="Créer un carnet de planning"
-            onPress={() => {
-              this.handleCreateNoteBook();
-            }}
-            buttonStyle={style.btnSendForm}
-            fontSize={15}
-            color={colors.primaryWhite}
-          />
+      <Swiper style={styles.wrapper} showsButtons={false} showPagination={false}>
+        <ScrollView>
+          <PlanningView recipe={null} />
+        </ScrollView>
+        <View>
+          <PlanningViewTmp1 recipe={null} />
         </View>
         <View>
-          <PlanningView />
+          <PlanningViewTmp2 recipe={null} />
         </View>
-      </View>
+      </Swiper>
     );
   }
 }

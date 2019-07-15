@@ -7,6 +7,7 @@ import colors from '../../config/colors';
 import RecipeDescriptionItem from '../../components/Recipe/RecipeDescriptionItem';
 import { searchForRecipeBook } from '../../api/recipebook';
 import ModalItem from '../../components/Recipe/ModalItem';
+import { getAllShoppingList } from '../../api/recipe';
 
 class RecipeDescription extends Component {
   componentDidMount() {
@@ -17,6 +18,7 @@ class RecipeDescription extends Component {
   handlePressSearchButton(search) {
     const { dispatch, user } = this.props;
     searchForRecipeBook(dispatch, search, user);
+    getAllShoppingList(dispatch);
   }
 
   handlePressShop(recipe) {

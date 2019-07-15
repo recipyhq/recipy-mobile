@@ -12,10 +12,10 @@ const ShoppingListItemConsult = ({ list }) => (
       { list.name }
     </Text>
     <FlatList
-      data={Object.keys(list.ingredients)}
+      data={list.ingredients}
       renderItem={({ item }) => (
         <View style={style.listItem}>
-          <Text style={style.listText}>{item.toString()}</Text>
+          <Text style={style.listText}>{item.ingredient.name.toString()}</Text>
           <CheckBox />
         </View>
       )}

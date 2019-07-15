@@ -18,6 +18,12 @@ import {
   UPDATE_INGREDIENT_LIST,
   SHOW_CREATE_RECIPE_ADVICE_FORM,
   HIDE_CREATE_RECIPE_ADVICE_FORM,
+  CHANGE_LIST_MODAL_VISIBLE,
+  CHANGE_LIST_MODAL_TEXT,
+  CHANGE_LIST_MODAL_ITEM,
+  UPDATE_SHOPPING_LIST_REQUEST,
+  UPDATE_SHOPPING_LIST_SUCCESS,
+  UPDATE_SHOPPING_LIST_FAILURE,
 } from '../actions/recipe';
 
 const initialState = {
@@ -40,6 +46,9 @@ const initialState = {
   currentRecipe: null,
   currentShoppingList: null,
   displayRecipeAdviceModal: false,
+  listModalVisible: false,
+  listModalText: '',
+  listModalItem: null,
   isLoading: false,
 };
 
@@ -148,7 +157,9 @@ const reducer = (state = initialState, action) => {
     case DELETE_INGREDIENT:
       return {
         ...state,
-        ingredientList: state.ingredientList.concat(state.shoplist[action.index]),
+        ingredientList: state.ingredientList.concat(
+          state.shoplist[action.index],
+        ).sort((a, b) => a.name.localeCompare(b.name)),
         shoplist: state.shoplist.filter((_, i) => i !== action.index),
       };
     case GET_ALL_SHOPPING_LIST_REQUEST:
@@ -205,6 +216,23 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
+    case UPDATE_SHOPPING_LIST_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+
+      };
+    case UPDATE_SHOPPING_LIST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+
+      };
+    case UPDATE_SHOPPING_LIST_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
     case DELETE_SHOPPING_LIST_REQUEST:
       return {
         ...state,
@@ -247,6 +275,21 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         displayRecipeAdviceModal: false,
+      };
+    case CHANGE_LIST_MODAL_VISIBLE:
+      return {
+        ...state,
+        listModalVisible: action.visible,
+      };
+    case CHANGE_LIST_MODAL_TEXT:
+      return {
+        ...state,
+        listModalText: action.text,
+      };
+    case CHANGE_LIST_MODAL_ITEM:
+      return {
+        ...state,
+        listModalItem: action.item,
       };
     default:
       return state;

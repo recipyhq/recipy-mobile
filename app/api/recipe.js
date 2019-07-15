@@ -26,6 +26,7 @@ import {
   deleteShoppingListFailure, searchIngredientRequest,
   searchIngredientSuccess, searchIngredientFailure,
   getProfileRecipesRequest, getProfileRecipesSuccess, getProfileRecipesFailure,
+  updateShoppingListRequest, updateShoppingListSuccess, updateShoppingListFailure,
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
 
@@ -179,6 +180,28 @@ export const createShoppingList = async (dispatch, listTitle, ingredientList, na
     navigation.navigate('AllShoppingList');
   }).catch((error) => {
     dispatch(createShoppingListFailure(error));
+  });
+};
+
+export const updateShoppingList = async (dispatch, ingredientList, listId, navigation) => {
+  dispatch(updateShoppingListRequest());
+  const uid = await SecureStore.getItemAsync('userId');
+  return axios({
+    method: 'put',
+    url: `${ApiUrl}/api/shopping_lists/${listId}`,
+    data: {
+      shopping_list: {
+        user_id: uid,
+        ingredient_ids: ingredientList,
+      },
+    },
+    config: { headers: { 'Content-Type': 'application/json' } },
+  }).then(() => {
+    dispatch(updateShoppingListSuccess());
+    getAllShoppingList(dispatch);
+    navigation.navigate('AllShoppingList');
+  }).catch((error) => {
+    dispatch(updateShoppingListFailure(error));
   });
 };
 
