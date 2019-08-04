@@ -18,8 +18,8 @@ import {
   SIGN_OUT_USER,
   GET_CURRENT_USER_REQUEST,
   GET_CURRENT_USER_FAILURE,
-  GET_CURRENT_USER_SUCCESS, CHANGE_FIRST_NAME, CHANGE_LAST_NAME
-} from "../actions/user";
+  GET_CURRENT_USER_SUCCESS, CHANGE_FIRST_NAME, CHANGE_LAST_NAME,
+} from '../actions/user';
 
 const initialState = {
   firstName: '',
