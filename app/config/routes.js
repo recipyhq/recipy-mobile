@@ -55,23 +55,15 @@ const ProducerProfileStack = createStackNavigator(
   },
 );
 
-const AccountStack = createStackNavigator(
-  {
-    Settings,
-    ProfileEdit,
-    ProfileStack,
-    ProducerProfileStack,
-  },
-  {
-    headerMode: 'none',
-  },
-);
-
-const RecipeListStack = createStackNavigator({
+const MyRecipeStack = createStackNavigator({
   MyRecipes: {
-    screen: RecipesList,
+    screen: MyRecipes,
     navigationOptions: {
-      header: null,
+      title: 'Mes recettes',
+      headerTintColor: colors.primaryGrey,
+      headerStyle: {
+        backgroundColor: colors.primaryOrange,
+      },
     },
   },
   RecipeDescription: {
@@ -146,15 +138,24 @@ const RecipeListStack = createStackNavigator({
   },
 });
 
-const MyRecipeStack = createStackNavigator({
+const AccountStack = createStackNavigator(
+  {
+    Settings,
+    ProfileEdit,
+    ProfileStack,
+    ProducerProfileStack,
+    MyRecipeStack,
+  },
+  {
+    headerMode: 'none',
+  },
+);
+
+const RecipeListStack = createStackNavigator({
   MyRecipes: {
-    screen: MyRecipes,
+    screen: RecipesList,
     navigationOptions: {
-      title: 'Mes recettes',
-      headerTintColor: colors.primaryGrey,
-      headerStyle: {
-        backgroundColor: colors.primaryOrange,
-      },
+      header: null,
     },
   },
   RecipeDescription: {
@@ -259,13 +260,6 @@ const TabCooker = createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Explorer',
       tabBarIcon: compassIcon,
-    },
-  },
-  MyRecipe: {
-    screen: MyRecipeStack,
-    navigationOptions: {
-      title: 'Mes recettes',
-      tabBarIcon: cutleryIcon,
     },
   },
   Settings: {
