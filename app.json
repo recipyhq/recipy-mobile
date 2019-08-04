@@ -23,7 +23,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.recioy.recipy"
+    },
+    "android": {
+      "package": "com.recipy.recipy"
     }
   }
 }

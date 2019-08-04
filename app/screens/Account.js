@@ -10,12 +10,15 @@ import ContainerView from '../components/ContainerView/ContainerView';
 import colors from '../config/colors';
 import ButtonStd from '../components/Buttons/ButtonStd';
 import { SignOutUser } from '../actions/user';
+import { getCurrentUser } from '../api/user';
+import { userDefaultProfileImage } from '../config/user';
 
 const styles = EStyleSheet.create({
   // Header
   header: {
     padding: 30,
-    height: 110,
+    height: 170,
+    backgroundColor: colors.primaryOrange
   },
   firstName: {
     fontSize: 30,
@@ -23,7 +26,7 @@ const styles = EStyleSheet.create({
     color: colors.mediumGrey,
   },
   BtnEditProfile: {
-    backgroundColor: colors.primaryWhite,
+    backgroundColor: colors.primaryOrange,
     padding: 0,
     margin: 0,
     justifyContent: 'flex-start',
@@ -31,12 +34,45 @@ const styles = EStyleSheet.create({
 });
 
 class Account extends Component {
+  componentWillMount() {
+    this.fetchCurrentUser();
+  }
+
+  static get defaultProps() {
+    return {
+      currentUser: null,
+    };
+  }
+
   static get propTypes() {
     return {
       dispatch: PropTypes.func.isRequired,
       // eslint-disable-next-line react/forbid-prop-types
       navigation: PropTypes.object.isRequired,
+      currentUser: PropTypes.shape({
+        email: PropTypes.string,
+        firstname: PropTypes.string,
+        lastname: PropTypes.string,
+        url: PropTypes.string,
+      }),
     };
+  }
+
+  get UserFirstName() {
+    const { currentUser } = this.props;
+    if (currentUser) return currentUser.firstname;
+    return null;
+  }
+
+  get UserProfileImage() {
+    const { currentUser } = this.props;
+    if (currentUser) return currentUser.url;
+    return userDefaultProfileImage;
+  }
+
+  fetchCurrentUser() {
+    const { dispatch } = this.props;
+    getCurrentUser(dispatch);
   }
 
   handleShowPublicProfile() {
@@ -51,12 +87,17 @@ class Account extends Component {
 
   handlePressEditProfile() {
     const { navigation } = this.props;
-    navigation.navigate('Profile');
+    navigation.navigate('ProfileEdit');
   }
 
   handleShowProducerProfile() {
     const { navigation } = this.props;
     navigation.navigate('ProducerProfile');
+  }
+
+  handlePressMyRecipes() {
+    const { navigation } = this.props;
+    navigation.navigate('MyRecipes');
   }
 
   handlePressRecipeBook() {
@@ -84,6 +125,12 @@ class Account extends Component {
         onPress: () => this.handleShowProducerProfile(),
       },
       {
+        title: 'Mes recettes',
+        subtitle: 'Accéder à mes recettes',
+        icon: 'book',
+        onPress: () => this.handlePressMyRecipes(),
+      },
+      {
         title: 'Mes carnets de recettes',
         subtitle: 'Accéder à l\'ensemble de vos recettes enregistrée par thème',
         icon: 'book',
@@ -107,13 +154,11 @@ class Account extends Component {
         <View style={styles.header}>
           <View style={{ flex: 5, flexDirection: 'row' }}>
             <View style={{ flex: 3 }}>
-              <Text style={styles.firstName}>Bonjour,</Text>
+              <Text style={styles.firstName}>Bonjour { this.UserFirstName },</Text>
               <ButtonStd
                 title="Editer mon profil"
                 onPress={() => this.handlePressEditProfile()}
                 buttonStyle={styles.BtnEditProfile}
-                fontSize={15}
-                color={colors.primaryGrey}
                 leftIcon={{
                   name: 'cog',
                   color: colors.primaryGrey,
@@ -124,7 +169,7 @@ class Account extends Component {
             </View>
             <View style={{ flex: 2, alignItems: 'center' }}>
               <Image
-                source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}
+                source={{ uri: this.UserProfileImage }}
                 style={{ width: 80, height: 80 }}
                 borderRadius={100}
               />
@@ -159,4 +204,11 @@ class Account extends Component {
   }
 }
 
-export default connect()(Account);
+function mapStateToProps(state) {
+  return {
+    isLoading: state.user.isLoading,
+    currentUser: state.user.currentUser,
+  };
+}
+
+export default connect(mapStateToProps)(Account);

@@ -5,8 +5,8 @@ import { PropTypes } from 'prop-types';
 import InputWithLabelAndIcon from '../../components/Inputs/InputWithLabelAndIcon';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import {
-  changeEmail, changePassword, changePasswordConfirmation,
-} from '../../actions/user';
+  changeEmail, changeFirstName, changeLastName, changePassword, changePasswordConfirmation
+} from "../../actions/user";
 import ButtonStd from '../../components/Buttons/ButtonStd';
 import BackgroundImage from '../../components/Backgrounds/BackgroundImage/BackgroundImage';
 import colors from '../../config/colors';
@@ -49,6 +49,17 @@ class SignUp extends Component {
     dispatch(changeEmail(email));
   }
 
+  handleChangeFirstName(firstName) {
+    const { dispatch } = this.props;
+    console.log(firstName);
+    dispatch(changeFirstName(firstName));
+  }
+
+  handleChangeLastName(lastName) {
+    const { dispatch } = this.props;
+    dispatch(changeLastName(lastName));
+  }
+
   handleChangePassword(password) {
     const { dispatch } = this.props;
     dispatch(changePassword(password));
@@ -79,6 +90,8 @@ class SignUp extends Component {
             fontSize={20}
           />
           <View style={styles.containerForm}>
+            <InputWithLabelAndIcon label="Prénom" iconName="user" onChangeText={(text) => { this.handleChangeFirstName(text); }} />
+            <InputWithLabelAndIcon label="Nom" iconName="user" onChangeText={(text) => { this.handleChangeLastName(text); }} />
             <InputWithLabelAndIcon label="Courriel" iconName="envelope" onChangeText={(text) => { this.handleChangeEmail(text); }} keyboardType="email-address" />
             <InputWithLabelAndIcon label="Mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePassword(text); }} secureTextEntry />
             <InputWithLabelAndIcon label="Confirmation de mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }} secureTextEntry />
@@ -115,6 +128,8 @@ const mapStateToProps = state => ({
     password: state.user.password,
     password_confirmation: state.user.password_confirmation,
     accountType: state.user.accountType,
+    firstName: state.user.firstName,
+    lastName: state.user.lastName,
   },
 });
 

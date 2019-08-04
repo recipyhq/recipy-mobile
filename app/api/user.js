@@ -39,6 +39,8 @@ export const signUpUser = (dispatch, user) => {
     method: 'post',
     url: `${ApiUrl}/api/users`,
     data: {
+      first_name: user.firstname,
+      last_name: user.lastname,
       email: user.email,
       password: user.password,
       password_confirmation: user.password_confirmation,
@@ -107,7 +109,7 @@ export const editUser = async (dispatch, user, errorManager) => {
 export const getCurrentUser = async (dispatch) => {
   dispatch(GetCurrentUserRequest());
   const userId = await SecureStore.getItemAsync('userId');
-  return axios.get(`${ApiUrl}/api/user?user_id=${userId}`)
+  return axios.get(`${ApiUrl}/api/user/info?user_id=${userId}`)
     .then((response) => {
       dispatch(GetCurrentUserSuccess(response));
     }).catch((error) => {

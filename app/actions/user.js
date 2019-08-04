@@ -1,6 +1,8 @@
 import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import { Alert } from 'react-native';
 
+export const CHANGE_LAST_NAME = 'CHANGE_LAST_NAME';
+export const CHANGE_FIRST_NAME = 'CHANGE_FIRST_NAME';
 export const CHANGE_EMAIL = 'CHANGE_EMAIL';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const CHANGE_PASSWORD_CONFIRMATION = 'CHANGE_PASSWORD_CONFIRMATION';
@@ -100,7 +102,7 @@ export const signUpUserFailure = (error) => {
   const { response } = error;
   Alert.alert(
     'Inscription échouée',
-    response.statusText,
+    response.data.errors.full_messages[0],
     [
       { text: 'OK' },
     ],
@@ -218,6 +220,16 @@ export const editUserFailure = (error, errorManager) => {
 export const changeEmail = email => ({
   type: CHANGE_EMAIL,
   email,
+});
+
+export const changeFirstName = firstName => ({
+  type: CHANGE_FIRST_NAME,
+  firstName,
+});
+
+export const changeLastName = lastName => ({
+  type: CHANGE_LAST_NAME,
+  lastName,
 });
 
 export const changePassword = password => ({

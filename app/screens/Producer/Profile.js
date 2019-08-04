@@ -41,8 +41,7 @@ const styles = EStyleSheet.create({
     width: 150,
     height: 150,
   },
-  ovalSquare: {
-  },
+  ovalSquare: {},
   shortDescription: {
     color: colors.primaryWhite,
     fontSize: 15,
