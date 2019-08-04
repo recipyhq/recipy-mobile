@@ -5,8 +5,8 @@ import { PropTypes } from 'prop-types';
 import InputWithLabelAndIcon from '../../components/Inputs/InputWithLabelAndIcon';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import {
-  changeEmail, changeFirstName, changeLastName, changePassword, changePasswordConfirmation
-} from "../../actions/user";
+  changeEmail, changeFirstName, changeLastName, changePassword, changePasswordConfirmation,
+} from '../../actions/user';
 import ButtonStd from '../../components/Buttons/ButtonStd';
 import BackgroundImage from '../../components/Backgrounds/BackgroundImage/BackgroundImage';
 import colors from '../../config/colors';

@@ -18,7 +18,7 @@ const styles = EStyleSheet.create({
   header: {
     padding: 30,
     height: 170,
-    backgroundColor: colors.primaryOrange
+    backgroundColor: colors.primaryOrange,
   },
   firstName: {
     fontSize: 30,
@@ -154,7 +154,11 @@ class Account extends Component {
         <View style={styles.header}>
           <View style={{ flex: 5, flexDirection: 'row' }}>
             <View style={{ flex: 3 }}>
-              <Text style={styles.firstName}>Bonjour { this.UserFirstName },</Text>
+              <Text style={styles.firstName}>
+Bonjour
+                { this.UserFirstName }
+,
+              </Text>
               <ButtonStd
                 title="Editer mon profil"
                 onPress={() => this.handlePressEditProfile()}
