@@ -4,7 +4,7 @@ import {
   Text, View, FlatList,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import styles from '../../screens/Authentication/styles';
+import styles from '../../screens/Account/Authentication/styles';
 import style from '../Style/style';
 import { deleteIngredient } from '../../actions/recipe';
 import colors from '../../config/colors';

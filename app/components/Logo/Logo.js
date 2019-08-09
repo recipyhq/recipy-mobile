@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ImageBackground } from 'react-native';
 import styles from './styles';
 
-const logo = require('../../../assets/logo_black.png');
+const logo = require('../../../assets/logo_orange.png');
 
 const Logo = ({
   style, width, height, fontSize, ...props

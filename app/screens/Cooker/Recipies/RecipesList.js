@@ -7,8 +7,13 @@ import ContainerView from '../../../components/ContainerView/ContainerView';
 import { changeSearchQuery } from '../../../actions/recipe';
 import { searchForRecipe } from '../../../api/recipe';
 import RecipeListItem from '../../../components/Recipe/RecipeList/RecipeListItem/RecipeListItem';
+import { getCurrentUser } from '../../../api/user';
 
 class RecipesList extends Component {
+  componentDidMount() {
+    this.fetchCurrentUser();
+  }
+
   get isLoading() {
     const { isLoading } = this.props;
     return isLoading;
@@ -30,6 +35,11 @@ class RecipesList extends Component {
       // eslint-disable-next-line react/forbid-prop-types
       resultsList: PropTypes.array,
     };
+  }
+
+  fetchCurrentUser() {
+    const { dispatch } = this.props;
+    getCurrentUser(dispatch);
   }
 
   handleChangeSearchQuery(text) {

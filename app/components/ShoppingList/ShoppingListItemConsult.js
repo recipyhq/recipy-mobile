@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Text, View, FlatList, CheckBox,
 } from 'react-native';
-import styles from '../../screens/Authentication/styles';
+import styles from '../../screens/Account/Authentication/styles';
 import style from '../Style/style';
 import { updateCheckbox } from '../../api/recipe';
 
