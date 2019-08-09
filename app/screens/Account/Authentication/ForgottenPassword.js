@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Dimensions, Text, View } from 'react-native';
 import { PropTypes } from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
-import InputWithLabelAndIcon from '../../components/Inputs/InputWithLabelAndIcon';
-import { changeEmail } from '../../actions/user';
-import ContainerView from '../../components/ContainerView/ContainerView';
-import ButtonStd from '../../components/Buttons/ButtonStd';
-import BackgroundImage from '../../components/Backgrounds/BackgroundImage/BackgroundImage';
-import colors from '../../config/colors';
+import { Input } from 'react-native-elements';
+import { changeEmail } from '../../../actions/user';
+import ContainerView from '../../../components/ContainerView/ContainerView';
+import ButtonStd from '../../../components/Buttons/ButtonStd';
+import colors from '../../../config/colors';
 import styles from './styles';
-import { resetPassword } from '../../api/user';
-import Loader from '../../components/Loaders/Loader/Loader';
+import { resetPassword } from '../../../api/user';
+import Logo from '../../../components/Logo/Logo';
+import Loader from '../../../components/Loaders/Loader/Loader';
 
-const backgroundImage = require('../../../assets/bg-auth.jpg');
+const imageSize = Dimensions.get('window').width / 4;
 
 class ForgottenPassword extends Component {
   static get propTypes() {
@@ -32,11 +32,6 @@ class ForgottenPassword extends Component {
     return isLoading;
   }
 
-  handlePressBack() {
-    const { navigation } = this.props;
-    navigation.navigate('HomeAuth');
-  }
-
   handleEmailChange(email) {
     const { dispatch } = this.props;
     dispatch(changeEmail(email));
@@ -50,29 +45,20 @@ class ForgottenPassword extends Component {
   render() {
     return (
       <ContainerView>
-        <BackgroundImage image={backgroundImage}>
-          <Loader isLoading={this.isLoading} />
-          <ButtonStd
-            onPress={() => (this.handlePressBack())}
-            title="Retour"
-            leftIcon={{
-              name: 'arrow-left',
-              color: colors.primaryWhite,
-              size: 15,
-              type: 'font-awesome',
-            }}
-            buttonStyle={styles.btnBack}
-            transparent
-            color={colors.primaryWhite}
-            fontSize={20}
-          />
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <InputWithLabelAndIcon label="Courriel" iconName="envelope" onChangeText={(text) => { this.handleEmailChange(text); }} keyboardType="email-address" />
-          </View>
+        <Loader isLoading={this.isLoading} />
+        <View style={styles.container}>
+          <Logo style={styles.logo} width={imageSize} height={imageSize} />
+          <Text style={styles.welcome}>
+            BIENVENUE
+          </Text>
+          <Text style={styles.title}>
+            Vous avez oubliez votre mot de passe ?
+          </Text>
+          <Input label="Courriel" onChangeText={(text) => { this.handleEmailChange(text); }} keyboardType="email-address" />
           <View style={styles.buttonContainer}>
-            <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
+            <View style={{ flex: 1 }}>
               <ButtonStd
-                title="Se connecter"
+                title="Réinitialiser le mot de passe"
                 onPress={() => {
                   const { user } = this.props;
                   this.handlePressSend(user);
@@ -84,7 +70,7 @@ class ForgottenPassword extends Component {
               />
             </View>
           </View>
-        </BackgroundImage>
+        </View>
       </ContainerView>
     );
   }

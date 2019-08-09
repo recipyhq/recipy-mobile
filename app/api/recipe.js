@@ -31,6 +31,7 @@ import ApiUrl from '../config/api';
 
 export const searchForRecipe = (dispatch, search) => {
   dispatch(searchRecipeRequest());
+  console.log('search recipe :', search.q);
   const headers = { 'Content-Type': 'application/json' };
   return axios.get(
     `${ApiUrl}/api/search/`,
@@ -39,9 +40,6 @@ export const searchForRecipe = (dispatch, search) => {
       params: {
         search: {
           q: search.q || undefined,
-          ingredients: search.ingredients || undefined,
-          time: search.time || undefined,
-          difficulty: search.difficulty || undefined,
         },
       },
       paramsSerializer(params) {

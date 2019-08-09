@@ -56,8 +56,19 @@ export const signInUserSuccess = (response, navigation) => {
   refreshAuthCredentials(response.headers);
   SecureStore.setItemAsync('userId', response.data.data.id.toString());
   // Redirect to the Cooker home
-  navigation.navigate('Cooker');
-  return ({ type: SIGN_IN_USER_SUCCESS });
+  navigation.goBack();
+  return ({
+    currentUser: {
+      id: response.data.data.id,
+      email: response.data.data.email,
+      firstname: response.data.data.first_name,
+      lastname: response.data.data.last_name,
+      liked_producers: null,
+      url: null,
+      followed_users: null,
+    },
+    type: SIGN_IN_USER_SUCCESS,
+  });
 };
 
 export const signInUserFailure = () => {
@@ -248,10 +259,15 @@ export const changeCurrentPassword = currentPassword => ({
 });
 
 export const SignOutUser = (navigation) => {
-  SecureStore.deleteItemAsync('access-token');
-  SecureStore.deleteItemAsync('client');
-  SecureStore.deleteItemAsync('uid');
-  navigation.navigate('NavigatorAuth');
+  SecureStore.deleteItemAsync('userId').then(() => {
+    SecureStore.deleteItemAsync('access-token').then(() => {
+      SecureStore.deleteItemAsync('client').then(() => {
+        SecureStore.deleteItemAsync('uid').then(() => {
+          navigation.navigate('Cooker');
+        });
+      });
+    });
+  });
   return {
     type: SIGN_OUT_USER,
   };

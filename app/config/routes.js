@@ -6,17 +6,14 @@ import {
 import PropTypes from 'prop-types';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome';
 import React from 'react';
-import SignIn from '../screens/Authentication/SignIn';
-import SignUp from '../screens/Authentication/SignUp';
-import ForgottenPassword from '../screens/Authentication/ForgottenPassword';
-import HomeAuth from '../screens/Authentication/Home';
-import ProfileEdit from '../screens/ProfileEdit';
+import ForgottenPassword from '../screens/Account/Authentication/ForgottenPassword';
+import ProfileEdit from '../screens/Account/ProfileEdit';
 import colors from './colors';
 import RecipesList from '../screens/Cooker/Recipies/RecipesList';
 import MyRecipes from '../screens/Cooker/Recipies/MyRecipes';
 import ShoppingList from '../screens/Cooker/ShoppingList/ShoppingList';
-import RecipeDescription from '../screens/Authentication/RecipeDescription';
-import Settings from '../screens/Account';
+import RecipeDescription from '../screens/Account/Authentication/RecipeDescription';
+import Settings from '../screens/Account/Account';
 import RecipeBook from '../screens/Cooker/RecipeBook/RecipeBook';
 import CreateRecipeBook from '../screens/Cooker/RecipeBook/CreateRecipeBook';
 import RecipeBookContent from '../screens/Cooker/RecipeBookContent/RecipeBookContent';
@@ -25,6 +22,8 @@ import ShoppingListConsult from '../screens/Cooker/ShoppingList/ShoppingListCons
 import Profile from '../screens/Cooker/Profile';
 import ProducerProfile from '../screens/Producer/Profile';
 import PointOfSaleView from '../screens/Producer/PointOfSale/view';
+import SignUp from '../screens/Account/Authentication/SignUp';
+import SignIn from '../screens/Account/Authentication/SignIn';
 
 const ProfileStack = createStackNavigator(
   {
@@ -145,6 +144,9 @@ const AccountStack = createStackNavigator(
     ProfileStack,
     ProducerProfileStack,
     MyRecipeStack,
+    ForgottenPassword,
+    SignUp,
+    SignIn,
   },
   {
     headerMode: 'none',
@@ -275,17 +277,11 @@ const TabCooker = createBottomTabNavigator({
   },
 });
 
-const NavigatorAuth = createStackNavigator({
-  HomeAuth, SignIn, SignUp, ForgottenPassword, Profile,
-},
-{ headerMode: 'none' });
-
 const Navigator = createSwitchNavigator({
   Cooker: TabCooker,
-  NavigatorAuth,
 },
 {
-  initialRouteName: 'NavigatorAuth',
+  initialRouteName: 'Cooker',
 });
 
 export default Navigator;

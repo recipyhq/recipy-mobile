@@ -6,12 +6,13 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ListItem } from 'react-native-elements';
-import ContainerView from '../components/ContainerView/ContainerView';
-import colors from '../config/colors';
-import ButtonStd from '../components/Buttons/ButtonStd';
-import { SignOutUser } from '../actions/user';
-import { getCurrentUser } from '../api/user';
-import { userDefaultProfileImage } from '../config/user';
+import * as SecureStore from 'expo/build/SecureStore/SecureStore';
+import ContainerView from '../../components/ContainerView/ContainerView';
+import colors from '../../config/colors';
+import ButtonStd from '../../components/Buttons/ButtonStd';
+import { SignOutUser } from '../../actions/user';
+import { getCurrentUser } from '../../api/user';
+import { userDefaultProfileImage } from '../../config/user';
 
 const styles = EStyleSheet.create({
   // Header
@@ -34,10 +35,6 @@ const styles = EStyleSheet.create({
 });
 
 class Account extends Component {
-  componentWillMount() {
-    this.fetchCurrentUser();
-  }
-
   static get defaultProps() {
     return {
       currentUser: null,
@@ -70,9 +67,19 @@ class Account extends Component {
     return userDefaultProfileImage;
   }
 
-  fetchCurrentUser() {
-    const { dispatch } = this.props;
-    getCurrentUser(dispatch);
+  handlePressForgottenPassword() {
+    const { navigation } = this.props;
+    navigation.navigate('ForgottenPassword');
+  }
+
+  handlePressSignUp() {
+    const { navigation } = this.props;
+    navigation.navigate('SignUp');
+  }
+
+  handlePressSignIn() {
+    const { navigation } = this.props;
+    navigation.navigate('SignIn');
   }
 
   handleShowPublicProfile() {
@@ -110,7 +117,7 @@ class Account extends Component {
     navigation.navigate('AllShoppingList');
   }
 
-  render() {
+  renderWhenLoggedIn() {
     const SettingsItem = [
       {
         title: 'Mon profil',
@@ -155,9 +162,7 @@ class Account extends Component {
           <View style={{ flex: 5, flexDirection: 'row' }}>
             <View style={{ flex: 3 }}>
               <Text style={styles.firstName}>
-Bonjour
-                { this.UserFirstName }
-,
+                {this.UserFirstName ? `Bonjour ${this.UserFirstName}` : 'Bonjour,'}
               </Text>
               <ButtonStd
                 title="Editer mon profil"
@@ -205,6 +210,88 @@ Bonjour
         </View>
       </ContainerView>
     );
+  }
+
+  renderWhenNotLoggedIn() {
+    const SettingsItem = [
+      {
+        title: 'Pourquoi nous rejoindre',
+        subtitle: 'Découvrez tous les avantages à devenir membre de Recipy',
+        icon: 'question',
+        onPress: () => {},
+      },
+      {
+        title: 'Créer un compte',
+        subtitle: 'Vous êtes nouveau ? C\'est par ici !',
+        icon: 'id-card',
+        onPress: () => this.handlePressSignUp(),
+      },
+      {
+        title: 'Se connecter',
+        subtitle: 'On se connait ?',
+        icon: 'user',
+        onPress: () => this.handlePressSignIn(),
+      },
+      {
+        title: 'J\'ai oublié mon mot de passe',
+        subtitle: 'Pas de panique, voyons ça ensemble',
+        icon: 'exclamation',
+        onPress: () => this.handlePressForgottenPassword(),
+      },
+    ];
+
+    return (
+      <ContainerView>
+        <View style={styles.header}>
+          <View style={{ flex: 5, flexDirection: 'row' }}>
+            <View style={{ flex: 3 }}>
+              <Text style={styles.firstName}>
+                {'Bonjour,'}
+              </Text>
+              <Text style={styles.inviteToSignUp}>
+                {'Creez un compte ou connectez-vous pour reçevoir une expérience personnalisée'}
+              </Text>
+            </View>
+            <View style={{ flex: 2, alignItems: 'center' }}>
+              <Image
+                source={{ uri: this.UserProfileImage }}
+                style={{ width: 80, height: 80 }}
+                borderRadius={100}
+              />
+            </View>
+          </View>
+        </View>
+        <View>
+          {
+            SettingsItem.map(item => (
+              <ListItem
+                key={item.title}
+                leftIcon={{
+                  name: item.icon,
+                  color: colors.primaryGrey,
+                  size: 15,
+                  type: 'font-awesome',
+                }}
+                title={`${item.title}`}
+                subtitle={(
+                  <View style={styles.subtitleView}>
+                    <Text style={styles.ratingText}>{item.subtitle}</Text>
+                  </View>
+                )}
+                containerStyle={{}}
+                onPress={(item.onPress) ? item.onPress : null}
+              />
+            ))
+          }
+        </View>
+      </ContainerView>
+    );
+  }
+
+  render() {
+    const { currentUser } = this.props;
+    console.log(currentUser);
+    return (currentUser !== null) ? this.renderWhenLoggedIn() : this.renderWhenNotLoggedIn();
   }
 }
 

@@ -73,6 +73,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        currentUser: action.currentUser,
       };
     case SIGN_IN_USER_FAILURE:
       return {

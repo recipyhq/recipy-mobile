@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import { Image, View, ScrollView } from 'react-native';
 import { PropTypes } from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import TextInput from '../components/Inputs/StdTextInput/StdTextInput';
+import TextInput from '../../components/Inputs/StdTextInput/StdTextInput';
 import {
   changeCurrentPassword, changeEmail, changePassword, changePasswordConfirmation,
-} from '../actions/user';
-import colors from '../config/colors';
-import ButtonStd from '../components/Buttons/ButtonStd';
-import { editUser } from '../api/user';
-import Loader from '../components/Loaders/Loader/Loader';
+} from '../../actions/user';
+import colors from '../../config/colors';
+import ButtonStd from '../../components/Buttons/ButtonStd';
+import { editUser } from '../../api/user';
+import Loader from '../../components/Loaders/Loader/Loader';
 
 const styles = EStyleSheet.create({
   // Back Button

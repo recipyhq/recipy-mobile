@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { PropTypes } from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
-import colors from '../../config/colors';
-import RecipeDescriptionItem from '../../components/Recipe/RecipeDescriptionItem';
-import { searchForRecipeBook } from '../../api/recipebook';
-import ModalItem from '../../components/Recipe/ModalItem';
+import colors from '../../../config/colors';
+import RecipeDescriptionItem from '../../../components/Recipe/RecipeDescriptionItem';
+import { searchForRecipeBook } from '../../../api/recipebook';
+import ModalItem from '../../../components/Recipe/ModalItem';
 
 class RecipeDescription extends Component {
   componentDidMount() {
