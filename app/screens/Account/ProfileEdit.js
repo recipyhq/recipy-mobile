@@ -2,12 +2,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  Image, View, ScrollView, Text,
+  Image, View,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Input } from 'react-native-elements';
-import TextInput from '../../components/Inputs/StdTextInput/StdTextInput';
 import {
   changeCurrentPassword, changeEmail, changePassword, changePasswordConfirmation,
 } from '../../actions/user';
@@ -15,7 +14,7 @@ import colors from '../../config/colors';
 import ButtonStd from '../../components/Buttons/ButtonStd';
 import { editUser } from '../../api/user';
 import Loader from '../../components/Loaders/Loader/Loader';
-import { userDefaultProfileImage } from '../../config/user';
+import { userDefaultProfileImage } from '../../config/constants';
 import ContainerView from '../../components/ContainerView/ContainerView';
 
 const styles = EStyleSheet.create({
@@ -141,19 +140,10 @@ ProfileEdit.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   currentUser: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  navigation: PropTypes.any.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  errorManager: PropTypes.object,
   isLoading: PropTypes.bool,
 };
 
 ProfileEdit.defaultProps = {
-  errorManager: {
-    current_password: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-  },
   isLoading: false,
 };
 

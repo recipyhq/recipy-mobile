@@ -1,6 +1,5 @@
 import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import { Alert } from 'react-native';
-import { getCurrentUser } from '../api/user';
 
 export const CHANGE_LAST_NAME = 'CHANGE_LAST_NAME';
 export const CHANGE_FIRST_NAME = 'CHANGE_FIRST_NAME';
@@ -53,12 +52,9 @@ export const refreshAuthCredentials = (headers) => {
   }
 };
 
-export const signInUserSuccess = (response, navigation, dispatch) => {
+export const signInUserSuccess = (response) => {
   refreshAuthCredentials(response.headers);
   SecureStore.setItemAsync('userId', response.data.data.id.toString());
-  getCurrentUser(dispatch).then(() => {
-    navigation.goBack();
-  });
   return ({
     currentUser: {
       id: response.data.data.id,

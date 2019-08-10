@@ -60,7 +60,11 @@ export const SHOW_SHOPPING_LIST = 'SHOW_SHOPPING_LIST';
 // RECIPE ADVICES
 export const SHOW_CREATE_RECIPE_ADVICE_FORM = 'SHOW_RECIPE_ADVICE_FORM';
 export const HIDE_CREATE_RECIPE_ADVICE_FORM = 'HIDE_CREATE_RECIPE_ADVICE_FORM';
-
+export const CHANGE_USER_RECIPE_MARK = 'CHANGE_USER_RECIPE_MARK';
+export const CHANGE_USER_RECIPE_COMMENT = 'CHANGE_USER_RECIPE_COMMENT';
+export const SAVE_RECIPE_ADVICE_REQUEST = 'SAVE_RECIPE_ADVICE_REQUEST';
+export const SAVE_RECIPE_ADVICE_SUCCESS = 'SAVE_RECIPE_ADVICE_SUCCESS';
+export const SAVE_RECIPE_ADVICE_FAILURE = 'SAVE_RECIPE_ADVICE_FAILURE';
 
 export const searchRecipeRequest = () => ({
   type: SEARCH_RECIPE_REQUEST,
@@ -210,15 +214,6 @@ export const updateIngredientList = listIngr => ({
   type: UPDATE_INGREDIENT_LIST,
   listIngr,
 });
-
-export const addIngredientListToList = (list) => {
-  let curList = [];
-  curList = list;
-  return ({
-    type: ADD_INGREDIENT_LIST,
-    curList,
-  });
-};
 
 export const changeTitle = title => ({
   type: CHANGE_TITLE,
@@ -372,3 +367,31 @@ export const showCreateRecipeAdviceForm = () => ({
 export const hideCreateRecipeAdviceForm = () => ({
   type: HIDE_CREATE_RECIPE_ADVICE_FORM,
 });
+
+export const changeUserRecipeMark = userRecipeMark => ({
+  type: CHANGE_USER_RECIPE_MARK,
+  userRecipeMark,
+});
+
+export const changeUserRecipeComment = userRecipeComment => ({
+  type: CHANGE_USER_RECIPE_COMMENT,
+  userRecipeComment,
+});
+
+export const saveRecipeAdviceRequest = () => ({
+  type: SAVE_RECIPE_ADVICE_REQUEST,
+});
+
+export const saveRecipeAdviceSuccess = () => {
+  Alert.alert('Merci', 'Votre avis va aider la communauté à se faire une idée de la qualité de la recette proposée. Merci !');
+  return {
+    type: SAVE_RECIPE_ADVICE_SUCCESS,
+  };
+};
+
+export const saveRecipeAdviceFailure = () => {
+  Alert.alert('Erreur', 'Une erreur s\'est produite pendant l\'enregistrement de votre avis');
+  return {
+    type: SAVE_RECIPE_ADVICE_FAILURE,
+  };
+};

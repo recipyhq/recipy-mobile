@@ -16,7 +16,7 @@ import RecipeListItem from '../../components/Recipe/RecipeList/RecipeListItem/Re
 import { getUserRecipeList } from '../../api/recipe';
 import Loader from '../../components/Loaders/Loader/Loader';
 import { getCurrentUser } from '../../api/user';
-import { userDefaultProfileImage } from '../../config/user';
+import { userDefaultProfileImage } from '../../config/constants';
 
 const { width } = Dimensions.get('window');
 

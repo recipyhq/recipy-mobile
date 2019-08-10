@@ -10,7 +10,8 @@ import ContainerView from '../../components/ContainerView/ContainerView';
 import colors from '../../config/colors';
 import ButtonStd from '../../components/Buttons/ButtonStd';
 import { SignOutUser } from '../../actions/user';
-import { userDefaultProfileImage } from '../../config/user';
+import { userDefaultProfileImage } from '../../config/constants';
+import Loader from '../../components/Loaders/Loader/Loader';
 
 const styles = EStyleSheet.create({
   // Header
@@ -41,6 +42,7 @@ class Account extends Component {
 
   static get propTypes() {
     return {
+      isLoading: PropTypes.bool.isRequired,
       dispatch: PropTypes.func.isRequired,
       // eslint-disable-next-line react/forbid-prop-types
       navigation: PropTypes.object.isRequired,
@@ -52,6 +54,11 @@ class Account extends Component {
         isProducer: PropTypes.boolean,
       }),
     };
+  }
+
+  get isLoading() {
+    const { isLoading } = this.props;
+    return isLoading;
   }
 
   get UserFirstName() {
@@ -158,6 +165,7 @@ class Account extends Component {
     });
     return (
       <ContainerView>
+        <Loader isLoading={this.isLoading} />
         <View style={styles.header}>
           <View style={{ flex: 5, flexDirection: 'row' }}>
             <View style={{ flex: 3 }}>
@@ -242,6 +250,7 @@ class Account extends Component {
 
     return (
       <ContainerView>
+        <Loader isLoading={this.isLoading} />
         <View style={styles.header}>
           <View style={{ flex: 5, flexDirection: 'row' }}>
             <View style={{ flex: 3 }}>

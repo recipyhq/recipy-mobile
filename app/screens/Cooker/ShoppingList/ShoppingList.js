@@ -5,8 +5,8 @@ import {
 import { PropTypes } from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
 import SearchableDropdown from 'react-native-searchable-dropdown';
+import { Input } from 'react-native-elements';
 import colors from '../../../config/colors';
-import TextInput from '../../../components/Inputs/StdTextInput/StdTextInput';
 import ButtonStd from '../../../components/Buttons/ButtonStd';
 import ShoppingListItem from '../../../components/ShoppingList/ShoppingListItem';
 import {
@@ -67,10 +67,9 @@ class ShoppingList extends Component {
 
   handleUpdate() {
     const {
-      navigation, shoplist, dispatch, allIngredientList, resultsIngredientList,
+      navigation, shoplist, dispatch, allIngredientList,
     } = this.props;
     dispatch(updateIngredientList(allIngredientList));
-    console.log(resultsIngredientList);
     const recipe = navigation.getParam('item', 'NO-ID');
     if (recipe !== null && recipe.ingredients.length !== 0) {
       this.handleChangeTitle(recipe.title);
@@ -85,14 +84,12 @@ class ShoppingList extends Component {
       shoplist, shoplistTitle, dispatch, resultsIngredientList,
     } = this.props;
 
-    console.ignoredYellowBox = ['Warning: Failed prop type: Invalid prop `title` of type `object` supplied to `Button`, expected `string`'];
     return (
       <View style={{ backgroundColor: colors.primaryWhite, flex: 1 }}>
         <Loader isLoading={this.isLoading} />
-        <TextInput
+        <Input
           label="Titre de la liste de course"
           onChangeText={(text) => { this.handleChangeTitle(text); }}
-          value={shoplistTitle}
         />
         <View>
           <SearchableDropdown
