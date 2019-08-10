@@ -50,7 +50,7 @@ class SignIn extends Component {
           <View style={styles.buttonContainer}>
             <View style={{ flex: 1 }}>
               <ButtonStd
-                title="Créer mon compte"
+                title="Me connecter"
                 onPress={() => {
                   const { user } = this.props;
                   this.handlePressSend(user);

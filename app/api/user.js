@@ -19,6 +19,17 @@ import {
   GetCurrentUserFailure,
 } from '../actions/user';
 
+export const getCurrentUser = async (dispatch) => {
+  dispatch(GetCurrentUserRequest());
+  const userId = await SecureStore.getItemAsync('userId');
+  return axios.get(`${ApiUrl}/api/user/info?user_id=${userId}`)
+    .then((response) => {
+      dispatch(GetCurrentUserSuccess(response));
+    }).catch((error) => {
+      dispatch(GetCurrentUserFailure(error));
+    });
+};
+
 export const signInUser = (dispatch, navigation, user) => {
   dispatch(signInUserRequest());
   return axios({
@@ -31,6 +42,9 @@ export const signInUser = (dispatch, navigation, user) => {
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then((response) => {
     dispatch(signInUserSuccess(response, navigation, dispatch));
+    getCurrentUser(dispatch).then(() => {
+      navigation.goBack();
+    });
   }).catch((error) => {
     dispatch(signInUserFailure(error));
   });
@@ -107,15 +121,4 @@ export const editUser = async (dispatch, user, errorManager) => {
   }).catch((error) => {
     dispatch(editUserFailure(error, errorManager));
   });
-};
-
-export const getCurrentUser = async (dispatch) => {
-  dispatch(GetCurrentUserRequest());
-  const userId = await SecureStore.getItemAsync('userId');
-  return axios.get(`${ApiUrl}/api/user/info?user_id=${userId}`)
-    .then((response) => {
-      dispatch(GetCurrentUserSuccess(response));
-    }).catch((error) => {
-      dispatch(GetCurrentUserFailure(error));
-    });
 };

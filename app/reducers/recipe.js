@@ -18,6 +18,8 @@ import {
   UPDATE_INGREDIENT_LIST,
   SHOW_CREATE_RECIPE_ADVICE_FORM,
   HIDE_CREATE_RECIPE_ADVICE_FORM,
+  CHANGE_USER_RECIPE_MARK,
+  CHANGE_USER_RECIPE_COMMENT,
   CHANGE_LIST_MODAL_VISIBLE,
   CHANGE_LIST_MODAL_TEXT,
   CHANGE_LIST_MODAL_ITEM,
@@ -57,6 +59,7 @@ const initialState = {
   listModalText: '',
   listModalItem: null,
   isLoading: false,
+  userAdvice: null,
   isRefreshing: false,
 };
 
@@ -318,6 +321,22 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         displayRecipeAdviceModal: false,
+      };
+    case CHANGE_USER_RECIPE_MARK:
+      return {
+        ...state,
+        userAdvice: {
+          ...state.userAdvice,
+          mark: action.userRecipeMark,
+        },
+      };
+    case CHANGE_USER_RECIPE_COMMENT:
+      return {
+        ...state,
+        userAdvice: {
+          ...state.userAdvice,
+          comment: action.userRecipeComment,
+        },
       };
     case CHANGE_LIST_MODAL_VISIBLE:
       return {

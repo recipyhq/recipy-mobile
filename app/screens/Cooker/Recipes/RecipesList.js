@@ -19,6 +19,11 @@ class RecipesList extends Component {
     return isLoading;
   }
 
+  get searchQuery() {
+    const { search } = this.props;
+    return search.q;
+  }
+
   static get defaultProps() {
     return {
       resultsList: [],
@@ -67,8 +72,8 @@ class RecipesList extends Component {
             search.q = '';
           }}
           placeholder="Rechercher une recette, ingrédient ..."
-          value={this.props.search.q}
-          showLoading={this.props.isLoading}
+          value={this.searchQuery}
+          showLoading={this.isLoading}
           lightTheme
           round
         />

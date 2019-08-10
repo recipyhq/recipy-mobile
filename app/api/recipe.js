@@ -23,17 +23,24 @@ import {
   createShoppingListFailure,
   deleteShoppingListRequest,
   deleteShoppingListSuccess,
-  deleteShoppingListFailure, searchIngredientRequest,
-  searchIngredientSuccess, searchIngredientFailure,
-  getProfileRecipesRequest, getProfileRecipesSuccess, getProfileRecipesFailure,
-  updateShoppingListRequest, updateShoppingListSuccess, updateShoppingListFailure,
-  updateCheckboxRequest, updateCheckboxSuccess, updateCheckboxFailure,
+  deleteShoppingListFailure,
+  searchIngredientRequest,
+  searchIngredientSuccess,
+  searchIngredientFailure,
+  getProfileRecipesRequest,
+  getProfileRecipesSuccess,
+  getProfileRecipesFailure,
+  updateShoppingListRequest,
+  updateShoppingListSuccess,
+  updateShoppingListFailure,
+  updateCheckboxRequest,
+  updateCheckboxSuccess,
+  updateCheckboxFailure,
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
 
 export const searchForRecipe = (dispatch, search) => {
   dispatch(searchRecipeRequest());
-  console.log('search recipe :', search.q);
   const headers = { 'Content-Type': 'application/json' };
   return axios.get(
     `${ApiUrl}/api/search/`,
@@ -235,5 +242,22 @@ export const deleteShoppingList = (dispatch, id, navigation) => {
     getAllShoppingList(dispatch);
   }).catch((error) => {
     dispatch(deleteShoppingListFailure(error));
+  });
+};
+
+export const saveRecipeAdvice = async (dispatch, userAdvice) => {
+  dispatch(saveRecipeAdviceRequest());
+  return axios({
+    method: 'post',
+    url: `${ApiUrl}/api/recipes/mark`, // need to be changed
+    data: {
+      mark: userAdvice.mark,
+      comment: userAdvice.comment,
+    },
+    config: { headers: { 'Content-Type': 'application/json' } },
+  }).then(() => {
+    dispatch(saveRecipeAdviceSuccess());
+  }).catch((error) => {
+    dispatch(saveRecipeAdviceFailure(error));
   });
 };

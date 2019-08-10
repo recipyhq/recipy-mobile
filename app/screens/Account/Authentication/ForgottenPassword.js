@@ -22,7 +22,6 @@ class ForgottenPassword extends Component {
       // eslint-disable-next-line react/forbid-prop-types
       user: PropTypes.object.isRequired,
       // eslint-disable-next-line react/forbid-prop-types
-      navigation: PropTypes.object.isRequired,
       isLoading: PropTypes.bool,
     };
   }

@@ -34,7 +34,7 @@ class RecipeAdviceItem extends Component {
           </TouchableWithoutFeedback>
         </View>
         <View style={styles.adviceContentContainer}>
-          <Text style={styles.authorName}>{data.author.first_name}</Text>
+          <Text style={styles.authorName}>{data.author.firstName}</Text>
           <Text style={styles.adviceDate}>{data.message.date}</Text>
           <Text style={styles.adviceText}>{data.message.content}</Text>
         </View>
