@@ -1,9 +1,12 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Image, View, ScrollView } from 'react-native';
+import {
+  Image, View, ScrollView, Text,
+} from 'react-native';
 import { PropTypes } from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { Input } from 'react-native-elements';
 import TextInput from '../../components/Inputs/StdTextInput/StdTextInput';
 import {
   changeCurrentPassword, changeEmail, changePassword, changePasswordConfirmation,
@@ -12,25 +15,27 @@ import colors from '../../config/colors';
 import ButtonStd from '../../components/Buttons/ButtonStd';
 import { editUser } from '../../api/user';
 import Loader from '../../components/Loaders/Loader/Loader';
+import { userDefaultProfileImage } from '../../config/user';
+import ContainerView from '../../components/ContainerView/ContainerView';
 
 const styles = EStyleSheet.create({
-  // Back Button
-  btnBack: {
-    marginTop: 15,
-    width: 110,
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.primaryOrange,
+    marginBottom: 20,
   },
-
-  // Button Container
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    marginBottom: 30,
+  container: {
+    margin: 30,
   },
-
   btnSendForm: {
-    padding: 15,
     backgroundColor: colors.primaryGrey,
+    padding: 15,
+    marginTop: 20,
+  },
+  profilePicture: {
+    width: 130,
+    height: 130,
   },
 });
 
@@ -48,9 +53,9 @@ class ProfileEdit extends Component {
     return isLoading;
   }
 
-  handlePressBack() {
-    const { navigation } = this.props;
-    navigation.navigate('Settings');
+  get UserProfileImage() {
+    const { currentUser } = this.props;
+    return (currentUser && currentUser.url) ? currentUser.url : userDefaultProfileImage;
   }
 
   handleChangeEmail(text) {
@@ -80,75 +85,37 @@ class ProfileEdit extends Component {
 
   render() {
     return (
-      <ScrollView style={{ backgroundColor: colors.lightGrey }}>
+      <ContainerView>
         <Loader isLoading={this.isLoading} />
-        <ButtonStd
-          onPress={() => (this.handlePressBack())}
-          title="Retour"
-          leftIcon={{
-            name: 'arrow-left',
-            color: colors.primaryGrey,
-            size: 15,
-            type: 'font-awesome',
-          }}
-          buttonStyle={styles.btnBack}
-          transparent
-          color={colors.primaryGrey}
-          fontSize={20}
-        />
-        <View style={{ alignItems: 'center' }}>
+        <View style={styles.container}>
           <Image
-            source={{ uri: 'https://facebook.github.io/react/logo-og.png' }}
-            style={{ width: 150, height: 150 }}
+            source={{ uri: this.UserProfileImage }}
+            style={styles.profilePicture}
             borderRadius={100}
           />
-        </View>
-        <ScrollView style={{ padding: 30 }}>
-          <TextInput
-            label="Nouvel email"
-            value={this.props.user.email}
-            onChangeText={(text) => { this.handleChangeEmail(text); }}
-            keyboardType="email-address"
-            error={this.props.errorManager.email}
-          />
-          <TextInput
-            label="Nouveau mot de passe"
-            value={this.props.user.password}
-            onChangeText={(text) => { this.handleChangePassword(text); }}
-            secureTextEntry
-            error={this.props.errorManager.password}
-          />
-          <TextInput
-            label="Confirmation du nouveau mot de passe"
-            value={this.props.user.password_confirmation}
-            onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }}
-            secureTextEntry
-            error={this.props.errorManager.password_confirmation}
-          />
-          <TextInput
-            label="Mot de passe actuel*"
-            value={this.props.user.current_password}
-            onChangeText={(text) => { this.handleChangeCurrentPassword(text); }}
-            secureTextEntry
-            error={this.props.errorManager.current_password}
-          />
-        </ScrollView>
-        <View style={styles.buttonContainer}>
-          <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
-            <ButtonStd
-              title="Editer"
-              onPress={() => {
-                const { user } = this.props;
-                this.handlePressSend(user, this.props.errorManager);
-              }}
-              buttonStyle={styles.btnSendForm}
-              borderRadius={30}
-              fontSize={20}
-              color={colors.primaryWhite}
-            />
+          <Input label="Prénom" value={this.props.user.first_name} onChangeText={(text) => { this.handleChangeFirstName(text); }} placeholder={this.props.currentUser.first_name} />
+          <Input label="Nom" value={this.props.user.last_name} onChangeText={(text) => { this.handleChangeLastName(text); }} placeholder={this.props.currentUser.last_name} />
+          <Input label="Courriel" value={this.props.user.email} onChangeText={(text) => { this.handleChangeEmail(text); }} keyboardType="email-address" placeholder={this.props.currentUser.email} />
+          <Input label="Mot de passe" value={this.props.user.password} onChangeText={(text) => { this.handleChangePassword(text); }} secureTextEntry placeholder="**********" />
+          <Input label="Confirmation de mot de passe" value={this.props.user.password_confirmation} onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }} secureTextEntry placeholder="**********" />
+          <Input label="Mot de passe actuel *" value={this.props.user.current_password} onChangeText={(text) => { this.handleChangeCurrentPassword(text); }} secureTextEntry />
+          <View style={styles.buttonContainer}>
+            <View style={{ flex: 1 }}>
+              <ButtonStd
+                title="Modifier mon profil"
+                onPress={() => {
+                  const { user } = this.props;
+                  this.handlePressSend(user);
+                }}
+                buttonStyle={styles.btnSendForm}
+                borderRadius={30}
+                fontSize={20}
+                color={colors.primaryWhite}
+              />
+            </View>
           </View>
         </View>
-      </ScrollView>
+      </ContainerView>
     );
   }
 }
@@ -161,6 +128,7 @@ function mapStateToProps(state) {
       password_confirmation: state.user.password_confirmation,
       current_password: state.user.current_password,
     },
+    currentUser: state.user.currentUser,
     isLoading: state.user.isLoading,
   };
 }
@@ -170,6 +138,8 @@ ProfileEdit.propTypes = {
   dispatch: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  currentUser: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.any.isRequired,
   // eslint-disable-next-line react/forbid-prop-types

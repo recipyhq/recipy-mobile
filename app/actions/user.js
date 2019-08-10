@@ -1,5 +1,6 @@
 import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import { Alert } from 'react-native';
+import { getCurrentUser } from '../api/user';
 
 export const CHANGE_LAST_NAME = 'CHANGE_LAST_NAME';
 export const CHANGE_FIRST_NAME = 'CHANGE_FIRST_NAME';
@@ -52,17 +53,18 @@ export const refreshAuthCredentials = (headers) => {
   }
 };
 
-export const signInUserSuccess = (response, navigation) => {
+export const signInUserSuccess = (response, navigation, dispatch) => {
   refreshAuthCredentials(response.headers);
   SecureStore.setItemAsync('userId', response.data.data.id.toString());
-  // Redirect to the Cooker home
-  navigation.goBack();
+  getCurrentUser(dispatch).then(() => {
+    navigation.goBack();
+  });
   return ({
     currentUser: {
       id: response.data.data.id,
       email: response.data.data.email,
-      firstname: response.data.data.first_name,
-      lastname: response.data.data.last_name,
+      first_name: response.data.data.first_name,
+      last_name: response.data.data.last_name,
       liked_producers: null,
       url: null,
       followed_users: null,
@@ -235,12 +237,12 @@ export const changeEmail = email => ({
 
 export const changeFirstName = firstName => ({
   type: CHANGE_FIRST_NAME,
-  firstName,
+  first_name: firstName,
 });
 
 export const changeLastName = lastName => ({
   type: CHANGE_LAST_NAME,
-  lastName,
+  last_name: lastName,
 });
 
 export const changePassword = password => ({
@@ -285,9 +287,6 @@ export const GetCurrentUserSuccess = (response) => {
   };
 };
 
-export const GetCurrentUserFailure = (error) => {
-  console.log(error);
-  return {
-    type: GET_CURRENT_USER_FAILURE,
-  };
-};
+export const GetCurrentUserFailure = () => ({
+  type: GET_CURRENT_USER_FAILURE,
+});

@@ -34,11 +34,6 @@ class SignUp extends Component {
     return isLoading;
   }
 
-  handlePressBack() {
-    const { navigation } = this.props;
-    navigation.navigate('HomeAuth');
-  }
-
   handlePressSend(user) {
     const { dispatch, navigation } = this.props;
     signUpUser(dispatch, user, navigation);
@@ -51,7 +46,6 @@ class SignUp extends Component {
 
   handleChangeFirstName(firstName) {
     const { dispatch } = this.props;
-    console.log(firstName);
     dispatch(changeFirstName(firstName));
   }
 
@@ -85,7 +79,7 @@ class SignUp extends Component {
 
           <Input label="Prénom" onChangeText={(text) => { this.handleChangeFirstName(text); }} />
           <Input label="Nom" onChangeText={(text) => { this.handleChangeLastName(text); }} />
-          <Input label="Courriel" onChangeText={(text) => { this.handleEmailChange(text); }} keyboardType="email-address" />
+          <Input label="Courriel" onChangeText={(text) => { this.handleChangeEmail(text); }} keyboardType="email-address" />
           <Input label="Mot de passe" onChangeText={(text) => { this.handleChangePassword(text); }} secureTextEntry />
           <Input label="Confirmation de mot de passe" onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }} secureTextEntry />
           <View style={styles.buttonContainer}>
@@ -120,8 +114,8 @@ const mapStateToProps = state => ({
     password: state.user.password,
     password_confirmation: state.user.password_confirmation,
     accountType: state.user.accountType,
-    firstName: state.user.firstName,
-    lastName: state.user.lastName,
+    first_name: state.user.first_name,
+    last_name: state.user.lastName,
   },
 });
 
