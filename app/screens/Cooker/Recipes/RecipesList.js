@@ -7,11 +7,21 @@ import ContainerView from '../../../components/ContainerView/ContainerView';
 import { changeSearchQuery } from '../../../actions/recipe';
 import { searchForRecipe } from '../../../api/recipe';
 import RecipeListItem from '../../../components/Recipe/RecipeList/RecipeListItem/RecipeListItem';
+import { getCurrentUser } from '../../../api/user';
 
 class RecipesList extends Component {
+  componentDidMount() {
+    this.fetchCurrentUser();
+  }
+
   get isLoading() {
     const { isLoading } = this.props;
     return isLoading;
+  }
+
+  get searchQuery() {
+    const { search } = this.props;
+    return search.q;
   }
 
   static get defaultProps() {
@@ -30,6 +40,11 @@ class RecipesList extends Component {
       // eslint-disable-next-line react/forbid-prop-types
       resultsList: PropTypes.array,
     };
+  }
+
+  fetchCurrentUser() {
+    const { dispatch } = this.props;
+    getCurrentUser(dispatch);
   }
 
   handleChangeSearchQuery(text) {
@@ -57,8 +72,8 @@ class RecipesList extends Component {
             search.q = '';
           }}
           placeholder="Rechercher une recette, ingrédient ..."
-          value={this.props.search.q}
-          showLoading={this.props.isLoading}
+          value={this.searchQuery}
+          showLoading={this.isLoading}
           lightTheme
           round
         />

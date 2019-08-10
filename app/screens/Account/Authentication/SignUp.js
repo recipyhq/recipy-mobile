@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Dimensions, Text, View } from 'react-native';
 import connect from 'react-redux/es/connect/connect';
 import { PropTypes } from 'prop-types';
-import InputWithLabelAndIcon from '../../components/Inputs/InputWithLabelAndIcon';
-import ContainerView from '../../components/ContainerView/ContainerView';
+import { Input } from 'react-native-elements';
+import ContainerView from '../../../components/ContainerView/ContainerView';
 import {
-  changeEmail, changePassword, changePasswordConfirmation,
-} from '../../actions/user';
-import ButtonStd from '../../components/Buttons/ButtonStd';
-import BackgroundImage from '../../components/Backgrounds/BackgroundImage/BackgroundImage';
-import colors from '../../config/colors';
+  changeEmail, changeFirstName, changeLastName, changePassword, changePasswordConfirmation,
+} from '../../../actions/user';
+import ButtonStd from '../../../components/Buttons/ButtonStd';
+import colors from '../../../config/colors';
 import styles from './styles';
-import { signUpUser } from '../../api/user';
-import Loader from '../../components/Loaders/Loader/Loader';
+import { signUpUser } from '../../../api/user';
+import Logo from '../../../components/Logo/Logo';
+import Loader from '../../../components/Loaders/Loader/Loader';
 
-const backgroundImage = require('../../../assets/bg-auth.jpg');
+const imageSize = Dimensions.get('window').width / 4;
 
 class SignUp extends Component {
   static get propTypes() {
@@ -34,11 +34,6 @@ class SignUp extends Component {
     return isLoading;
   }
 
-  handlePressBack() {
-    const { navigation } = this.props;
-    navigation.navigate('HomeAuth');
-  }
-
   handlePressSend(user) {
     const { dispatch, navigation } = this.props;
     signUpUser(dispatch, user, navigation);
@@ -47,6 +42,16 @@ class SignUp extends Component {
   handleChangeEmail(email) {
     const { dispatch } = this.props;
     dispatch(changeEmail(email));
+  }
+
+  handleChangeFirstName(firstName) {
+    const { dispatch } = this.props;
+    dispatch(changeFirstName(firstName));
+  }
+
+  handleChangeLastName(lastName) {
+    const { dispatch } = this.props;
+    dispatch(changeLastName(lastName));
   }
 
   handleChangePassword(password) {
@@ -62,29 +67,23 @@ class SignUp extends Component {
   render() {
     return (
       <ContainerView>
-        <BackgroundImage image={backgroundImage}>
-          <Loader isLoading={this.isLoading} />
-          <ButtonStd
-            onPress={() => (this.handlePressBack())}
-            title="Retour"
-            leftIcon={{
-              name: 'arrow-left',
-              color: colors.primaryWhite,
-              size: 15,
-              type: 'font-awesome',
-            }}
-            buttonStyle={styles.btnBack}
-            transparent
-            color={colors.primaryWhite}
-            fontSize={20}
-          />
-          <View style={styles.containerForm}>
-            <InputWithLabelAndIcon label="Courriel" iconName="envelope" onChangeText={(text) => { this.handleChangeEmail(text); }} keyboardType="email-address" />
-            <InputWithLabelAndIcon label="Mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePassword(text); }} secureTextEntry />
-            <InputWithLabelAndIcon label="Confirmation de mot de passe" iconName="key" onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }} secureTextEntry />
-          </View>
+        <Loader isLoading={this.isLoading} />
+        <View style={styles.container}>
+          <Logo style={styles.logo} width={imageSize} height={imageSize} />
+          <Text style={styles.welcome}>
+            BIENVENUE
+          </Text>
+          <Text style={styles.title}>
+            Je suis ravi de faire votre connaissance !
+          </Text>
+
+          <Input label="Prénom" onChangeText={(text) => { this.handleChangeFirstName(text); }} />
+          <Input label="Nom" onChangeText={(text) => { this.handleChangeLastName(text); }} />
+          <Input label="Courriel" onChangeText={(text) => { this.handleChangeEmail(text); }} keyboardType="email-address" />
+          <Input label="Mot de passe" onChangeText={(text) => { this.handleChangePassword(text); }} secureTextEntry />
+          <Input label="Confirmation de mot de passe" onChangeText={(text) => { this.handleChangePasswordConfirmation(text); }} secureTextEntry />
           <View style={styles.buttonContainer}>
-            <View style={{ flex: 1, paddingLeft: 30, paddingRight: 30 }}>
+            <View style={{ flex: 1 }}>
               <ButtonStd
                 title="Créer mon compte"
                 onPress={() => {
@@ -98,7 +97,7 @@ class SignUp extends Component {
               />
             </View>
           </View>
-        </BackgroundImage>
+        </View>
       </ContainerView>
     );
   }
@@ -115,6 +114,8 @@ const mapStateToProps = state => ({
     password: state.user.password,
     password_confirmation: state.user.password_confirmation,
     accountType: state.user.accountType,
+    first_name: state.user.first_name,
+    last_name: state.user.lastName,
   },
 });
 

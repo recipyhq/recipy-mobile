@@ -86,7 +86,7 @@ class RecipeDescriptionItem extends Component {
         </View>
         <View style={style.buttonContainer}>
           <ButtonStd
-            title="Importer la liste de course"
+            title="Importer à la liste de course"
             onPress={onPress}
             buttonStyle={style.btnSendForm}
             fontSize={15}
@@ -101,7 +101,7 @@ class RecipeDescriptionItem extends Component {
         </Text>
         <SectionList
           sections={[
-            { title: 'Ingrédients', data: recipe.ingredients.map(ing => (`-${ing.quantity == null ? '' : `${ing.quantity} `} ${ing.ingredient.name}`)) },
+            { title: 'Ingrédients', data: recipe.ingredients.map(ing => (`- ${ing.quantity == null ? '' : `${ing.quantity} `} de ${ing.ingredient.name}`)) },
             { title: 'Matériel', data: recipe.utensils.map(title => `- ${title.title}`) },
           ]}
           renderItem={({ item }) => <Text style={style.sectionText}>{item}</Text>}
@@ -134,8 +134,8 @@ class RecipeDescriptionItem extends Component {
             navigation={navigation}
             data={{
               author: {
-                firstName: 'Guillaume',
-                lastName: 'CAUCHOIS',
+                first_name: 'Guillaume',
+                last_name: 'CAUCHOIS',
                 image: 'https://facebook.github.io/react/logo-og.png',
               },
               message: {
@@ -148,8 +148,8 @@ class RecipeDescriptionItem extends Component {
             navigation={navigation}
             data={{
               author: {
-                firstName: 'Guillaume',
-                lastName: 'CAUCHOIS',
+                first_name: 'Guillaume',
+                last_name: 'CAUCHOIS',
                 image: 'https://facebook.github.io/react/logo-og.png',
               },
               message: {
@@ -162,8 +162,8 @@ class RecipeDescriptionItem extends Component {
             navigation={navigation}
             data={{
               author: {
-                firstName: 'Guillaume',
-                lastName: 'CAUCHOIS',
+                first_name: 'Guillaume',
+                last_name: 'CAUCHOIS',
                 image: 'https://facebook.github.io/react/logo-og.png',
               },
               message: {

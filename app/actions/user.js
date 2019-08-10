@@ -1,6 +1,8 @@
 import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import { Alert } from 'react-native';
 
+export const CHANGE_LAST_NAME = 'CHANGE_LAST_NAME';
+export const CHANGE_FIRST_NAME = 'CHANGE_FIRST_NAME';
 export const CHANGE_EMAIL = 'CHANGE_EMAIL';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const CHANGE_PASSWORD_CONFIRMATION = 'CHANGE_PASSWORD_CONFIRMATION';
@@ -50,12 +52,21 @@ export const refreshAuthCredentials = (headers) => {
   }
 };
 
-export const signInUserSuccess = (response, navigation) => {
+export const signInUserSuccess = (response) => {
   refreshAuthCredentials(response.headers);
   SecureStore.setItemAsync('userId', response.data.data.id.toString());
-  // Redirect to the Cooker home
-  navigation.navigate('Cooker');
-  return ({ type: SIGN_IN_USER_SUCCESS });
+  return ({
+    currentUser: {
+      id: response.data.data.id,
+      email: response.data.data.email,
+      first_name: response.data.data.first_name,
+      last_name: response.data.data.last_name,
+      liked_producers: null,
+      url: null,
+      followed_users: null,
+    },
+    type: SIGN_IN_USER_SUCCESS,
+  });
 };
 
 export const signInUserFailure = () => {
@@ -100,7 +111,7 @@ export const signUpUserFailure = (error) => {
   const { response } = error;
   Alert.alert(
     'Inscription échouée',
-    response.statusText,
+    response.data.errors.full_messages[0],
     [
       { text: 'OK' },
     ],
@@ -220,6 +231,16 @@ export const changeEmail = email => ({
   email,
 });
 
+export const changeFirstName = firstName => ({
+  type: CHANGE_FIRST_NAME,
+  first_name: firstName,
+});
+
+export const changeLastName = lastName => ({
+  type: CHANGE_LAST_NAME,
+  last_name: lastName,
+});
+
 export const changePassword = password => ({
   type: CHANGE_PASSWORD,
   password,
@@ -236,10 +257,15 @@ export const changeCurrentPassword = currentPassword => ({
 });
 
 export const SignOutUser = (navigation) => {
-  SecureStore.deleteItemAsync('access-token');
-  SecureStore.deleteItemAsync('client');
-  SecureStore.deleteItemAsync('uid');
-  navigation.navigate('NavigatorAuth');
+  SecureStore.deleteItemAsync('userId').then(() => {
+    SecureStore.deleteItemAsync('access-token').then(() => {
+      SecureStore.deleteItemAsync('client').then(() => {
+        SecureStore.deleteItemAsync('uid').then(() => {
+          navigation.navigate('Cooker');
+        });
+      });
+    });
+  });
   return {
     type: SIGN_OUT_USER,
   };
@@ -257,9 +283,6 @@ export const GetCurrentUserSuccess = (response) => {
   };
 };
 
-export const GetCurrentUserFailure = (error) => {
-  console.log(error);
-  return {
-    type: GET_CURRENT_USER_FAILURE,
-  };
-};
+export const GetCurrentUserFailure = () => ({
+  type: GET_CURRENT_USER_FAILURE,
+});

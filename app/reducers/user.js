@@ -18,10 +18,12 @@ import {
   SIGN_OUT_USER,
   GET_CURRENT_USER_REQUEST,
   GET_CURRENT_USER_FAILURE,
-  GET_CURRENT_USER_SUCCESS,
+  GET_CURRENT_USER_SUCCESS, CHANGE_FIRST_NAME, CHANGE_LAST_NAME,
 } from '../actions/user';
 
 const initialState = {
+  first_name: '',
+  last_name: '',
   email: '',
   password: '',
   password_confirmation: '',
@@ -32,6 +34,16 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case CHANGE_FIRST_NAME:
+      return {
+        ...state,
+        first_name: action.first_name || '',
+      };
+    case CHANGE_LAST_NAME:
+      return {
+        ...state,
+        last_name: action.last_name || '',
+      };
     case CHANGE_EMAIL:
       return {
         ...state,
@@ -61,6 +73,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        currentUser: action.currentUser,
       };
     case SIGN_IN_USER_FAILURE:
       return {

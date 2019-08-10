@@ -13,8 +13,22 @@ import {
   signUpUserSuccess,
   editUserRequest,
   editUserSuccess,
-  editUserFailure, GetCurrentUserRequest, GetCurrentUserSuccess, GetCurrentUserFailure,
+  editUserFailure,
+  GetCurrentUserRequest,
+  GetCurrentUserSuccess,
+  GetCurrentUserFailure,
 } from '../actions/user';
+
+export const getCurrentUser = async (dispatch) => {
+  dispatch(GetCurrentUserRequest());
+  const userId = await SecureStore.getItemAsync('userId');
+  return axios.get(`${ApiUrl}/api/user/info?user_id=${userId}`)
+    .then((response) => {
+      dispatch(GetCurrentUserSuccess(response));
+    }).catch((error) => {
+      dispatch(GetCurrentUserFailure(error));
+    });
+};
 
 export const signInUser = (dispatch, navigation, user) => {
   dispatch(signInUserRequest());
@@ -27,7 +41,10 @@ export const signInUser = (dispatch, navigation, user) => {
     },
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then((response) => {
-    dispatch(signInUserSuccess(response, navigation));
+    dispatch(signInUserSuccess(response, navigation, dispatch));
+    getCurrentUser(dispatch).then(() => {
+      navigation.goBack();
+    });
   }).catch((error) => {
     dispatch(signInUserFailure(error));
   });
@@ -39,6 +56,8 @@ export const signUpUser = (dispatch, user) => {
     method: 'post',
     url: `${ApiUrl}/api/users`,
     data: {
+      first_name: user.first_name,
+      last_name: user.last_name,
       email: user.email,
       password: user.password,
       password_confirmation: user.password_confirmation,
@@ -102,15 +121,4 @@ export const editUser = async (dispatch, user, errorManager) => {
   }).catch((error) => {
     dispatch(editUserFailure(error, errorManager));
   });
-};
-
-export const getCurrentUser = async (dispatch) => {
-  dispatch(GetCurrentUserRequest());
-  const userId = await SecureStore.getItemAsync('userId');
-  return axios.get(`${ApiUrl}/api/user?user_id=${userId}`)
-    .then((response) => {
-      dispatch(GetCurrentUserSuccess(response));
-    }).catch((error) => {
-      dispatch(GetCurrentUserFailure(error));
-    });
 };

@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome';
-import styles from '../../screens/Authentication/styles';
+import styles from '../../screens/Account/Authentication/styles';
 import style from '../Style/style';
 import { deleteIngredient } from '../../actions/recipe';
 import colors from '../../config/colors';

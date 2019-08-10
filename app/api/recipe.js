@@ -23,9 +23,15 @@ import {
   createShoppingListFailure,
   deleteShoppingListRequest,
   deleteShoppingListSuccess,
-  deleteShoppingListFailure, searchIngredientRequest,
-  searchIngredientSuccess, searchIngredientFailure,
-  getProfileRecipesRequest, getProfileRecipesSuccess, getProfileRecipesFailure,
+  deleteShoppingListFailure,
+  searchIngredientRequest,
+  searchIngredientSuccess,
+  searchIngredientFailure,
+  getProfileRecipesRequest,
+  getProfileRecipesSuccess,
+  getProfileRecipesFailure,
+  saveRecipeAdviceRequest,
+  saveRecipeAdviceSuccess, saveRecipeAdviceFailure,
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
 
@@ -39,9 +45,6 @@ export const searchForRecipe = (dispatch, search) => {
       params: {
         search: {
           q: search.q || undefined,
-          ingredients: search.ingredients || undefined,
-          time: search.time || undefined,
-          difficulty: search.difficulty || undefined,
         },
       },
       paramsSerializer(params) {
@@ -193,5 +196,22 @@ export const deleteShoppingList = (dispatch, id, navigation) => {
     getAllShoppingList(dispatch);
   }).catch((error) => {
     dispatch(deleteShoppingListFailure(error));
+  });
+};
+
+export const saveRecipeAdvice = async (dispatch, userAdvice) => {
+  dispatch(saveRecipeAdviceRequest());
+  return axios({
+    method: 'post',
+    url: `${ApiUrl}/api/recipes/mark`, // need to be changed
+    data: {
+      mark: userAdvice.mark,
+      comment: userAdvice.comment,
+    },
+    config: { headers: { 'Content-Type': 'application/json' } },
+  }).then(() => {
+    dispatch(saveRecipeAdviceSuccess());
+  }).catch((error) => {
+    dispatch(saveRecipeAdviceFailure(error));
   });
 };

@@ -4,8 +4,8 @@ import {
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
+import { Input } from 'react-native-elements';
 import colors from '../../../config/colors';
-import TextInput from '../../../components/Inputs/StdTextInput/StdTextInput';
 import ButtonStd from '../../../components/Buttons/ButtonStd';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import style from '../../../components/Style/style';
@@ -38,15 +38,13 @@ class CreateRecipeBook extends Component {
     return (
       <View style={{ backgroundColor: colors.primaryWhite, flex: 1 }}>
         <Loader isLoading={this.isLoading} />
-        <TextInput
+        <Input
           label="Titre du carnet de recette"
           onChangeText={(text) => { this.handleChangeTitle(text); }}
-          value={recipeBookTitleCreation}
         />
-        <TextInput
+        <Input
           label="Description"
           onChangeText={(text) => { this.handleChangeDescription(text); }}
-          value={recipeBookDescriptionCreation}
         />
         <View style={style.buttonContainer}>
           <ButtonStd

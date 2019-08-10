@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --single-quote --write \"*.js\"",
-    "format-code": "yarn run prettier && yarn run lint:fix"
+    "format-code": "yarn run prettier && yarn run lint:fix",
+    "build:android": "expo build:android",
+    "build:ios":  "expo build:ios"
   },
   "jest": {
     "preset": "react-native"
