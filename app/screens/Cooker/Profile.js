@@ -16,6 +16,7 @@ import RecipeListItem from '../../components/Recipe/RecipeList/RecipeListItem/Re
 import { getUserRecipeList } from '../../api/recipe';
 import Loader from '../../components/Loaders/Loader/Loader';
 import { getCurrentUser } from '../../api/user';
+import { userDefaultProfileImage } from '../../config/user';
 
 const { width } = Dimensions.get('window');
 
@@ -87,14 +88,13 @@ class Profile extends Component {
 
   get UserFirstName() {
     const { currentUser } = this.props;
-    if (currentUser) return currentUser.firstname;
+    if (currentUser) return currentUser.first_name;
     return null;
   }
 
   get UserProfileImage() {
     const { currentUser } = this.props;
-    if (currentUser) return currentUser.url;
-    return null;
+    return (currentUser && currentUser.url) ? currentUser.url : userDefaultProfileImage;
   }
 
   static get defaultProps() {
@@ -114,8 +114,8 @@ class Profile extends Component {
       profileRecipesErrorText: PropTypes.string.isRequired,
       currentUser: PropTypes.shape({
         email: PropTypes.string,
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
+        first_name: PropTypes.string,
+        last_name: PropTypes.string,
         url: PropTypes.string,
       }),
     };

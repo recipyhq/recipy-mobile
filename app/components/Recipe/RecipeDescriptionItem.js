@@ -134,8 +134,8 @@ class RecipeDescriptionItem extends Component {
             navigation={navigation}
             data={{
               author: {
-                firstName: 'Guillaume',
-                lastName: 'CAUCHOIS',
+                first_name: 'Guillaume',
+                last_name: 'CAUCHOIS',
                 image: 'https://facebook.github.io/react/logo-og.png',
               },
               message: {
@@ -148,8 +148,8 @@ class RecipeDescriptionItem extends Component {
             navigation={navigation}
             data={{
               author: {
-                firstName: 'Guillaume',
-                lastName: 'CAUCHOIS',
+                first_name: 'Guillaume',
+                last_name: 'CAUCHOIS',
                 image: 'https://facebook.github.io/react/logo-og.png',
               },
               message: {
@@ -162,8 +162,8 @@ class RecipeDescriptionItem extends Component {
             navigation={navigation}
             data={{
               author: {
-                firstName: 'Guillaume',
-                lastName: 'CAUCHOIS',
+                first_name: 'Guillaume',
+                last_name: 'CAUCHOIS',
                 image: 'https://facebook.github.io/react/logo-og.png',
               },
               message: {

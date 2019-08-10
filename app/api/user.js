@@ -13,7 +13,10 @@ import {
   signUpUserSuccess,
   editUserRequest,
   editUserSuccess,
-  editUserFailure, GetCurrentUserRequest, GetCurrentUserSuccess, GetCurrentUserFailure,
+  editUserFailure,
+  GetCurrentUserRequest,
+  GetCurrentUserSuccess,
+  GetCurrentUserFailure,
 } from '../actions/user';
 
 export const signInUser = (dispatch, navigation, user) => {
@@ -27,7 +30,7 @@ export const signInUser = (dispatch, navigation, user) => {
     },
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then((response) => {
-    dispatch(signInUserSuccess(response, navigation));
+    dispatch(signInUserSuccess(response, navigation, dispatch));
   }).catch((error) => {
     dispatch(signInUserFailure(error));
   });
@@ -39,8 +42,8 @@ export const signUpUser = (dispatch, user) => {
     method: 'post',
     url: `${ApiUrl}/api/users`,
     data: {
-      first_name: user.firstname,
-      last_name: user.lastname,
+      first_name: user.first_name,
+      last_name: user.last_name,
       email: user.email,
       password: user.password,
       password_confirmation: user.password_confirmation,

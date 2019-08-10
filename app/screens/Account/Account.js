@@ -6,12 +6,10 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ListItem } from 'react-native-elements';
-import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import colors from '../../config/colors';
 import ButtonStd from '../../components/Buttons/ButtonStd';
 import { SignOutUser } from '../../actions/user';
-import { getCurrentUser } from '../../api/user';
 import { userDefaultProfileImage } from '../../config/user';
 
 const styles = EStyleSheet.create({
@@ -48,23 +46,23 @@ class Account extends Component {
       navigation: PropTypes.object.isRequired,
       currentUser: PropTypes.shape({
         email: PropTypes.string,
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
+        first_name: PropTypes.string,
+        last_name: PropTypes.string,
         url: PropTypes.string,
+        isProducer: PropTypes.boolean,
       }),
     };
   }
 
   get UserFirstName() {
     const { currentUser } = this.props;
-    if (currentUser) return currentUser.firstname;
+    if (currentUser) return currentUser.first_name;
     return null;
   }
 
   get UserProfileImage() {
     const { currentUser } = this.props;
-    if (currentUser) return currentUser.url;
-    return userDefaultProfileImage;
+    return (currentUser && currentUser.url) ? currentUser.url : userDefaultProfileImage;
   }
 
   handlePressForgottenPassword() {
@@ -118,44 +116,46 @@ class Account extends Component {
   }
 
   renderWhenLoggedIn() {
-    const SettingsItem = [
-      {
-        title: 'Mon profil',
-        subtitle: 'Visualiser mon profil public',
-        icon: 'id-card',
-        onPress: () => this.handleShowPublicProfile(),
-      },
-      {
+    const { currentUser } = this.props;
+    const SettingsItem = [];
+    SettingsItem.push({
+      title: 'Mon profil',
+      subtitle: 'Visualiser mon profil public',
+      icon: 'id-card',
+      onPress: () => this.handleShowPublicProfile(),
+    });
+    if (currentUser.isProducer === true) {
+      SettingsItem.push({
         title: 'Espace producteur',
         subtitle: 'Accéder à mon espace producteur',
         icon: 'bell',
         onPress: () => this.handleShowProducerProfile(),
-      },
-      {
-        title: 'Mes recettes',
-        subtitle: 'Accéder à mes recettes',
-        icon: 'book',
-        onPress: () => this.handlePressMyRecipes(),
-      },
-      {
-        title: 'Mes carnets de recettes',
-        subtitle: 'Accéder à l\'ensemble de vos recettes enregistrée par thème',
-        icon: 'book',
-        onPress: () => this.handlePressRecipeBook(),
-      },
-      {
-        title: 'Mes listes de courses',
-        subtitle: 'Prévoyez à l\'avance vos prochaines courses',
-        icon: 'list-alt',
-        onPress: () => this.handlePressShoppingList(),
-      },
-      {
-        title: 'Déconnexion',
-        subtitle: 'Vous souhaitez vous déconnecter ?',
-        icon: 'sign-out',
-        onPress: () => this.handlePressSignOut(),
-      },
-    ];
+      });
+    }
+    SettingsItem.push({
+      title: 'Mes recettes',
+      subtitle: 'Accéder à mes recettes',
+      icon: 'book',
+      onPress: () => this.handlePressMyRecipes(),
+    });
+    SettingsItem.push({
+      title: 'Mes carnets de recettes',
+      subtitle: 'Accéder à l\'ensemble de vos recettes enregistrée par thème',
+      icon: 'book',
+      onPress: () => this.handlePressRecipeBook(),
+    });
+    SettingsItem.push({
+      title: 'Mes listes de courses',
+      subtitle: 'Prévoyez à l\'avance vos prochaines courses',
+      icon: 'list-alt',
+      onPress: () => this.handlePressShoppingList(),
+    });
+    SettingsItem.push({
+      title: 'Déconnexion',
+      subtitle: 'Vous souhaitez vous déconnecter ?',
+      icon: 'sign-out',
+      onPress: () => this.handlePressSignOut(),
+    });
     return (
       <ContainerView>
         <View style={styles.header}>
@@ -179,7 +179,7 @@ class Account extends Component {
             <View style={{ flex: 2, alignItems: 'center' }}>
               <Image
                 source={{ uri: this.UserProfileImage }}
-                style={{ width: 80, height: 80 }}
+                style={{ width: 110, height: 110 }}
                 borderRadius={100}
               />
             </View>
@@ -255,7 +255,7 @@ class Account extends Component {
             <View style={{ flex: 2, alignItems: 'center' }}>
               <Image
                 source={{ uri: this.UserProfileImage }}
-                style={{ width: 80, height: 80 }}
+                style={{ width: 110, height: 110 }}
                 borderRadius={100}
               />
             </View>
@@ -290,7 +290,6 @@ class Account extends Component {
 
   render() {
     const { currentUser } = this.props;
-    console.log(currentUser);
     return (currentUser !== null) ? this.renderWhenLoggedIn() : this.renderWhenNotLoggedIn();
   }
 }

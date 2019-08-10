@@ -22,8 +22,8 @@ import {
 } from '../actions/user';
 
 const initialState = {
-  firstName: '',
-  lastName: '',
+  first_name: '',
+  last_name: '',
   email: '',
   password: '',
   password_confirmation: '',
@@ -37,12 +37,12 @@ const reducer = (state = initialState, action) => {
     case CHANGE_FIRST_NAME:
       return {
         ...state,
-        firstName: action.firstName || '',
+        first_name: action.first_name || '',
       };
     case CHANGE_LAST_NAME:
       return {
         ...state,
-        lastName: action.lastName || '',
+        last_name: action.last_name || '',
       };
     case CHANGE_EMAIL:
       return {
