@@ -16,12 +16,16 @@ class RecipeAdviceFormModal extends Component {
         mark: PropTypes.number,
         comment: PropTypes.string,
       }),
+      currentRecipe: PropTypes.shape({
+        id: PropTypes.number,
+      }),
     };
   }
 
   static get defaultProps() {
     return {
       userAdvice: null,
+      currentRecipe: null,
     };
   }
 
@@ -36,8 +40,8 @@ class RecipeAdviceFormModal extends Component {
   }
 
   handlePressSend() {
-    const { dispatch, userAdvice } = this.props;
-    saveRecipeAdvice(dispatch, userAdvice);
+    const { dispatch, currentRecipe, userAdvice } = this.props;
+    saveRecipeAdvice(dispatch, currentRecipe, userAdvice);
   }
 
   render() {
@@ -59,7 +63,7 @@ class RecipeAdviceFormModal extends Component {
               this.handleChangeComment(comment);
             }}
           />
-          <ButtonStd title="Enregistrer mon avis" onPress={() => {}} />
+          <ButtonStd title="Enregistrer mon avis" onPress={() => { this.handlePressSend(); }} />
         </View>
       </View>
     );
@@ -68,7 +72,8 @@ class RecipeAdviceFormModal extends Component {
 
 function mapStateToProps(state) {
   return {
-    userAdvice: state.userAdvice,
+    userAdvice: state.recipe.userAdvice,
+    currentRecipe: state.recipe.currentRecipe,
   };
 }
 

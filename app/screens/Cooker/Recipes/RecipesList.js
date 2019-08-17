@@ -12,6 +12,7 @@ import { getCurrentUser } from '../../../api/user';
 class RecipesList extends Component {
   componentDidMount() {
     this.fetchCurrentUser();
+    this.handlePressSearchButton({ q: '' });
   }
 
   get isLoading() {

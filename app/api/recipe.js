@@ -35,9 +35,18 @@ import {
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
 
-export const searchForRecipe = (dispatch, search) => {
+export const searchForRecipe = async (dispatch, search) => {
   dispatch(searchRecipeRequest());
-  const headers = { 'Content-Type': 'application/json' };
+  const accessToken = await SecureStore.getItemAsync('access-token');
+  const client = await SecureStore.getItemAsync('client');
+  const uid = await SecureStore.getItemAsync('uid');
+  const headers = {
+    'Content-Type': 'application/json',
+    uid,
+    'token-type': 'Bearer',
+    'access-token': accessToken,
+    client,
+  };
   return axios.get(
     `${ApiUrl}/api/search/`,
     {
@@ -199,18 +208,19 @@ export const deleteShoppingList = (dispatch, id, navigation) => {
   });
 };
 
-export const saveRecipeAdvice = async (dispatch, userAdvice) => {
+export const saveRecipeAdvice = async (dispatch, currentRecipe, userAdvice) => {
   dispatch(saveRecipeAdviceRequest());
+  console.log('currentRecipe : ', currentRecipe);
   return axios({
     method: 'post',
-    url: `${ApiUrl}/api/recipes/mark`, // need to be changed
+    url: `${ApiUrl}/api/recipes/${currentRecipe.id}/feedback`,
     data: {
       mark: userAdvice.mark,
       comment: userAdvice.comment,
     },
     config: { headers: { 'Content-Type': 'application/json' } },
-  }).then(() => {
-    dispatch(saveRecipeAdviceSuccess());
+  }).then((response) => {
+    dispatch(saveRecipeAdviceSuccess(response));
   }).catch((error) => {
     dispatch(saveRecipeAdviceFailure(error));
   });

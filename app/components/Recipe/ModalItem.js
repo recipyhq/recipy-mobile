@@ -40,7 +40,7 @@ class ModalItem extends Component {
   }
 
   render() {
-    const { dropDownInfo, visible } = this.props;
+    const { dropDownInfo, visible, currentUser } = this.props;
     return (
       <View>
         <Modal
@@ -104,18 +104,21 @@ class ModalItem extends Component {
             </View>
           </View>
         </Modal>
-
-        <View style={style.buttonContainer}>
-          <ButtonStd
-            title="Ajouter à un carnet"
-            onPress={() => {
-              this.setModalVisible(true);
-            }}
-            buttonStyle={style.btnSendForm}
-            fontSize={15}
-            color={colors.primaryWhite}
-          />
-        </View>
+        {
+          currentUser && (
+            <View style={style.buttonContainer}>
+              <ButtonStd
+                title="Ajouter à un carnet"
+                onPress={() => {
+                  this.setModalVisible(true);
+                }}
+                buttonStyle={style.btnSendForm}
+                fontSize={15}
+                color={colors.primaryWhite}
+              />
+            </View>
+          )
+        }
       </View>
     );
   }
@@ -127,6 +130,7 @@ function mapStateToProps(state) {
     visible: state.recipebook.modalVisible,
     text: state.recipebook.modalText,
     item: state.recipebook.modalItem,
+    currentUser: state.user.currentUser,
   };
 }
 
@@ -134,6 +138,7 @@ ModalItem.defaultProps = {
   text: '',
   item: null,
   visible: false,
+  currentUser: null,
 };
 
 ModalItem.propTypes = {
@@ -149,6 +154,7 @@ ModalItem.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   item: PropTypes.object,
   visible: PropTypes.bool,
+  currentUser: PropTypes.shape({}),
 };
 
 export default connect(mapStateToProps)(ModalItem);

@@ -31,11 +31,7 @@ const ProfileStack = createStackNavigator(
     RecipeDescription: {
       screen: RecipeDescription,
       navigationOptions: {
-        title: 'Description de la recette',
-        headerTintColor: colors.primaryGrey,
-        headerStyle: {
-          backgroundColor: colors.primaryOrange,
-        },
+        header: null,
       },
     },
   },
@@ -67,13 +63,7 @@ const MyRecipeStack = createStackNavigator({
   },
   RecipeDescription: {
     screen: RecipeDescription,
-    navigationOptions: {
-      title: 'Description de la recette',
-      headerTintColor: colors.primaryGrey,
-      headerStyle: {
-        backgroundColor: colors.primaryOrange,
-      },
-    },
+    headerMode: 'none',
   },
   ShoppingList: {
     screen: ShoppingList,
@@ -163,11 +153,7 @@ const RecipeListStack = createStackNavigator({
   RecipeDescription: {
     screen: RecipeDescription,
     navigationOptions: {
-      title: 'Description de la recette',
-      headerTintColor: colors.primaryGrey,
-      headerStyle: {
-        backgroundColor: colors.primaryOrange,
-      },
+      header: null,
     },
   },
   ShoppingList: {

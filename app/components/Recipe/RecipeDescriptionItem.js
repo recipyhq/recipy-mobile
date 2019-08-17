@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome';
 import connect from 'react-redux/es/connect/connect';
+import Moment from 'moment';
+import * as SecureStore from 'expo/build/SecureStore/SecureStore';
 import style from './descriptionStyle';
 import colors from '../../config/colors';
 import ButtonStd from '../Buttons/ButtonStd';
@@ -26,8 +28,10 @@ class RecipeDescriptionItem extends Component {
 
   render() {
     const {
-      recipe, onPress, navigation, displayRecipeAdviceModal,
+      recipe, onPress, navigation, displayRecipeAdviceModal, currentUser,
     } = this.props;
+
+    Moment.locale('fr');
 
     return (
       <ScrollView style={{ backgroundColor: colors.primaryWhite, marginBottom: 40 }}>
@@ -84,15 +88,21 @@ class RecipeDescriptionItem extends Component {
             </Text>
           </View>
         </View>
-        <View style={style.buttonContainer}>
-          <ButtonStd
-            title="Importer à la liste de course"
-            onPress={onPress}
-            buttonStyle={style.btnSendForm}
-            fontSize={15}
-            color={colors.primaryWhite}
-          />
-        </View>
+        {
+          currentUser && (
+          <View style={style.buttonContainer}>
+
+            <ButtonStd
+              title="Importer à la liste de course"
+              onPress={onPress}
+              buttonStyle={style.btnSendForm}
+              fontSize={15}
+              color={colors.primaryWhite}
+            />
+          </View>
+          )
+          }
+
         <Text style={style.sectionTitle}>
           Description
         </Text>
@@ -101,7 +111,12 @@ class RecipeDescriptionItem extends Component {
         </Text>
         <SectionList
           sections={[
-            { title: 'Ingrédients', data: recipe.ingredients.map(ing => (`- ${ing.quantity == null ? '' : `${ing.quantity} `} de ${ing.ingredient.name}`)) },
+            {
+              title: 'Ingrédients',
+              data: recipe.ingredients.map(ing => (
+                ing.quantity == null ? `- ${ing.ingredient.name}` : `- ${ing.quantity[0]} ${ing.quantity[1].toLowerCase()} de ${ing.ingredient.name}`
+              )),
+            },
             { title: 'Matériel', data: recipe.utensils.map(title => `- ${title.title}`) },
           ]}
           renderItem={({ item }) => <Text style={style.sectionText}>{item}</Text>}
@@ -130,48 +145,32 @@ class RecipeDescriptionItem extends Component {
         }
         <View style={style.advicesContainer}>
           <Text style={style.adviceContainerTitle}>Tous les avis</Text>
-          <RecipeAdviceItem
-            navigation={navigation}
-            data={{
-              author: {
-                first_name: 'Guillaume',
-                last_name: 'CAUCHOIS',
-                image: 'https://facebook.github.io/react/logo-og.png',
-              },
-              message: {
-                content: 'Lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-                date: '10/05/2016',
-              },
-            }}
-          />
-          <RecipeAdviceItem
-            navigation={navigation}
-            data={{
-              author: {
-                first_name: 'Guillaume',
-                last_name: 'CAUCHOIS',
-                image: 'https://facebook.github.io/react/logo-og.png',
-              },
-              message: {
-                content: 'Lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-                date: '10/05/2016',
-              },
-            }}
-          />
-          <RecipeAdviceItem
-            navigation={navigation}
-            data={{
-              author: {
-                first_name: 'Guillaume',
-                last_name: 'CAUCHOIS',
-                image: 'https://facebook.github.io/react/logo-og.png',
-              },
-              message: {
-                content: 'Lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-                date: '10/05/2016',
-              },
-            }}
-          />
+          {
+            recipe.scores.length === 0
+            && (
+            <Text style={style.noAdviceText}>
+              Aucun avis pour le moment, aidez la communauté dès maintenant !
+            </Text>
+            )
+          }
+          {
+            recipe.scores.map(advice => (
+              <RecipeAdviceItem
+                key={advice.value.toString()}
+                navigation={navigation}
+                data={{
+                  author: {
+                    first_name: '',
+                    image: advice.user.avatar,
+                  },
+                  message: {
+                    content: advice.content,
+                    date: Moment(advice.updatedAt).format('DD/MM/YYYY'),
+                  },
+                }}
+              />
+            ))
+          }
           <ButtonStd
             onPress={() => this.handlePressAddAdvice()}
             title="Laisser un avis"
@@ -194,11 +193,17 @@ RecipeDescriptionItem.propTypes = {
   navigation: PropTypes.object.isRequired,
   displayRecipeAdviceModal: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
+  currentUser: PropTypes.shape({}),
+};
+
+RecipeDescriptionItem.defaultProps = {
+  currentUser: null,
 };
 
 function mapStateToProps(state) {
   return {
     displayRecipeAdviceModal: state.recipe.displayRecipeAdviceModal,
+    currentUser: state.user.currentUser,
   };
 }
 
