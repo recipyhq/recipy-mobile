@@ -210,7 +210,6 @@ export const deleteShoppingList = (dispatch, id, navigation) => {
 
 export const saveRecipeAdvice = async (dispatch, currentRecipe, userAdvice) => {
   dispatch(saveRecipeAdviceRequest());
-  console.log('currentRecipe : ', currentRecipe);
   return axios({
     method: 'post',
     url: `${ApiUrl}/api/recipes/${currentRecipe.id}/feedback`,
