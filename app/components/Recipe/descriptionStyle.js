@@ -105,6 +105,11 @@ const descriptionStyle = EStyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  noAdviceText: {
+    color: colors.primaryWhite,
+    fontSize: 15,
+    marginBottom: 10,
+  },
   btnLeaveAdvice: {
     backgroundColor: colors.primaryOrange,
   },

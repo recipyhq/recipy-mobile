@@ -12,7 +12,7 @@
     "prettier": "prettier --single-quote --write \"*.js\"",
     "format-code": "yarn run prettier && yarn run lint:fix",
     "build:android": "expo build:android",
-    "build:ios":  "expo build:ios"
+    "build:ios": "expo build:ios"
   },
   "jest": {
     "preset": "react-native"
@@ -36,7 +36,7 @@
     "expo": "^32.0.0",
     "hoist-non-react-statics": "^3.0.1",
     "jtest": "^0.0.1",
-    "moment": "^2.22.2",
+    "moment": "^2.24.0",
     "prop-types": "^15.6.2",
     "qs": "^6.6.0",
     "react": "16.5.0",

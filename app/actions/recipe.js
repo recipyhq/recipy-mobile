@@ -459,14 +459,18 @@ export const saveRecipeAdviceRequest = () => ({
   type: SAVE_RECIPE_ADVICE_REQUEST,
 });
 
-export const saveRecipeAdviceSuccess = () => {
+export const saveRecipeAdviceSuccess = (response) => {
+  refreshAuthCredentials(response.header);
   Alert.alert('Merci', 'Votre avis va aider la communauté à se faire une idée de la qualité de la recette proposée. Merci !');
   return {
     type: SAVE_RECIPE_ADVICE_SUCCESS,
   };
 };
 
-export const saveRecipeAdviceFailure = () => {
+export const saveRecipeAdviceFailure = (error) => {
+  if (error.response) {
+    refreshAuthCredentials(error.response.headers);
+  }
   Alert.alert('Erreur', 'Une erreur s\'est produite pendant l\'enregistrement de votre avis');
   return {
     type: SAVE_RECIPE_ADVICE_FAILURE,
