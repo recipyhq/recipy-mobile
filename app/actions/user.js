@@ -56,15 +56,7 @@ export const signInUserSuccess = (response) => {
   refreshAuthCredentials(response.headers);
   SecureStore.setItemAsync('userId', response.data.data.id.toString());
   return ({
-    currentUser: {
-      id: response.data.data.id,
-      email: response.data.data.email,
-      first_name: response.data.data.first_name,
-      last_name: response.data.data.last_name,
-      liked_producers: null,
-      url: null,
-      followed_users: null,
-    },
+    currentUser: response.data.data,
     type: SIGN_IN_USER_SUCCESS,
   });
 };
@@ -276,7 +268,7 @@ export const GetCurrentUserRequest = () => ({
 });
 
 export const GetCurrentUserSuccess = (response) => {
-  const currentUser = response.data;
+  const currentUser = response.data.data;
   return {
     type: GET_CURRENT_USER_SUCCESS,
     currentUser,
