@@ -63,7 +63,10 @@ class Account extends Component {
 
   get UserFirstName() {
     const { currentUser } = this.props;
-    if (currentUser) return currentUser.first_name;
+    console.log('------------');
+    console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------'); console.log('------------');
+    console.log('USER FIRSTNAME : ', currentUser);
+    if (currentUser && currentUser.first_name) return currentUser.first_name;
     return null;
   }
 
