@@ -24,14 +24,16 @@ class ExistingListModal extends Component {
       item = allShopListItems.find(x => x.name.toLowerCase() === text.toLowerCase());
     }
     const uItem = [];
-    item.ingredients.map(ing => uItem.push(ing.ingredient.id));
-    currentRecipe.ingredients.map(ing => (uItem.includes(ing.ingredient.id) ? console.log('') : uItem.push(ing.ingredient.id)));
-    updateShoppingList(dispatch, uItem, item.id.toString(), navigation);
+    if (item != null) {
+      item.ingredients.map(ing => uItem.push(ing.ingredient.id));
+      currentRecipe.ingredients.map(ing => (uItem.includes(ing.ingredient.id) ? console.log('') : uItem.push(ing.ingredient.id)));
+      updateShoppingList(dispatch, uItem, item.id.toString(), navigation);
+    }
   }
 
   handleTextChange(text) {
     const { dispatch } = this.props;
-    dispatch(changeListModalText(text));
+    dispatch(changeListModalText(text.trim()));
     dispatch(changeListModalItem(null));
   }
 

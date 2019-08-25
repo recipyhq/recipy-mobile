@@ -3,7 +3,7 @@ import {
   GET_RECIPE_FAILURE, GET_RECIPE_REQUEST, GET_RECIPE_SUCCESS,
   SEARCH_RECIPE_FAILURE, SEARCH_RECIPE_REQUEST, SEARCH_RECIPE_SUCCESS,
   SHOW_RECIPE, ADD_INGREDIENT, ADD_INGREDIENT_LIST,
-  CHANGE_TITLE, CHANGE_INGREDIENT, DELETE_INGREDIENT,
+  CHANGE_TITLE, CHANGE_QUANTITY, CHANGE_INGREDIENT, DELETE_INGREDIENT, CHANGE_INGREDIENT_TEXT,
   GET_ALL_SHOPPING_LIST_REQUEST, GET_ALL_SHOPPING_LIST_SUCCESS, GET_ALL_SHOPPING_LIST_FAILURE,
   GET_SHOPPING_LIST_REQUEST, GET_SHOPPING_LIST_SUCCESS, GET_SHOPPING_LIST_FAILURE,
   CREATE_SHOPPING_LIST_REQUEST, CREATE_SHOPPING_LIST_SUCCESS, CREATE_SHOPPING_LIST_FAILURE,
@@ -24,6 +24,10 @@ import {
   UPDATE_SHOPPING_LIST_REQUEST,
   UPDATE_SHOPPING_LIST_SUCCESS,
   UPDATE_SHOPPING_LIST_FAILURE,
+  UPDATE_CHECKBOX_REQUEST,
+  UPDATE_CHECKBOX_SUCCESS,
+  UPDATE_CHECKBOX_FAILURE,
+  IS_REFRESHING,
 } from '../actions/recipe';
 
 const initialState = {
@@ -32,7 +36,10 @@ const initialState = {
   allShopListItems: [],
   shoplist: [],
   shoplistTitle: '',
-  shoplistIngredient: '',
+  shoplistIngredientText: '',
+  shoplistQuantity: '',
+  shoplistQuantityType: '',
+  shoplistIngredient: null,
   searchList: [],
   myRecipeList: [],
   profileRecipes: [],
@@ -50,10 +57,16 @@ const initialState = {
   listModalText: '',
   listModalItem: null,
   isLoading: false,
+  isRefreshing: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case IS_REFRESHING:
+      return {
+        ...state,
+        isRefreshing: action.refresh,
+      };
     case CHANGE_SEARCH_QUERY:
       return {
         ...state,
@@ -82,15 +95,18 @@ const reducer = (state = initialState, action) => {
     case SEARCH_INGREDIENT_REQUEST:
       return {
         ...state,
+        isLoading: true,
       };
     case SEARCH_INGREDIENT_SUCCESS:
       return {
         ...state,
-        allIngredientList: action.formatedList,
+        isLoading: false,
+        allIngredientList: action.formatedList.sort((a, b) => a.name.localeCompare(b.name)),
       };
     case SEARCH_INGREDIENT_FAILURE:
       return {
         ...state,
+        isLoading: false,
       };
     case SHOW_RECIPE:
       return {
@@ -132,7 +148,7 @@ const reducer = (state = initialState, action) => {
     case ADD_INGREDIENT:
       return {
         ...state,
-        shoplist: state.shoplist.concat(action.ingre),
+        shoplist: state.shoplist.concat(action.elem),
       };
     case ADD_INGREDIENT_LIST:
       return {
@@ -149,6 +165,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         shoplistTitle: action.title,
       };
+    case CHANGE_QUANTITY:
+      return {
+        ...state,
+        shoplistQuantity: action.quantity,
+      };
+    case CHANGE_INGREDIENT_TEXT:
+      return {
+        ...state,
+        shoplistIngredientText: action.text,
+      };
     case CHANGE_INGREDIENT:
       return {
         ...state,
@@ -157,8 +183,8 @@ const reducer = (state = initialState, action) => {
     case DELETE_INGREDIENT:
       return {
         ...state,
-        ingredientList: state.ingredientList.concat(
-          state.shoplist[action.index],
+        allIngredientList: state.allIngredientList.concat(
+          state.shoplist[action.index].ingredient,
         ).sort((a, b) => a.name.localeCompare(b.name)),
         shoplist: state.shoplist.filter((_, i) => i !== action.index),
       };
@@ -229,6 +255,23 @@ const reducer = (state = initialState, action) => {
 
       };
     case UPDATE_SHOPPING_LIST_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case UPDATE_CHECKBOX_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+
+      };
+    case UPDATE_CHECKBOX_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+
+      };
+    case UPDATE_CHECKBOX_FAILURE:
       return {
         ...state,
         isLoading: false,

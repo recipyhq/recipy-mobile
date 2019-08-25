@@ -15,7 +15,7 @@ const ShoppingListItem = ({ list, dispatch }) => (
       data={list}
       renderItem={({ item, index }) => (
         <View style={style.listItem}>
-          <Text style={style.listText}>{item.name.toString()}</Text>
+          <Text style={style.listText}>{`${item.quantity} ${item.quantityType} ${item.ingredient.name.toString()}`}</Text>
           <Icon
             backgroundColor={colors.primaryWhite}
             name="times"

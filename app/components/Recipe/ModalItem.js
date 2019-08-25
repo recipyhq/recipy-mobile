@@ -6,12 +6,13 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 import style from './descriptionStyle';
 import ButtonStd from '../Buttons/ButtonStd';
 import colors from '../../config/colors';
-import { addRecipeToRecipeBook } from '../../api/recipebook';
+import { addRecipeToRecipeBook, searchForRecipeBook } from '../../api/recipebook';
 import { changeModalItem, changeModalText, changeModalVisible } from '../../actions/recipebook';
 
 class ModalItem extends Component {
   setModalVisible(visible) {
-    const { dispatch } = this.props;
+    const { dispatch, search } = this.props;
+    if (visible === true) searchForRecipeBook(dispatch, search);
     dispatch(changeModalVisible(visible));
   }
 
@@ -23,7 +24,6 @@ class ModalItem extends Component {
       item,
     } = this.props;
     if (item == null) item = dropDownInfo.find(x => x.name.toLowerCase() === text.toLowerCase());
-    console.log(JSON.stringify(item));
     if (typeof item === 'undefined') {
       addRecipeToRecipeBook(dispatch, '', user, currentRecipe.id, '');
     } else { addRecipeToRecipeBook(dispatch, item.name, user, currentRecipe.id, item.id); }
@@ -128,6 +128,7 @@ function mapStateToProps(state) {
     visible: state.recipebook.modalVisible,
     text: state.recipebook.modalText,
     item: state.recipebook.modalItem,
+    search: state.recipebook.search,
   };
 }
 
@@ -138,6 +139,8 @@ ModalItem.defaultProps = {
 };
 
 ModalItem.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  search: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   dropDownInfo: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types

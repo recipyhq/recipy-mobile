@@ -9,8 +9,6 @@ import { withNavigation } from 'react-navigation';
 import { showRecipe } from '../../actions/recipe';
 import { getRecipe } from '../../api/recipe';
 import colors from '../../config/colors';
-import style from '../Style/style';
-import ButtonStd from '../../screens/Cooker/ShoppingList/AllShoppingList';
 
 class PlanningView extends Component {
   static get defaultProps() {
@@ -56,17 +54,6 @@ class PlanningView extends Component {
   render() {
     return (
       <View>
-        <View style={style.buttonContainer}>
-          <ButtonStd
-            title="Créer une liste de course à partir du planning actuel"
-            onPress={() => {
-              this.handlePressShoppingList();
-            }}
-            buttonStyle={style.btnSendForm}
-            fontSize={15}
-            color={colors.primaryWhite}
-          />
-        </View>
         <TouchableWithoutFeedback onPress={() => this.handlePressShowDetails()}>
           <View>
             <Card image={{ uri: 'https://img-3.journaldesfemmes.fr/vCNeVFvdxQToSZ6PDys2Xhdd8UE=/748x499/smart/3091d3c67b5947cfacdd9b1bee285d80/recipe-jdf/10018082.jpg' }}>

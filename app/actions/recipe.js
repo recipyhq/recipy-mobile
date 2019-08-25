@@ -1,6 +1,8 @@
 import { Alert } from 'react-native';
 import { refreshAuthCredentials } from './user';
 
+export const IS_REFRESHING = 'IS_REFRESHING';
+
 // SEARCH RECIPE
 export const CHANGE_SEARCH_QUERY = 'CHANGE_SEARCH_QUERY';
 export const SEARCH_RECIPE_REQUEST = 'SEARCH_RECIPE_REQUEST';
@@ -36,6 +38,8 @@ export const ADD_INGREDIENT_LIST = 'ADD_INGREDIENT_LIST';
 export const UPDATE_INGREDIENT_LIST = 'UPDATE_INGREDIENT_LIST';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 export const CHANGE_TITLE = 'CHANGE_TITLE';
+export const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
+export const CHANGE_INGREDIENT_TEXT = 'CHANGE_INGREDIENT_TEXT';
 export const CHANGE_INGREDIENT = 'CHANGE_INGREDIENT';
 
 // SHOPPING LIST API CALL
@@ -55,6 +59,10 @@ export const UPDATE_SHOPPING_LIST_REQUEST = 'UPDATE_SHOPPING_LIST_REQUEST';
 export const UPDATE_SHOPPING_LIST_SUCCESS = 'UPDATE_SHOPPING_LIST_SUCCESS';
 export const UPDATE_SHOPPING_LIST_FAILURE = 'UPDATE_SHOPPING_LIST_FAILURE';
 
+export const UPDATE_CHECKBOX_REQUEST = 'UPDATE_CHECKBOX_REQUEST';
+export const UPDATE_CHECKBOX_SUCCESS = 'UPDATE_CHECKBOX_SUCCESS';
+export const UPDATE_CHECKBOX_FAILURE = 'UPDATE_CHECKBOX_FAILURE';
+
 export const DELETE_SHOPPING_LIST_REQUEST = 'DELETE_SHOPPING_LIST_REQUEST';
 export const DELETE_SHOPPING_LIST_SUCCESS = 'DELETE_SHOPPING_LIST_SUCCESS';
 export const DELETE_SHOPPING_LIST_FAILURE = 'DELETE_SHOPPING_LIST_FAILURE';
@@ -68,6 +76,11 @@ export const HIDE_CREATE_RECIPE_ADVICE_FORM = 'HIDE_CREATE_RECIPE_ADVICE_FORM';
 export const CHANGE_LIST_MODAL_VISIBLE = 'CHANGE_LIST_MODAL_VISIBLE';
 export const CHANGE_LIST_MODAL_TEXT = 'CHANGE_LIST_MODAL_TEXT';
 export const CHANGE_LIST_MODAL_ITEM = 'CHANGE_LIST_MODAL_ITEM';
+
+export const handleRefresh = refresh => ({
+  type: IS_REFRESHING,
+  refresh,
+});
 
 export const searchRecipeRequest = () => ({
   type: SEARCH_RECIPE_REQUEST,
@@ -198,10 +211,12 @@ export const getRecipeFailure = (error) => {
   return ({ type: GET_RECIPE_FAILURE });
 };
 
-export const addIngredientToList = (ingredient, list) => {
-  const ingre = [];
-  ingre.push(ingredient);
-
+export const addIngredientToList = (quantity, quantityType, ingredient, list) => {
+  const elem = {
+    quantity,
+    quantityType,
+    ingredient,
+  };
   for (let i = list.length - 1; i >= 0; i -= 1) {
     if (list[i] === ingredient || list[i].name === ingredient.name) {
       list.splice(i, 1);
@@ -209,7 +224,7 @@ export const addIngredientToList = (ingredient, list) => {
   }
   return ({
     type: ADD_INGREDIENT,
-    ingre,
+    elem,
   });
 };
 
@@ -220,18 +235,24 @@ export const updateIngredientList = (listIngr) => {
     listIngr,
   });
 };
-export const addIngredientListToList = (list) => {
-  let curList = [];
-  curList = list;
-  return ({
-    type: ADD_INGREDIENT_LIST,
-    curList,
-  });
-};
+export const addIngredientListToList = list => ({
+  type: ADD_INGREDIENT_LIST,
+  curList: list,
+});
 
 export const changeTitle = title => ({
   type: CHANGE_TITLE,
   title,
+});
+
+export const changeQuantity = quantity => ({
+  type: CHANGE_QUANTITY,
+  quantity,
+});
+
+export const changeIngredientText = text => ({
+  type: CHANGE_INGREDIENT_TEXT,
+  text,
 });
 
 export const changeIngredient = ingredient => ({
@@ -259,18 +280,7 @@ export const getAllShoppingListSuccess = (response) => {
   });
 };
 
-export const getAllShoppingListFailure = (error) => {
-  const { response } = error;
-  Alert.alert(
-    'Une erreur est survenue lors de la récupération des liste de courses',
-    response.statusText,
-    [
-      { text: 'OK' },
-    ],
-    { cancelable: false },
-  );
-  return ({ type: GET_ALL_SHOPPING_LIST_FAILURE });
-};
+export const getAllShoppingListFailure = () => ({ type: GET_ALL_SHOPPING_LIST_FAILURE });
 
 export const getShoppingListRequest = () => ({
   type: GET_SHOPPING_LIST_REQUEST,
@@ -354,6 +364,30 @@ export const updateShoppingListFailure = () => {
     { cancelable: false },
   );
   return ({ type: UPDATE_SHOPPING_LIST_FAILURE });
+};
+
+export const updateCheckboxRequest = () => ({
+  type: UPDATE_CHECKBOX_REQUEST,
+});
+
+export const updateCheckboxSuccess = () => ({
+  type: UPDATE_CHECKBOX_SUCCESS,
+});
+
+export const updateCheckboxFailure = () => {
+  Alert.alert(
+    'La modification à échoué',
+    'Une erreur s\'est produite pendant la modification de la liste',
+    [
+      {
+        text: 'OK',
+        onPress: () => {
+        },
+      },
+    ],
+    { cancelable: false },
+  );
+  return ({ type: UPDATE_CHECKBOX_FAILURE });
 };
 
 export const deleteShoppingListRequest = () => ({

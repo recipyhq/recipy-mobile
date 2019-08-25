@@ -1,25 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Text, TouchableHighlight, View,
+  Text, View,
 } from 'react-native';
 import style from '../Style/style';
 import styles from '../../screens/Authentication/styles';
 
 const AllShoppingListItems = ({
-  onPress, shoppingList,
+  shoppingList,
 }) => (
   <View style={styles.container}>
-    <TouchableHighlight onPress={onPress}>
-      <Text style={style.shoppingListTitle}>
-        { shoppingList.name }
-      </Text>
-    </TouchableHighlight>
+    <Text style={style.shoppingListTitle}>
+      { shoppingList.name }
+    </Text>
   </View>
 );
 
 AllShoppingListItems.propTypes = {
-  onPress: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   shoppingList: PropTypes.object.isRequired,
 };

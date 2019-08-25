@@ -1,5 +1,5 @@
 import {
-  FlatList, ScrollView, View,
+  FlatList, ScrollView, TouchableHighlight, View,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -19,8 +19,6 @@ class AllShoppingList extends Component {
   componentDidMount() {
     this.handleGetAllShoppingList();
     this.handleChangeSearchQuery('');
-    const { search } = this.props;
-    this.handlePressSearchButton(search);
   }
 
   get isLoading() {
@@ -85,29 +83,32 @@ class AllShoppingList extends Component {
             <FlatList
               data={allShopListItems}
               renderItem={({ item, index }) => (
-                <View style={{
-                  paddingTop: 6,
-                  paddingBottom: 6,
-                  flexDirection: 'row',
-                  borderRadius: 1,
-                  borderBottomWidth: 0.2,
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: index % 2 === 0 ? colors.primaryWhite : colors.lightGrey,
-                }}
+                <TouchableHighlight onPress={() => (
+                  this.handlePressNext(item))
+                  }
                 >
-                  <AllShoppingListItems
-                    key={item.id.toString()}
-                    shoppingList={item}
-                    onPress={() => (
-                      this.handlePressNext(item))
+                  <View style={{
+                    paddingTop: 6,
+                    paddingBottom: 6,
+                    flexDirection: 'row',
+                    borderRadius: 1,
+                    borderBottomWidth: 0.2,
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: index % 2 === 0 ? colors.primaryWhite : colors.lightGrey,
+                  }}
+                  >
+                    <AllShoppingListItems
+                      key={item.id.toString()}
+                      shoppingList={item}
+                      onDelete={() => (
+                        this.handleDeleteShoppingList(item.id))
                     }
-                    onDelete={() => (
-                      this.handleDeleteShoppingList(item.id))
-                    }
-                  />
-                </View>
+                    />
+                  </View>
+                </TouchableHighlight>
+
               )}
               keyExtractor={(item, index) => index.toString()}
             />
@@ -135,8 +136,6 @@ AllShoppingList.propTypes = {
   currentShoppingList: PropTypes.object,
   // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  search: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
