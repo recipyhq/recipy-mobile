@@ -13,7 +13,7 @@ import Loader from '../../../components/Loaders/Loader/Loader';
 import AllShoppingListItems from '../../../components/ShoppingList/AllShoppingListItems';
 import style from '../../../components/Style/style';
 import ButtonStd from '../../../components/Buttons/ButtonStd';
-import styles from '../../Authentication/styles';
+import styles from '../../Account/Authentication/styles';
 
 class AllShoppingList extends Component {
   componentDidMount() {

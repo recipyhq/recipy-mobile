@@ -4,7 +4,7 @@ import {
   Text, View,
 } from 'react-native';
 import style from '../Style/style';
-import styles from '../../screens/Authentication/styles';
+import styles from '../../screens/Account/Authentication/styles';
 
 const AllShoppingListItems = ({
   shoppingList,

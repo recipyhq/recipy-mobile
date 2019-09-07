@@ -26,7 +26,9 @@ class ExistingListModal extends Component {
     const uItem = [];
     if (item != null) {
       item.ingredients.map(ing => uItem.push(ing.ingredient.id));
-      currentRecipe.ingredients.map(ing => (uItem.includes(ing.ingredient.id) ? console.log('') : uItem.push(ing.ingredient.id)));
+      currentRecipe.ingredients.map(ing => (
+        uItem.includes(ing.ingredient.id) ? null : uItem.push(ing.ingredient.id)
+      ));
       updateShoppingList(dispatch, uItem, item.id.toString(), navigation);
     }
   }

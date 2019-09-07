@@ -17,6 +17,13 @@ class MyRecipes extends Component {
     this.handleGetAllRecipe();
   }
 
+  onRefresh() {
+    handleRefresh(true);
+    this.handleGetAllRecipe().then(() => {
+      handleRefresh(false);
+    });
+  }
+
   get isLoading() {
     const { isLoading } = this.props;
     return isLoading;
@@ -39,13 +46,6 @@ class MyRecipes extends Component {
     getUserRecipeList(dispatch, currentUid);
   }
 
-  _onRefresh = () => {
-    handleRefresh(true);
-    this.handleGetAllRecipe().then(() => {
-      handleRefresh(false);
-    });
-  };
-
   render() {
     const { recipesList, isRefreshing } = this.props;
     return (
@@ -53,7 +53,7 @@ class MyRecipes extends Component {
         refreshControl={(
           <RefreshControl
             refreshing={isRefreshing}
-            onRefresh={this._onRefresh}
+            onRefresh={this.onRefresh}
           />
 )}
         contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
