@@ -52,18 +52,7 @@ export const getAllRecipeBookSuccess = (response) => {
   });
 };
 
-export const getAllRecipeBookFailure = (error) => {
-  const { response } = error;
-  Alert.alert(
-    'Une erreur est survenue lors de la récupération des carnets de recettes',
-    response.statusText,
-    [
-      { text: 'OK' },
-    ],
-    { cancelable: false },
-  );
-  return ({ type: GET_ALL_RECIPE_BOOK_FAILURE });
-};
+export const getAllRecipeBookFailure = () => ({ type: GET_ALL_RECIPE_BOOK_FAILURE });
 
 
 export const getRecipeBookRequest = () => ({
