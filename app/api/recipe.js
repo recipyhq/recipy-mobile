@@ -30,8 +30,12 @@ import {
   getProfileRecipesRequest,
   getProfileRecipesSuccess,
   getProfileRecipesFailure,
-  saveRecipeAdviceRequest,
-  saveRecipeAdviceSuccess, saveRecipeAdviceFailure,
+  updateShoppingListRequest,
+  updateShoppingListSuccess,
+  updateShoppingListFailure,
+  updateCheckboxRequest,
+  updateCheckboxSuccess,
+  updateCheckboxFailure, saveRecipeAdviceRequest, saveRecipeAdviceSuccess, saveRecipeAdviceFailure,
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
 
@@ -67,7 +71,7 @@ export const searchForRecipe = async (dispatch, search) => {
   });
 };
 
-export const searchForIngredient = (dispatch, search) => {
+export const searchForIngredient = (dispatch, search, resolve, reject) => {
   dispatch(searchIngredientRequest());
   const headers = { 'Content-Type': 'application/json' };
   return axios.get(
@@ -86,8 +90,10 @@ export const searchForIngredient = (dispatch, search) => {
     },
   ).then((response) => {
     dispatch(searchIngredientSuccess(response));
+    resolve();
   }).catch((error) => {
     dispatch(searchIngredientFailure(error));
+    reject();
   });
 };
 
@@ -171,7 +177,8 @@ export const getShoppingList = async (dispatch, id, resolve, reject) => {
   });
 };
 
-export const createShoppingList = async (dispatch, listTitle, ingredientList, navigation) => {
+export const createShoppingList = async (dispatch, listTitle,
+  quantityList, ingredientList, navigation) => {
   dispatch(createShoppingListRequest());
   const uid = await SecureStore.getItemAsync('userId');
   return axios({
@@ -191,6 +198,45 @@ export const createShoppingList = async (dispatch, listTitle, ingredientList, na
     navigation.navigate('AllShoppingList');
   }).catch((error) => {
     dispatch(createShoppingListFailure(error));
+  });
+};
+
+export const updateShoppingList = async (dispatch, ingredientList, listId, navigation) => {
+  dispatch(updateShoppingListRequest());
+  const uid = await SecureStore.getItemAsync('userId');
+  return axios({
+    method: 'put',
+    url: `${ApiUrl}/api/shopping_lists/${listId}`,
+    data: {
+      shopping_list: {
+        user_id: uid,
+        ingredient_ids: ingredientList,
+      },
+    },
+    config: { headers: { 'Content-Type': 'application/json' } },
+  }).then(() => {
+    dispatch(updateShoppingListSuccess());
+    getAllShoppingList(dispatch);
+    navigation.navigate('AllShoppingList');
+  }).catch((error) => {
+    dispatch(updateShoppingListFailure(error));
+  });
+};
+
+export const updateCheckbox = async (dispatch, list, index) => {
+  dispatch(updateCheckboxRequest());
+  return axios({
+    method: 'post',
+    url: `${ApiUrl}/api/shopping_lists/${list.id}/update_item_checkbox`,
+    data: {
+      id: list.id,
+      ingredient_id: list.ingredients[index].ingredient.id,
+    },
+    config: { headers: { 'Content-Type': 'application/json' } },
+  }).then(() => {
+    dispatch(updateCheckboxSuccess());
+  }).catch((error) => {
+    dispatch(updateCheckboxFailure(error));
   });
 };
 

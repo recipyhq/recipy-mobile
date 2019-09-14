@@ -40,7 +40,11 @@ class ShoppingListConsult extends Component {
           />
         </View>
         <View style={{ backgroundColor: colors.primaryWhite, paddingTop: 5 }}>
-          <ShoppingListItemConsult list={list} dispatch={dispatch} />
+          <ShoppingListItemConsult
+            list={list}
+            dispatch={dispatch}
+            navigation={navigation}
+          />
         </View>
       </ScrollView>
     );

@@ -39,7 +39,7 @@ export const getAllRecipeBookRequest = () => ({
   type: GET_ALL_RECIPE_BOOK_REQUEST,
 });
 
-export const getAllRecipeBookSuccess = (response, user) => {
+export const getAllRecipeBookSuccess = (response) => {
   refreshAuthCredentials(response.headers);
   let resultBookList = [];
   if (response.data) {
@@ -52,18 +52,7 @@ export const getAllRecipeBookSuccess = (response, user) => {
   });
 };
 
-export const getAllRecipeBookFailure = (error) => {
-  const { response } = error;
-  Alert.alert(
-    'Une erreur est survenue lors de la récupération des carnets de recettes',
-    response.statusText,
-    [
-      { text: 'OK' },
-    ],
-    { cancelable: false },
-  );
-  return ({ type: GET_ALL_RECIPE_BOOK_FAILURE });
-};
+export const getAllRecipeBookFailure = () => ({ type: GET_ALL_RECIPE_BOOK_FAILURE });
 
 
 export const getRecipeBookRequest = () => ({
@@ -105,7 +94,7 @@ export const searchRecipeBookRequest = () => ({
   type: SEARCH_RECIPE_BOOK_REQUEST,
 });
 
-export const searchRecipeBookSuccess = (response, user) => {
+export const searchRecipeBookSuccess = (response) => {
   refreshAuthCredentials(response.headers);
   let resultList = [];
   const formatedList = [];
@@ -119,19 +108,9 @@ export const searchRecipeBookSuccess = (response, user) => {
   };
 };
 
-export const searchRecipeBookFailure = () => {
-  Alert.alert(
-    'Recherche un ingredient',
-    'Une erreur inconnue s\'est produite',
-    [
-      { text: 'OK' },
-    ],
-    { cancelable: false },
-  );
-  return {
-    type: SEARCH_RECIPE_BOOK_FAILURE,
-  };
-};
+export const searchRecipeBookFailure = () => ({
+  type: SEARCH_RECIPE_BOOK_FAILURE,
+});
 
 export const addRecipeToRecipeBookRequest = () => ({
   type: ADD_RECIPE_TO_RECIPE_BOOK_REQUEST,

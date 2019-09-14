@@ -12,10 +12,20 @@ import style from './descriptionStyle';
 import colors from '../../config/colors';
 import ButtonStd from '../Buttons/ButtonStd';
 import RecipeAdviceItem from '../RecipeAdviceItem/RecipeAdviceItem';
-import { hideCreateRecipeAdviceForm, showCreateRecipeAdviceForm } from '../../actions/recipe';
+import {
+  changeListModalVisible,
+  hideCreateRecipeAdviceForm,
+  showCreateRecipeAdviceForm,
+} from '../../actions/recipe';
 import RecipeAdviceFormModal from '../RecipeAdviceFormModal/RecipeAdviceFormModal';
+import ExistingListModal from './ExistingListModal/ExistingListModal';
 
 class RecipeDescriptionItem extends Component {
+  setModalVisible(visible) {
+    const { dispatch } = this.props;
+    dispatch(changeListModalVisible(visible));
+  }
+
   handlePressAddAdvice() {
     const { dispatch } = this.props;
     dispatch(showCreateRecipeAdviceForm());
@@ -26,9 +36,10 @@ class RecipeDescriptionItem extends Component {
     dispatch(hideCreateRecipeAdviceForm());
   }
 
+
   render() {
     const {
-      recipe, onPress, navigation, displayRecipeAdviceModal, currentUser,
+      recipe, onPress, navigation, displayRecipeAdviceModal, currentUser, visible,
     } = this.props;
 
     Moment.locale('fr');
@@ -42,6 +53,16 @@ class RecipeDescriptionItem extends Component {
           transparent
         >
           <RecipeAdviceFormModal />
+        </Modal>
+        <Modal
+          animationType="slide"
+          visible={visible}
+          transparent={false}
+          onRequestClose={() => {
+            this.setModalVisible(!visible);
+          }}
+        >
+          <ExistingListModal currentRecipe={recipe} navigation={navigation} />
         </Modal>
         <View style={style.titleView}>
           <Text style={style.pageTitle}>
@@ -91,10 +112,18 @@ class RecipeDescriptionItem extends Component {
         {
           currentUser && (
           <View style={style.buttonContainer}>
-
             <ButtonStd
               title="Importer à la liste de course"
               onPress={onPress}
+              buttonStyle={style.btnSendForm}
+              fontSize={15}
+              color={colors.primaryWhite}
+            />
+            <ButtonStd
+              title="Ajouter à une liste de course existante"
+              onPress={() => {
+                this.setModalVisible(!visible);
+              }}
               buttonStyle={style.btnSendForm}
               fontSize={15}
               color={colors.primaryWhite}
@@ -194,15 +223,19 @@ RecipeDescriptionItem.propTypes = {
   displayRecipeAdviceModal: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   currentUser: PropTypes.shape({}),
+  visible: PropTypes.bool,
 };
 
 RecipeDescriptionItem.defaultProps = {
   currentUser: null,
+  visible: false,
+
 };
 
 function mapStateToProps(state) {
   return {
     displayRecipeAdviceModal: state.recipe.displayRecipeAdviceModal,
+    visible: state.recipe.listModalVisible,
     currentUser: state.user.currentUser,
   };
 }

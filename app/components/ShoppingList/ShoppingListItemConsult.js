@@ -5,18 +5,26 @@ import {
 } from 'react-native';
 import styles from '../../screens/Account/Authentication/styles';
 import style from '../Style/style';
+import { updateCheckbox } from '../../api/recipe';
 
-const ShoppingListItemConsult = ({ list }) => (
+const ShoppingListItemConsult = ({ list, dispatch, navigation }) => (
   <View style={styles.container}>
     <Text style={style.pageTitle}>
       { list.name }
     </Text>
     <FlatList
-      data={Object.keys(list.ingredients)}
-      renderItem={({ item }) => (
+      data={list.ingredients}
+      extraData={list.ingredients}
+      renderItem={({ item, index }) => (
         <View style={style.listItem}>
-          <Text style={style.listText}>{item.toString()}</Text>
-          <CheckBox />
+          <Text style={style.listText}>{item.ingredient.name.toString()}</Text>
+          <CheckBox
+            value={item.checked}
+            checked={item.checked}
+            onChange={() => {
+              updateCheckbox(dispatch, list, index, navigation);
+            }}
+          />
         </View>
       )}
       keyExtractor={(item, index) => index.toString()}
@@ -29,6 +37,9 @@ ShoppingListItemConsult.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   list: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
+  dispatch: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  navigation: PropTypes.object.isRequired,
 };
 
 export default ShoppingListItemConsult;

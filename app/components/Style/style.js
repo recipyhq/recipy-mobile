@@ -46,6 +46,13 @@ const style = EStyleSheet.create({
     textAlign: 'center',
   },
 
+  shoppingListTitle: {
+    fontWeight: 'bold',
+    fontSize: 22,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+
   recipeTitle: {
     fontWeight: 'bold',
     fontSize: 20,

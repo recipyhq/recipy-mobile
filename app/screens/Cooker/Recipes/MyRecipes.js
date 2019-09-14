@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  ScrollView, View,
+  ScrollView, View, RefreshControl,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,12 +9,19 @@ import colors from '../../../config/colors';
 import MyRecipeItem from '../../../components/Recipe/MyRecipeItem';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import { getUserRecipeList, getRecipe } from '../../../api/recipe';
-import { showRecipe } from '../../../actions/recipe';
+import { handleRefresh, showRecipe } from '../../../actions/recipe';
 import style from '../../../components/Style/style';
 
 class MyRecipes extends Component {
   componentDidMount() {
     this.handleGetAllRecipe();
+  }
+
+  onRefresh() {
+    handleRefresh(true);
+    this.handleGetAllRecipe().then(() => {
+      handleRefresh(false);
+    });
   }
 
   get isLoading() {
@@ -40,9 +47,15 @@ class MyRecipes extends Component {
   }
 
   render() {
-    const { recipesList } = this.props;
+    const { recipesList, isRefreshing } = this.props;
     return (
       <ScrollView
+        refreshControl={(
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={this.onRefresh}
+          />
+)}
         contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
         style={{
           backgroundColor: colors.primaryWhite,
@@ -69,6 +82,7 @@ class MyRecipes extends Component {
 
 MyRecipes.defaultProps = {
   isLoading: true,
+  isRefreshing: false,
   currentRecipe: null,
 };
 
@@ -78,6 +92,7 @@ MyRecipes.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
+  isRefreshing: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
   recipesList: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
@@ -89,9 +104,12 @@ function mapStateToProps(state) {
   return {
     recipesList: state.recipe.myRecipeList,
     isLoading: state.recipe.isLoading,
+    isRefreshing: state.recipe.isRefreshing,
     currentRecipe: state.recipe.currentRecipe,
     user: state.user,
   };
 }
 
-export default connect(mapStateToProps)(MyRecipes);
+const mapDispatchToProps = dispatch => ({ dispatch });
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyRecipes);

@@ -3,16 +3,11 @@ import PropTypes from 'prop-types';
 import {
   Text, View, FlatList,
 } from 'react-native';
-import { Button } from 'react-native-elements';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome';
+import { Icon } from 'react-native-elements';
 import styles from '../../screens/Account/Authentication/styles';
 import style from '../Style/style';
 import { deleteIngredient } from '../../actions/recipe';
 import colors from '../../config/colors';
-
-function deleteIcon() {
-  return (<FontAwesome5 name="times" color={colors.primaryGrey} size={24} />);
-}
 
 const ShoppingListItem = ({ list, dispatch }) => (
   <View style={styles.container}>
@@ -20,18 +15,14 @@ const ShoppingListItem = ({ list, dispatch }) => (
       data={list}
       renderItem={({ item, index }) => (
         <View style={style.listItem}>
-          <Text style={style.listText}>{item.name.toString()}</Text>
-          <Button
+          <Text style={style.listText}>{`${item.quantity} ${item.quantityType} ${item.ingredient.name.toString()}`}</Text>
+          <Icon
             backgroundColor={colors.primaryWhite}
-            buttonStyle={
-              {
-                margin: 5,
-              }
-            }
-            title={deleteIcon()}
+            name="times"
             onPress={() => {
               dispatch(deleteIngredient(index));
             }}
+            type="font-awesome"
             key={index.toString()}
           />
         </View>

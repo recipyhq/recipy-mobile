@@ -12,7 +12,7 @@ import ShoppingListItem from '../../../components/ShoppingList/ShoppingListItem'
 import {
   addIngredientToList,
   changeTitle,
-  changeIngredient, changeSearchQuery, updateIngredientList,
+  changeIngredient, changeSearchQuery, changeQuantity, changeIngredientText,
 } from '../../../actions/recipe';
 import { createShoppingList, searchForIngredient } from '../../../api/recipe';
 import Loader from '../../../components/Loaders/Loader/Loader';
@@ -20,7 +20,13 @@ import style from '../../../components/Style/style';
 
 class ShoppingList extends Component {
   componentDidMount() {
-    this.handleUpdate();
+    const { search } = this.props;
+    const promiseGetIngredient = () => new Promise((resolve, reject) => {
+      this.handlePressSearchButton(search, resolve, reject);
+    });
+    promiseGetIngredient().then(() => {
+      this.handleUpdate();
+    });
   }
 
   get isLoading() {
@@ -28,20 +34,26 @@ class ShoppingList extends Component {
     return isLoading;
   }
 
-  handlePressButton(eleminList) {
-    this.addIngredient(eleminList);
+  handlePressButton() {
+    const {
+      shoplistQuantity, shoplistIngredient,
+    } = this.props;
+    this.addIngredient(shoplistQuantity, '', shoplistIngredient);
   }
 
   handleCreateList(title, list) {
     const ingId = [];
-    list.map(ingredient => ingId.push(ingredient.id));
+    list.map(ingredient => ingId.push(ingredient.ingredient.id));
     const { dispatch, navigation, user } = this.props;
-    createShoppingList(dispatch, title, ingId, navigation, user);
+    createShoppingList(dispatch, title, list, ingId, navigation, user);
   }
 
-  addIngredient(eleminList) {
-    const { dispatch, resultsIngredientList } = this.props;
-    dispatch(addIngredientToList(eleminList, resultsIngredientList));
+  addIngredient(quantity, quantityType, ingredient) {
+    const { dispatch, allIngredientList } = this.props;
+    dispatch(addIngredientToList(quantity, quantityType, ingredient, allIngredientList));
+    this.handleChangeQuantity('');
+    this.handleIngredientText('');
+    this.handleChangeIngredient(null);
   }
 
   handleChangeTitle(text) {
@@ -49,9 +61,19 @@ class ShoppingList extends Component {
     dispatch(changeTitle(text));
   }
 
-  handleChangeIngredient(text) {
+  handleChangeQuantity(text) {
     const { dispatch } = this.props;
-    dispatch(changeIngredient(text));
+    dispatch(changeQuantity(text));
+  }
+
+  handleIngredientText(text) {
+    const { dispatch } = this.props;
+    dispatch(changeIngredientText(text));
+  }
+
+  handleChangeIngredient(elem) {
+    const { dispatch } = this.props;
+    dispatch(changeIngredient(elem));
   }
 
 
@@ -60,28 +82,27 @@ class ShoppingList extends Component {
     dispatch(changeSearchQuery(text));
   }
 
-  handlePressSearchButton(search) {
+  handlePressSearchButton(search, resolve, reject) {
     const { dispatch } = this.props;
-    searchForIngredient(dispatch, search);
+    searchForIngredient(dispatch, search, resolve, reject);
   }
 
   handleUpdate() {
     const {
-      navigation, shoplist, dispatch, allIngredientList,
+      navigation, shoplist,
     } = this.props;
-    dispatch(updateIngredientList(allIngredientList));
     const recipe = navigation.getParam('item', 'NO-ID');
     if (recipe !== null && recipe.ingredients.length !== 0) {
       this.handleChangeTitle(recipe.title);
       shoplist.splice(0, shoplist.length);
-      recipe.ingredients.map(ingredient => this.addIngredient(ingredient.ingredient));
+      recipe.ingredients.map(ingredient => this.addIngredient('250', 'grammes', ingredient.ingredient));
       recipe.ingredients.splice(0, recipe.ingredients.length);
     }
   }
 
   render() {
     const {
-      shoplist, shoplistTitle, dispatch, resultsIngredientList,
+      shoplist, shoplistTitle, dispatch, allIngredientList,
     } = this.props;
 
     return (
@@ -93,8 +114,8 @@ class ShoppingList extends Component {
         />
         <View>
           <SearchableDropdown
-            onTextChange={text => text}
-            onItemSelect={item => this.handlePressButton(item)}
+            onTextChange={text => this.handleIngredientText(text)}
+            onItemSelect={item => this.addIngredient('', '', item)}
             containerStyle={{ paddingTop: 5, paddingBottom: 5 }}
             textInputStyle={{
               padding: 12,
@@ -112,13 +133,12 @@ class ShoppingList extends Component {
             }}
             itemTextStyle={{ color: '#222' }}
             itemsContainerStyle={{ maxHeight: 140 }}
-            items={resultsIngredientList}
+            items={allIngredientList}
             placeholder="Ajouter un ingrédient"
             resetValue={false}
             underlineColorAndroid="transparent"
           />
         </View>
-
         <ScrollView style={{ backgroundColor: colors.primaryWhite }}>
           <ShoppingListItem list={shoplist} dispatch={dispatch} />
         </ScrollView>
@@ -142,17 +162,22 @@ ShoppingList.defaultProps = {
   shoplist: [],
   isLoading: true,
   shoplistTitle: '',
+  shoplistQuantity: '',
+  shoplistIngredient: null,
 };
 
 function mapStateToProps(state) {
   return {
     shoplist: state.recipe.shoplist,
     shoplistTitle: state.recipe.shoplistTitle,
+    shoplistQuantity: state.recipe.shoplistQuantity,
     shoplistIngredient: state.recipe.shoplistIngredient,
+    shoplistIngredientText: state.recipe.shoplistIngredientText,
     isLoading: state.user.isLoading,
     allIngredientList: state.recipe.allIngredientList,
     resultsIngredientList: state.recipe.ingredientList,
     user: state.user,
+    search: state.recipe.search,
   };
 }
 
@@ -164,12 +189,15 @@ ShoppingList.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   shoplist: PropTypes.array,
   shoplistTitle: PropTypes.string,
+  shoplistQuantity: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  shoplistIngredient: PropTypes.object,
   isLoading: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
   allIngredientList: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  resultsIngredientList: PropTypes.array.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  search: PropTypes.object.isRequired,
 };
 export default connect(mapStateToProps)(ShoppingList);

@@ -5,18 +5,17 @@ import { PropTypes } from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
 import colors from '../../../config/colors';
 import RecipeDescriptionItem from '../../../components/Recipe/RecipeDescriptionItem';
-import { searchForRecipeBook } from '../../../api/recipebook';
 import ModalItem from '../../../components/Recipe/ModalItem';
+import { getAllShoppingList } from '../../../api/recipe';
 
 class RecipeDescription extends Component {
   componentDidMount() {
-    const { search } = this.props;
-    this.handlePressSearchButton(search);
+    this.handlePressSearchButton();
   }
 
-  handlePressSearchButton(search) {
-    const { dispatch, user } = this.props;
-    searchForRecipeBook(dispatch, search, user);
+  handlePressSearchButton() {
+    const { dispatch } = this.props;
+    getAllShoppingList(dispatch);
   }
 
   handlePressShop(recipe) {
@@ -58,15 +57,10 @@ function mapStateToProps(state) {
 
 RecipeDescription.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  search: PropTypes.object.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   dispatch: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   searchBookList: PropTypes.array,
-  // eslint-disable-next-line react/forbid-prop-types
-  user: PropTypes.object.isRequired,
-
 };
 export default connect(mapStateToProps)(RecipeDescription);
