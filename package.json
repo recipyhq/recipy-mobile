@@ -1,7 +1,16 @@
 {
-  "name": "empty-project-template",
+  "name": "Recipy",
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
+  "icon": "./assets/icon.png",
+  "version": "1.0.0",
+  "slug": "recipy",
+  "ios": {
+    "bundleIdentifier": "com.recipy.recipy"
+  },
+  "android": {
+    "package": "com.recipy.recipy"
+  },
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -47,6 +56,7 @@
     "react-native-dropdownalert": "^3.7.0",
     "react-native-elements": "^1.1.0",
     "react-native-extended-stylesheet": "^0.10.0",
+    "react-native-i18n": "^2.0.15",
     "react-native-linear-gradient": "^2.4.3",
     "react-native-maps": "^0.24.2",
     "react-native-material-textfield": "^0.12.0",

@@ -7,7 +7,11 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome';
 import connect from 'react-redux/es/connect/connect';
 import Moment from 'moment';
+import 'moment/locale/fr';
+import 'moment/locale/fr-ca';
+import 'moment/locale/fr-ch';
 import * as SecureStore from 'expo/build/SecureStore/SecureStore';
+import I18n from 'react-native-i18n';
 import style from './descriptionStyle';
 import colors from '../../config/colors';
 import ButtonStd from '../Buttons/ButtonStd';
@@ -42,7 +46,7 @@ class RecipeDescriptionItem extends Component {
       recipe, onPress, navigation, displayRecipeAdviceModal, currentUser, visible,
     } = this.props;
 
-    Moment.locale('fr');
+    Moment.locale(I18n.currentLocale());
 
     return (
       <ScrollView style={{ backgroundColor: colors.primaryWhite, marginBottom: 40 }}>
@@ -175,11 +179,22 @@ class RecipeDescriptionItem extends Component {
         <View style={style.advicesContainer}>
           <Text style={style.adviceContainerTitle}>Tous les avis</Text>
           {
-            recipe.scores.length === 0
-            && (
-            <Text style={style.noAdviceText}>
-              Aucun avis pour le moment, aidez la communauté dès maintenant !
-            </Text>
+            recipe.scores.length === 0 && currentUser && (
+              <View>
+                <Text style={style.noAdviceText}>
+                  Aucun avis pour le moment, aidez la communauté dès maintenant !
+                </Text>
+              </View>
+            )
+          }
+          {
+            recipe.scores.length === 0 && !currentUser && (
+              <View>
+                <Text style={style.noAdviceText}>
+                  Aucun avis pour le moment
+                  connectez-vous pour partager votre avis sur cette recette !
+                </Text>
+              </View>
             )
           }
           {
@@ -200,13 +215,19 @@ class RecipeDescriptionItem extends Component {
               />
             ))
           }
-          <ButtonStd
-            onPress={() => this.handlePressAddAdvice()}
-            title="Laisser un avis"
-            buttonStyle={style.btnLeaveAdvice}
-            color={colors.primaryWhite}
-            fontSize={20}
-          />
+          {
+            currentUser && (
+            <View>
+              <ButtonStd
+                onPress={() => this.handlePressAddAdvice()}
+                title="Laisser un avis"
+                buttonStyle={style.btnLeaveAdvice}
+                color={colors.primaryWhite}
+                fontSize={20}
+              />
+            </View>
+            )
+          }
         </View>
       </ScrollView>
     );
