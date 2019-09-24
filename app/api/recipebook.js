@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
-import * as SecureStore from 'expo/build/SecureStore/SecureStore';
+import * as SecureStore from 'expo-secure-store';
 import {
   getAllRecipeBookFailure,
   getAllRecipeBookRequest,

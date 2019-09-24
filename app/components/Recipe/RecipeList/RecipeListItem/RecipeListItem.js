@@ -19,10 +19,13 @@ class RecipeListItem extends Component {
     return {
       recipe: PropTypes.shape(
         {
+          id: PropTypes.number,
           title: PropTypes.string.isRequired,
           image_url: PropTypes.string,
           description: PropTypes.string,
           time: PropTypes.number,
+          preparation_time: PropTypes.number,
+          cooking_time: PropTypes.number,
         },
       ).isRequired,
       // eslint-disable-next-line react/forbid-prop-types

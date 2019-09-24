@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
 import qs from 'qs';
-import * as SecureStore from 'expo/build/SecureStore/SecureStore';
+import * as SecureStore from 'expo-secure-store';
 import { getPlanningSuccess, getPlanningRequest, getPlanningFailure } from '../actions/planning';
 import ApiUrl from '../config/api';
 

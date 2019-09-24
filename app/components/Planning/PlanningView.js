@@ -21,6 +21,7 @@ class PlanningView extends Component {
     return {
       recipe: PropTypes.shape(
         {
+          id: PropTypes.number.isRequired,
           title: PropTypes.string.isRequired,
           image_url: PropTypes.string,
           description: PropTypes.string,

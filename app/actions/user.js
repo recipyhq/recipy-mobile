@@ -1,4 +1,4 @@
-import * as SecureStore from 'expo/build/SecureStore/SecureStore';
+import * as SecureStore from 'expo-secure-store';
 import { Alert } from 'react-native';
 
 export const CHANGE_LAST_NAME = 'CHANGE_LAST_NAME';

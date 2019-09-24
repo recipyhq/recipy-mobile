@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as SecureStore from 'expo/build/SecureStore/SecureStore';
+import * as SecureStore from 'expo-secure-store';
 import ApiUrl from '../config/api';
 import {
   resetPasswordFailure,
@@ -56,12 +56,14 @@ export const signUpUser = (dispatch, user) => {
     method: 'post',
     url: `${ApiUrl}/api/users`,
     data: {
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-      password: user.password,
-      password_confirmation: user.password_confirmation,
-      confirm_success_url: `${ApiUrl}`,
+      user: {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        password: user.password,
+        password_confirmation: user.password_confirmation,
+        confirm_success_url: `${ApiUrl}`,
+      },
     },
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then(() => {

@@ -1,6 +1,7 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import { PropTypes } from 'prop-types';
 
 const styles = EStyleSheet.create({
   oval: {
@@ -29,6 +30,15 @@ const styles = EStyleSheet.create({
 });
 
 class OvalSquare extends Component {
+  static get propTypes() {
+    return {
+      bgColor: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types,react/require-default-props
+      style: PropTypes.array,
+    };
+  }
+
   getBgColor() {
     const { props } = this;
     return props.bgColor;

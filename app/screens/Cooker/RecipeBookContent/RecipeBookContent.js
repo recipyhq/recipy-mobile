@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import * as SecureStore from 'expo/build/SecureStore/SecureStore';
+import * as SecureStore from 'expo-secure-store';
 import colors from '../../../config/colors';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import { getUserRecipeList, getRecipe } from '../../../api/recipe';

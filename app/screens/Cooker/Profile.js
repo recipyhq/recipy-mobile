@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { PropTypes } from 'prop-types';
-import * as SecureStore from 'expo/build/SecureStore/SecureStore';
+import * as SecureStore from 'expo-secure-store';
 import ContainerView from '../../components/ContainerView/ContainerView';
 import colors from '../../config/colors';
 import RecipeListItem from '../../components/Recipe/RecipeList/RecipeListItem/RecipeListItem';

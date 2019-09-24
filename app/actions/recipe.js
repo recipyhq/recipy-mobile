@@ -102,7 +102,7 @@ export const searchRecipeSuccess = (response) => {
 
 export const searchRecipeFailure = () => {
   Alert.alert(
-    'Réinitialisation du mot de passe',
+    'Recherche d\'une recette',
     'Une erreur inconnue s\'est produite',
     [
       { text: 'OK' },

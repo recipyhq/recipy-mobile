@@ -10,8 +10,6 @@ import Moment from 'moment';
 import 'moment/locale/fr';
 import 'moment/locale/fr-ca';
 import 'moment/locale/fr-ch';
-import * as SecureStore from 'expo/build/SecureStore/SecureStore';
-import I18n from 'react-native-i18n';
 import style from './descriptionStyle';
 import colors from '../../config/colors';
 import ButtonStd from '../Buttons/ButtonStd';
@@ -46,7 +44,7 @@ class RecipeDescriptionItem extends Component {
       recipe, onPress, navigation, displayRecipeAdviceModal, currentUser, visible,
     } = this.props;
 
-    Moment.locale(I18n.currentLocale());
+    Moment.locale('fr');
 
     return (
       <ScrollView style={{ backgroundColor: colors.primaryWhite, marginBottom: 40 }}>
