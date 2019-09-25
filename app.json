@@ -28,8 +28,7 @@
     },
     "android": {
       "package": "com.recipy.recipy"
-    }
+    },
+    "description": ""
   }
 }
-
-
