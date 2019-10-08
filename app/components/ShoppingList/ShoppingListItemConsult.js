@@ -17,7 +17,7 @@ const ShoppingListItemConsult = ({ list, dispatch, navigation }) => (
       extraData={list.ingredients}
       renderItem={({ item, index }) => (
         <View style={style.listItem}>
-          <Text style={style.listText}>{item.ingredient.name.toString()}</Text>
+          <Text style={style.listText}>{`${item.quantity == null ? '' : `${item.quantity[0]} ${item.quantity[1]}`} ${item.ingredient.name.toString()}`}</Text>
           <CheckBox
             value={item.checked}
             checked={item.checked}

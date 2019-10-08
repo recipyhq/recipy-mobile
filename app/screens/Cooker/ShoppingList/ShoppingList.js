@@ -56,7 +56,7 @@ class ShoppingList extends Component {
       } else {
         const obj = {
           ingredient_id: ingredient.ingredient.id,
-          quantity: ingredient.quantity,
+          quantity: parseInt(ingredient.quantity.substring(0), 10) + 1,
           quantity_type_id: allQuantityList.find(
             element => element.name === ingredient.quantityType,
           ).id,
