@@ -50,16 +50,15 @@ class ShoppingList extends Component {
     const tab = [];
     list.map(ingredient => ingId.push(ingredient.ingredient.id));
     list.map((ingredient) => {
-      if (ingredient.quantity === '') {
+      if (ingredient.quantity === '' && ingredient.quantityType === '') {
         const obj = { ingredient_id: ingredient.ingredient.id };
         tab.push(obj);
       } else {
+        const found = allQuantityList.find(element => element.name === ingredient.quantityType);
         const obj = {
           ingredient_id: ingredient.ingredient.id,
-          quantity: parseInt(ingredient.quantity.substring(0), 10) + 1,
-          quantity_type_id: allQuantityList.find(
-            element => element.name === ingredient.quantityType,
-          ).id,
+          quantity: parseInt(ingredient.quantity.toString().substring(0), 10),
+          quantity_type_id: found.id,
         };
         tab.push(obj);
       }
@@ -84,6 +83,12 @@ class ShoppingList extends Component {
       if (typeof itemIngredient !== 'undefined' && itemQuantity !== 'undefined') {
         if (ingredient !== 'undefined') itemIngredient = ingredient;
         dispatch(addIngredientToList(quantity, quantityType, itemIngredient));
+        this.textInput.clear();
+        this.quantityInput.input.clear();
+        this.ingredientInput.input.clear();
+        this.handleAmount('');
+        this.handleChangeQuantity('');
+        this.handleChangeIngredient(null);
       }
     }
   }
@@ -172,6 +177,7 @@ class ShoppingList extends Component {
           defaultValue={shoplistTitle}
         />
         <Input
+          ref={(input) => { this.textInput = input; }}
           label="Quantité"
           onChangeText={(text) => { this.handleAmount(text); }}
           keyboardType="numeric"
@@ -179,6 +185,7 @@ class ShoppingList extends Component {
         <View style={shoppingStyle.infoView}>
           <View style={shoppingStyle.infoContainer}>
             <SearchableDropdown
+              ref={(quantity) => { this.quantityInput = quantity; }}
               onTextChange={text => this.handleChangeQuantity(text)}
               onItemSelect={item => this.handleChangeQuantity(item.name)}
               containerStyle={{ paddingTop: 5, paddingBottom: 5 }}
@@ -206,6 +213,7 @@ class ShoppingList extends Component {
           </View>
           <View style={shoppingStyle.infoContainer}>
             <SearchableDropdown
+              ref={(ingredient) => { this.ingredientInput = ingredient; }}
               onTextChange={text => this.handleIngredientText(text)}
               onItemSelect={item => this.handleSelectIngredient(item)}
               containerStyle={{ paddingTop: 5, paddingBottom: 5 }}
