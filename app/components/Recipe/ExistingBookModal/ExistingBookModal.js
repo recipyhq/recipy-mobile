@@ -6,58 +6,53 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 import style from '../descriptionStyle';
 import ButtonStd from '../../Buttons/ButtonStd';
 import colors from '../../../config/colors';
-import { changeListModalItem, changeListModalText, changeListModalVisible } from '../../../actions/recipe';
-import { updateShoppingList } from '../../../api/recipe';
+import { addRecipeToRecipeBook } from '../../../api/recipebook';
+import { changeModalItem, changeModalText } from '../../../actions/recipebook';
+import { changeBookModalVisible } from '../../../actions/recipe';
 
-class ExistingListModal extends Component {
-  setModalVisible(visible) {
+class ExistingBookModal extends Component {
+  setBookVisible(visible) {
     const { dispatch } = this.props;
-    dispatch(changeListModalVisible(visible));
+    dispatch(changeBookModalVisible(visible));
   }
 
-  handleAddToExistingList() {
+  handleAddToRecipeBook() {
     const {
-      dispatch, allShopListItems, currentRecipe, text, navigation,
+      dispatch, dropDownInfo, currentRecipe, user, text,
     } = this.props;
-    let { item } = this.props;
-    if (item == null) {
-      item = allShopListItems.find(x => x.name.toLowerCase() === text.toLowerCase());
-    }
-    const uItem = [];
-    if (item != null) {
-      item.ingredients.map(ing => uItem.push(ing.ingredient.id));
-      currentRecipe.ingredients.map(ing => (
-        uItem.includes(ing.ingredient.id) ? null : uItem.push(ing.ingredient.id)
-      ));
-      updateShoppingList(dispatch, uItem, item.id.toString(), navigation);
-    }
+    let {
+      item,
+    } = this.props;
+    if (item == null) item = dropDownInfo.find(x => x.name.toLowerCase() === text.toLowerCase());
+    if (typeof item === 'undefined') {
+      addRecipeToRecipeBook(dispatch, '', user, currentRecipe.id, '');
+    } else { addRecipeToRecipeBook(dispatch, item.name, user, currentRecipe.id, item.id); }
   }
 
   handleTextChange(text) {
     const { dispatch } = this.props;
-    dispatch(changeListModalText(text.trim()));
-    dispatch(changeListModalItem(null));
+    dispatch(changeModalText(text));
+    dispatch(changeModalItem(null));
   }
 
   handleItemChange(item) {
     const { dispatch } = this.props;
-    dispatch(changeListModalItem(item));
+    dispatch(changeModalItem(item));
   }
 
-
   render() {
-    const { allShopListItems, visible, navigation } = this.props;
-    if (allShopListItems <= 0) {
+    const { dropDownInfo, visible, navigation } = this.props;
+    if (dropDownInfo <= 0) {
       return (
         <View style={style.modalContainer}>
           <View>
-            <Text style={style.pageTitleBlack}>Aucune liste de course !</Text>
+            <Text style={style.pageTitleBlack}>Aucun carnet !</Text>
             <View style={style.buttonContainerWithSpace}>
               <ButtonStd
-                title="Créer une liste de course"
+                title="Créer un carnet"
                 onPress={() => {
-                  this.setModalVisible(!visible);
-                  navigation.navigate('ShoppingList');
+                  this.setBookVisible(!visible);
+                  navigation.navigate('RecipeBook');
                 }}
                 buttonStyle={style.btnSendForm}
                 fontSize={15}
@@ -68,7 +63,7 @@ class ExistingListModal extends Component {
               <ButtonStd
                 title="Fermer"
                 onPress={() => {
-                  this.setModalVisible(!visible);
+                  this.setBookVisible(!visible);
                 }}
                 buttonStyle={style.btnSendForm}
                 fontSize={15}
@@ -82,7 +77,7 @@ class ExistingListModal extends Component {
     return (
       <View style={style.modalContainer}>
         <View>
-          <Text style={style.pageTitleBlack}>Choisissez une liste de course</Text>
+          <Text style={style.pageTitleBlack}>Choisissez un carnet</Text>
           <SearchableDropdown
             onTextChange={text => this.handleTextChange(text)}
             onItemSelect={item => this.handleItemChange(item)}
@@ -103,16 +98,16 @@ class ExistingListModal extends Component {
             }}
             itemTextStyle={{ color: '#222' }}
             itemsContainerStyle={{ maxHeight: 140 }}
-            items={allShopListItems}
-            placeholder="Liste de Course"
+            items={dropDownInfo}
+            placeholder="Carnet"
             resetValue={false}
             underlineColorAndroid="transparent"
           />
           <View style={style.buttonContainerWithSpace}>
             <ButtonStd
-              title="Ajouter"
+              title="Sauvegarder"
               onPress={() => {
-                this.handleAddToExistingList();
+                this.handleAddToRecipeBook();
               }}
               buttonStyle={style.btnSendForm}
               fontSize={15}
@@ -123,7 +118,7 @@ class ExistingListModal extends Component {
             <ButtonStd
               title="Fermer"
               onPress={() => {
-                this.setModalVisible(!visible);
+                this.setBookVisible(!visible);
               }}
               buttonStyle={style.btnSendForm}
               fontSize={15}
@@ -138,33 +133,36 @@ class ExistingListModal extends Component {
 
 function mapStateToProps(state) {
   return {
-    text: state.recipe.listModalText,
-    item: state.recipe.listModalItem,
-    allShopListItems: state.recipe.allShopListItems,
-    visible: state.recipe.listModalVisible,
+    user: state.user,
+    visible: state.recipe.bookModalVisible,
+    text: state.recipebook.modalText,
+    item: state.recipebook.modalItem,
+    search: state.recipebook.search,
   };
 }
 
-ExistingListModal.defaultProps = {
+ExistingBookModal.defaultProps = {
   text: '',
   item: null,
   visible: false,
 };
 
-ExistingListModal.propTypes = {
+ExistingBookModal.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  dropDownInfo: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   currentRecipe: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   dispatch: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
   text: PropTypes.string,
   // eslint-disable-next-line react/forbid-prop-types
   item: PropTypes.object,
+  visible: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.object.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  allShopListItems: PropTypes.array.isRequired,
-  visible: PropTypes.bool,
 };
 
-export default connect(mapStateToProps)(ExistingListModal);
+
+export default connect(mapStateToProps)(ExistingBookModal);

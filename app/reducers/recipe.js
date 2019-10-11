@@ -20,6 +20,7 @@ import {
   HIDE_CREATE_RECIPE_ADVICE_FORM,
   CHANGE_USER_RECIPE_MARK,
   CHANGE_USER_RECIPE_COMMENT,
+  CHANGE_BOOK_MODAL_VISIBLE,
   CHANGE_LIST_MODAL_VISIBLE,
   CHANGE_LIST_MODAL_TEXT,
   CHANGE_LIST_MODAL_ITEM,
@@ -30,10 +31,15 @@ import {
   UPDATE_CHECKBOX_SUCCESS,
   UPDATE_CHECKBOX_FAILURE,
   IS_REFRESHING,
+  SEARCH_QUANTITY_TYPE_SUCCESS,
+  SEARCH_QUANTITY_TYPE_REQUEST,
+  SEARCH_QUANTITY_TYPE_FAILURE,
+  CHANGE_AMOUNT, ERROR_DISPLAY,
 } from '../actions/recipe';
 
 const initialState = {
   allIngredientList: [],
+  allQuantityList: [],
   ingredientList: [],
   allShopListItems: [],
   shoplist: [],
@@ -42,6 +48,7 @@ const initialState = {
   shoplistQuantity: '',
   shoplistQuantityType: '',
   shoplistIngredient: null,
+  shoplistAmount: '',
   searchList: [],
   myRecipeList: [],
   profileRecipes: [],
@@ -55,6 +62,7 @@ const initialState = {
   currentRecipe: null,
   currentShoppingList: null,
   displayRecipeAdviceModal: false,
+  bookModalVisible: false,
   listModalVisible: false,
   listModalText: '',
   listModalItem: null,
@@ -69,6 +77,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isRefreshing: action.refresh,
+      };
+    case ERROR_DISPLAY:
+      return {
+        ...state,
+        isLoading: false,
       };
     case CHANGE_SEARCH_QUERY:
       return {
@@ -107,6 +120,22 @@ const reducer = (state = initialState, action) => {
         allIngredientList: action.formatedList.sort((a, b) => a.name.localeCompare(b.name)),
       };
     case SEARCH_INGREDIENT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case SEARCH_QUANTITY_TYPE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case SEARCH_QUANTITY_TYPE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        allQuantityList: action.quantityList.sort((a, b) => a.name.localeCompare(b.name)),
+      };
+    case SEARCH_QUANTITY_TYPE_FAILURE:
       return {
         ...state,
         isLoading: false,
@@ -173,6 +202,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         shoplistQuantity: action.quantity,
       };
+    case CHANGE_AMOUNT:
+      return {
+        ...state,
+        shoplistAmount: action.amount,
+      };
     case CHANGE_INGREDIENT_TEXT:
       return {
         ...state,
@@ -186,9 +220,6 @@ const reducer = (state = initialState, action) => {
     case DELETE_INGREDIENT:
       return {
         ...state,
-        allIngredientList: state.allIngredientList.concat(
-          state.shoplist[action.index].ingredient,
-        ).sort((a, b) => a.name.localeCompare(b.name)),
         shoplist: state.shoplist.filter((_, i) => i !== action.index),
       };
     case GET_ALL_SHOPPING_LIST_REQUEST:
@@ -337,6 +368,11 @@ const reducer = (state = initialState, action) => {
           ...state.userAdvice,
           comment: action.userRecipeComment,
         },
+      };
+    case CHANGE_BOOK_MODAL_VISIBLE:
+      return {
+        ...state,
+        bookModalVisible: action.visible,
       };
     case CHANGE_LIST_MODAL_VISIBLE:
       return {

@@ -5,8 +5,8 @@ import { PropTypes } from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
 import colors from '../../../config/colors';
 import RecipeDescriptionItem from '../../../components/Recipe/RecipeDescriptionItem';
-import ModalItem from '../../../components/Recipe/ModalItem';
 import { getAllShoppingList } from '../../../api/recipe';
+import { searchForRecipeBook } from '../../../api/recipebook';
 
 class RecipeDescription extends Component {
   componentDidMount() {
@@ -14,8 +14,9 @@ class RecipeDescription extends Component {
   }
 
   handlePressSearchButton() {
-    const { dispatch } = this.props;
+    const { dispatch, search } = this.props;
     getAllShoppingList(dispatch);
+    searchForRecipeBook(dispatch, search);
   }
 
   handlePressShop(recipe) {
@@ -28,7 +29,6 @@ class RecipeDescription extends Component {
     const recipe = navigation.getParam('item', 'NO-ID');
     return (
       <View style={{ backgroundColor: colors.primaryWhite }}>
-        <ModalItem dropDownInfo={searchBookList} currentRecipe={recipe} />
         <RecipeDescriptionItem
           key={recipe.id.toString()}
           recipe={recipe}
@@ -62,5 +62,7 @@ RecipeDescription.propTypes = {
   navigation: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   searchBookList: PropTypes.array,
+  // eslint-disable-next-line react/forbid-prop-types
+  search: PropTypes.object.isRequired,
 };
 export default connect(mapStateToProps)(RecipeDescription);

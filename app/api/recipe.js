@@ -36,6 +36,7 @@ import {
   updateCheckboxRequest,
   updateCheckboxSuccess,
   updateCheckboxFailure, saveRecipeAdviceRequest, saveRecipeAdviceSuccess, saveRecipeAdviceFailure,
+  searchQuantityTypeRequest, searchQuantityTypeSuccess, searchQuantityTypeFailure,
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
 
@@ -93,6 +94,23 @@ export const searchForIngredient = (dispatch, search, resolve, reject) => {
     resolve();
   }).catch((error) => {
     dispatch(searchIngredientFailure(error));
+    reject();
+  });
+};
+
+export const searchForQuantityType = (dispatch, search, resolve, reject) => {
+  dispatch(searchQuantityTypeRequest());
+  const headers = { 'Content-Type': 'application/json' };
+  return axios(
+    `${ApiUrl}/api/quantity_type`,
+    {
+      headers,
+    },
+  ).then((response) => {
+    dispatch(searchQuantityTypeSuccess(response));
+    resolve();
+  }).catch((error) => {
+    dispatch(searchQuantityTypeFailure(error));
     reject();
   });
 };
@@ -178,7 +196,7 @@ export const getShoppingList = async (dispatch, id, resolve, reject) => {
 };
 
 export const createShoppingList = async (dispatch, listTitle,
-  quantityList, ingredientList, navigation) => {
+  ingredientList, ingredientListId, navigation, tab) => {
   dispatch(createShoppingListRequest());
   const uid = await SecureStore.getItemAsync('userId');
   return axios({
@@ -188,7 +206,7 @@ export const createShoppingList = async (dispatch, listTitle,
       shopping_list: {
         user_id: uid,
         name: listTitle,
-        ingredient_ids: ingredientList,
+        list_ingredients: tab,
       },
     },
     config: { headers: { 'Content-Type': 'application/json' } },

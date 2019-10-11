@@ -15,17 +15,24 @@ import colors from '../../config/colors';
 import ButtonStd from '../Buttons/ButtonStd';
 import RecipeAdviceItem from '../RecipeAdviceItem/RecipeAdviceItem';
 import {
+  changeBookModalVisible,
   changeListModalVisible,
   hideCreateRecipeAdviceForm,
   showCreateRecipeAdviceForm,
 } from '../../actions/recipe';
 import RecipeAdviceFormModal from '../RecipeAdviceFormModal/RecipeAdviceFormModal';
 import ExistingListModal from './ExistingListModal/ExistingListModal';
+import ExistingBookModal from './ExistingBookModal/ExistingBookModal';
 
 class RecipeDescriptionItem extends Component {
   setModalVisible(visible) {
     const { dispatch } = this.props;
     dispatch(changeListModalVisible(visible));
+  }
+
+  setBookVisible(visible) {
+    const { dispatch } = this.props;
+    dispatch(changeBookModalVisible(visible));
   }
 
   handlePressAddAdvice() {
@@ -41,13 +48,14 @@ class RecipeDescriptionItem extends Component {
 
   render() {
     const {
-      recipe, onPress, navigation, displayRecipeAdviceModal, currentUser, visible,
+      recipe, onPress, navigation, displayRecipeAdviceModal,
+      currentUser, bookVisible, listVisible, dropDownInfo,
     } = this.props;
 
     Moment.locale('fr');
 
     return (
-      <ScrollView style={{ backgroundColor: colors.primaryWhite, marginBottom: 40 }}>
+      <ScrollView keyboardShouldPersistTaps="always" style={{ backgroundColor: colors.primaryWhite }}>
         <Modal
           animationType="slide"
           visible={displayRecipeAdviceModal}
@@ -58,10 +66,24 @@ class RecipeDescriptionItem extends Component {
         </Modal>
         <Modal
           animationType="slide"
-          visible={visible}
+          visible={bookVisible}
           transparent={false}
           onRequestClose={() => {
-            this.setModalVisible(!visible);
+            this.setBookVisible(!bookVisible);
+          }}
+        >
+          <ExistingBookModal
+            currentRecipe={recipe}
+            dropDownInfo={dropDownInfo}
+            navigation={navigation}
+          />
+        </Modal>
+        <Modal
+          animationType="slide"
+          visible={listVisible}
+          transparent={false}
+          onRequestClose={() => {
+            this.setModalVisible(!listVisible);
           }}
         >
           <ExistingListModal currentRecipe={recipe} navigation={navigation} />
@@ -115,7 +137,7 @@ class RecipeDescriptionItem extends Component {
           currentUser && (
           <View style={style.buttonContainer}>
             <ButtonStd
-              title="Importer à la liste de course"
+              title="Créer un liste de course à partir de la recette"
               onPress={onPress}
               buttonStyle={style.btnSendForm}
               fontSize={15}
@@ -124,7 +146,16 @@ class RecipeDescriptionItem extends Component {
             <ButtonStd
               title="Ajouter à une liste de course existante"
               onPress={() => {
-                this.setModalVisible(!visible);
+                this.setModalVisible(!listVisible);
+              }}
+              buttonStyle={style.btnSendForm}
+              fontSize={15}
+              color={colors.primaryWhite}
+            />
+            <ButtonStd
+              title="Ajouter à un carnet recette"
+              onPress={() => {
+                this.setBookVisible(!bookVisible);
               }}
               buttonStyle={style.btnSendForm}
               fontSize={15}
@@ -242,19 +273,24 @@ RecipeDescriptionItem.propTypes = {
   displayRecipeAdviceModal: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   currentUser: PropTypes.shape({}),
-  visible: PropTypes.bool,
+  listVisible: PropTypes.bool,
+  bookVisible: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
+  dropDownInfo: PropTypes.array.isRequired,
 };
 
 RecipeDescriptionItem.defaultProps = {
   currentUser: null,
-  visible: false,
+  listVisible: false,
+  bookVisible: false,
 
 };
 
 function mapStateToProps(state) {
   return {
     displayRecipeAdviceModal: state.recipe.displayRecipeAdviceModal,
-    visible: state.recipe.listModalVisible,
+    listVisible: state.recipe.listModalVisible,
+    bookVisible: state.recipe.bookModalVisible,
     currentUser: state.user.currentUser,
   };
 }

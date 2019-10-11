@@ -2,6 +2,7 @@ import { Alert } from 'react-native';
 import { refreshAuthCredentials } from './user';
 
 export const IS_REFRESHING = 'IS_REFRESHING';
+export const ERROR_DISPLAY = 'ERROR_DISPLAY';
 
 // SEARCH RECIPE
 export const CHANGE_SEARCH_QUERY = 'CHANGE_SEARCH_QUERY';
@@ -13,6 +14,11 @@ export const SEARCH_RECIPE_FAILURE = 'SEARCH_RECIPE_FAILURE';
 export const SEARCH_INGREDIENT_REQUEST = 'SEARCH_INGREDIENT_REQUEST';
 export const SEARCH_INGREDIENT_SUCCESS = 'SEARCH_INGREDIENT_SUCCESS';
 export const SEARCH_INGREDIENT_FAILURE = 'SEARCH_INGREDIENT_FAILURE';
+
+// QUANTITY TYPE INGREDIENT
+export const SEARCH_QUANTITY_TYPE_REQUEST = 'SEARCH_QUANTITY_TYPE_REQUEST';
+export const SEARCH_QUANTITY_TYPE_SUCCESS = 'SEARCH_QUANTITY_TYPE_SUCCESS';
+export const SEARCH_QUANTITY_TYPE_FAILURE = 'SEARCH_QUANTITY_TYPE_FAILURE';
 
 // SHOW_RECIPE
 export const SHOW_RECIPE = 'SHOW_RECIPE';
@@ -41,6 +47,7 @@ export const CHANGE_TITLE = 'CHANGE_TITLE';
 export const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
 export const CHANGE_INGREDIENT_TEXT = 'CHANGE_INGREDIENT_TEXT';
 export const CHANGE_INGREDIENT = 'CHANGE_INGREDIENT';
+export const CHANGE_AMOUNT = 'CHANGE_AMOUNT';
 
 // SHOPPING LIST API CALL
 export const GET_ALL_SHOPPING_LIST_REQUEST = 'GET_ALL_SHOPPING_LIST_REQUEST';
@@ -75,6 +82,8 @@ export const HIDE_CREATE_RECIPE_ADVICE_FORM = 'HIDE_CREATE_RECIPE_ADVICE_FORM';
 export const CHANGE_LIST_MODAL_VISIBLE = 'CHANGE_LIST_MODAL_VISIBLE';
 export const CHANGE_LIST_MODAL_TEXT = 'CHANGE_LIST_MODAL_TEXT';
 export const CHANGE_LIST_MODAL_ITEM = 'CHANGE_LIST_MODAL_ITEM';
+export const CHANGE_BOOK_MODAL_VISIBLE = 'CHANGE_BOOK_MODAL_VISIBLE';
+
 
 export const handleRefresh = refresh => ({
   type: IS_REFRESHING,
@@ -153,6 +162,37 @@ export const searchIngredientFailure = () => {
   };
 };
 
+export const searchQuantityTypeRequest = () => ({
+  type: SEARCH_QUANTITY_TYPE_REQUEST,
+});
+
+export const searchQuantityTypeSuccess = (response) => {
+  refreshAuthCredentials(response.headers);
+  let resultList = [];
+  const quantityList = [];
+  if (response.data) {
+    resultList = response.data;
+    resultList.map(quantity => quantityList.push({ id: quantity.id, name: quantity.name }));
+  }
+  return {
+    type: SEARCH_QUANTITY_TYPE_SUCCESS,
+    quantityList,
+  };
+};
+
+export const searchQuantityTypeFailure = (error) => {
+  Alert.alert(
+    'Recherche une quantité',
+    `Une erreur inconnue s'est produite${error.response}`,
+    [
+      { text: 'OK' },
+    ],
+    { cancelable: false },
+  );
+  return {
+    type: SEARCH_QUANTITY_TYPE_FAILURE,
+  };
+};
 export const showRecipe = (navigation, recipe) => {
   navigation.navigate('RecipeDescription', { item: recipe });
   return {
@@ -215,17 +255,12 @@ export const getRecipeFailure = (error) => {
   return ({ type: GET_RECIPE_FAILURE });
 };
 
-export const addIngredientToList = (quantity, quantityType, ingredient, list) => {
+export const addIngredientToList = (quantity, quantityType, ingredient) => {
   const elem = {
     quantity,
     quantityType,
     ingredient,
   };
-  for (let i = list.length - 1; i >= 0; i -= 1) {
-    if (list[i] === ingredient || list[i].name === ingredient.name) {
-      list.splice(i, 1);
-    }
-  }
   return ({
     type: ADD_INGREDIENT,
     elem,
@@ -262,6 +297,11 @@ export const changeIngredientText = text => ({
 export const changeIngredient = ingredient => ({
   type: CHANGE_INGREDIENT,
   ingredient,
+});
+
+export const changeAmount = amount => ({
+  type: CHANGE_AMOUNT,
+  amount,
 });
 
 export const deleteIngredient = index => ({
@@ -476,6 +516,11 @@ export const saveRecipeAdviceFailure = (error) => {
   };
 };
 
+export const changeBookModalVisible = visible => ({
+  type: CHANGE_BOOK_MODAL_VISIBLE,
+  visible,
+});
+
 export const changeListModalVisible = visible => ({
   type: CHANGE_LIST_MODAL_VISIBLE,
   visible,
@@ -490,3 +535,19 @@ export const changeListModalItem = item => ({
   type: CHANGE_LIST_MODAL_ITEM,
   item,
 });
+
+export const errorDisplay = (title, message) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: 'OK',
+        onPress: () => {
+        },
+      },
+    ],
+    { cancelable: false },
+  );
+  return ({ type: ERROR_DISPLAY });
+};
