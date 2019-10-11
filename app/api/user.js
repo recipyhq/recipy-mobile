@@ -54,7 +54,7 @@ export const signUpUser = (dispatch, user) => {
   dispatch(signUpUserRequest());
   return axios({
     method: 'post',
-    url: `${ApiUrl}/api/users`,
+    url: `${ApiUrl}/api/users.json`,
     data: {
       user: {
         first_name: user.first_name,
