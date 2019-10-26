@@ -115,7 +115,7 @@ const mapStateToProps = state => ({
     password_confirmation: state.user.password_confirmation,
     accountType: state.user.accountType,
     first_name: state.user.first_name,
-    last_name: state.user.lastName,
+    last_name: state.user.last_name,
   },
 });
 
