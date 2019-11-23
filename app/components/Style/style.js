@@ -91,6 +91,11 @@ const style = EStyleSheet.create({
     marginTop: 5,
     marginLeft: 5,
   },
+  tagTitle: {
+    fontWeight: 'bold',
+    fontSize: 22,
+    color: colors.primaryGrey,
+  },
   listItem: {
     paddingTop: 6,
     paddingBottom: 6,

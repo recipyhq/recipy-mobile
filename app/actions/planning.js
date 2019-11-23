@@ -7,6 +7,16 @@ export const GET_PLANNING_REQUEST = 'GET_PLANNING_REQUEST';
 export const GET_PLANNING_SUCCESS = 'GET_PLANNING_SUCCESS';
 export const GET_PLANNING_FAILURE = 'GET_PLANNING_FAILURE';
 
+export const ADD_RECIPE_IN_DAY_PLAN = 'ADD_RECIPE_IN_DAY_PLAN';
+
+
+export const addRecipeInDayPlan = (recipe) => {
+  return ({
+    type: ADD_RECIPE_IN_DAY_PLAN,
+    recipe,
+  });
+};
+
 export const getPlanningRequest = () => ({
   type: GET_PLANNING_REQUEST,
 });

@@ -241,14 +241,16 @@ export const updateShoppingList = async (dispatch, ingredientList, listId, navig
   });
 };
 
-export const updateCheckbox = async (dispatch, list, index) => {
+export const updateCheckbox = async (dispatch, list, ingredient) => {
   dispatch(updateCheckboxRequest());
+  console.log("ANDUIN");
+  console.log(ingredient);
   return axios({
     method: 'post',
     url: `${ApiUrl}/api/shopping_lists/${list.id}/update_item_checkbox`,
     data: {
       id: list.id,
-      ingredient_id: list.ingredients[index].ingredient.id,
+      ingredient_id: ingredient.id,
     },
     config: { headers: { 'Content-Type': 'application/json' } },
   }).then(() => {

@@ -176,7 +176,7 @@ class RecipeDescriptionItem extends Component {
             {
               title: 'Ingrédients',
               data: recipe.ingredients.map(ing => (
-                ing.quantity == null ? `- ${ing.ingredient.name}` : `- ${ing.quantity[0]} ${ing.quantity[1].toLowerCase()} de ${ing.ingredient.name}`
+                ing.quantity == null ? `- ${ing.ingredient.name}` : `- ${ing.quantity[0]} ${ing.quantity[1].toLowerCase()} de ${ing.ingredient.name} ${ing.allergen.map(all => (all.name))}`
               )),
             },
             { title: 'Matériel', data: recipe.utensils.map(title => `- ${title.title}`) },

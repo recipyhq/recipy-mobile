@@ -122,6 +122,11 @@ class Account extends Component {
     navigation.navigate('AllShoppingList');
   }
 
+  handlePressPlanning() {
+    const { navigation } = this.props;
+    navigation.navigate('Planning');
+  }
+
   renderWhenLoggedIn() {
     const { currentUser } = this.props;
     const SettingsItem = [];
@@ -156,6 +161,12 @@ class Account extends Component {
       subtitle: 'Prévoyez à l\'avance vos prochaines courses',
       icon: 'list-alt',
       onPress: () => this.handlePressShoppingList(),
+    });
+    SettingsItem.push({
+      title: 'Mon planning de repas',
+      subtitle: 'Votre planning de repas pour les jours à venir',
+      icon: 'list-alt',
+      onPress: () => this.handlePressPlanning(),
     });
     SettingsItem.push({
       title: 'Déconnexion',

@@ -5,7 +5,6 @@ import recipe from './recipe';
 import recipebook from './recipebook';
 import planning from './planning';
 
-
 export default combineReducers({
   user,
   ingredient,
