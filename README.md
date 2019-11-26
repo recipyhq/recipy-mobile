@@ -20,5 +20,7 @@ yarn start
 
 ## Usefull links
 https://facebook.github.io/react-native/docs/getting-started
+--
 http://expo.io/
+--
 https://reactnavigation.org/
