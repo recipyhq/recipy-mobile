@@ -3,19 +3,23 @@ import {
   GET_PLANNING_SUCCESS,
   GET_PLANNING_FAILURE,
   ADD_RECIPE_IN_DAY_PLAN,
-} from '../actions/planning';
+  ADD_RECIPE_IN_HEBDO_PLAN,
+  EMPTY_DAY_PLAN,
+} from "../actions/planning";
 
 const initialState = {
   isLoading: false,
-  plan: {
-    midday_starter: 7,
-    midday_dish: 5,
-    midday_dessert: 2,
-    evening_starter: 8,
-    evening_dish: 6,
-    evening_desert: 9,
+  allPlan: null,
+  planKey: {
+    midday_starter_recipe: 'midday_starter_recipe',
+    midday_dish_recipe: 'midday_dish_recipe',
+    midday_dessert_recipe: 'midday_dessert_recipe',
+    evening_starter_recipe: 'evening_starter_recipe',
+    evening_dish_recipe: 'evening_dish_recipe',
+    evening_dessert_recipe: 'evening_dessert_recipe',
   },
   dayPlan: [],
+  hebdoPlan: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -29,6 +33,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        allPlan: action.currentPlanning,
       };
     case GET_PLANNING_FAILURE:
       return {
@@ -39,6 +44,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         dayPlan: state.dayPlan.concat(action.recipe),
+      };
+    case EMPTY_DAY_PLAN:
+      return {
+        ...state,
+        dayPlan: [],
+      };
+    case ADD_RECIPE_IN_HEBDO_PLAN:
+      return {
+        ...state,
+        hebdoPlan: state.hebdoPlan.concat(action.plan),
       };
     default:
       return state;

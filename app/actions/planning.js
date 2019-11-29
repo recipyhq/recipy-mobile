@@ -8,14 +8,23 @@ export const GET_PLANNING_SUCCESS = 'GET_PLANNING_SUCCESS';
 export const GET_PLANNING_FAILURE = 'GET_PLANNING_FAILURE';
 
 export const ADD_RECIPE_IN_DAY_PLAN = 'ADD_RECIPE_IN_DAY_PLAN';
+export const ADD_RECIPE_IN_HEBDO_PLAN = 'ADD_RECIPE_IN_HEBDO_PLAN';
+export const EMPTY_DAY_PLAN = 'EMPTY_DAY_PLAN';
 
+export const emptyDayPlan = () => ({
+  type: EMPTY_DAY_PLAN,
+});
 
-export const addRecipeInDayPlan = (recipe) => {
-  return ({
-    type: ADD_RECIPE_IN_DAY_PLAN,
-    recipe,
-  });
-};
+export const addRecipeInHebdoPlan = (plan, index) => ({
+  type: ADD_RECIPE_IN_HEBDO_PLAN,
+  plan,
+  index,
+});
+
+export const addRecipeInDayPlan = recipe => ({
+  type: ADD_RECIPE_IN_DAY_PLAN,
+  recipe,
+});
 
 export const getPlanningRequest = () => ({
   type: GET_PLANNING_REQUEST,

@@ -59,7 +59,7 @@ class RecipeBookContent extends Component {
         <Loader isLoading={this.isLoading} />
         <View style={style.view}>
           {
-          book.recipes.map(recipe => (
+          book.data.recipes.map(recipe => (
             <RecipeBookContentItem
               key={recipe.id.toString()}
               recipe={recipe}

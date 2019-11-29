@@ -45,7 +45,6 @@ class RecipeDescriptionItem extends Component {
     dispatch(hideCreateRecipeAdviceForm());
   }
 
-
   render() {
     const {
       recipe, onPress, navigation, displayRecipeAdviceModal,
@@ -176,7 +175,35 @@ class RecipeDescriptionItem extends Component {
             {
               title: 'Ingrédients',
               data: recipe.ingredients.map(ing => (
-                ing.quantity == null ? `- ${ing.ingredient.name}` : `- ${ing.quantity[0]} ${ing.quantity[1].toLowerCase()} de ${ing.ingredient.name} ${ing.allergen.map(all => (all.name))}`
+                ing.quantity == null ? (
+                  <Text>
+                    {'-'}
+                    {ing.ingredient.name}
+                    {' '}
+                  </Text>
+                )
+                  : (
+                    <Text>
+                      {'-'}
+                      {ing.quantity[0]}
+                      {' '}
+                      {ing.quantity[1].toLowerCase()}
+                      {' de '}
+                      {ing.ingredient.name}
+                      {''}
+                      <Text style={{ color: colors.primaryRed, fontWeight: 'bold' }}>
+                        {'('}
+                        {ing.allergen.map(all => (
+                          <Text>
+                            {' '}
+                            {all.name }
+                            {' '}
+                          </Text>
+                        ))}
+                        {')'}
+                      </Text>
+                    </Text>
+                  )
               )),
             },
             { title: 'Matériel', data: recipe.utensils.map(title => `- ${title.title}`) },

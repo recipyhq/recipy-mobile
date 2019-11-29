@@ -5,11 +5,11 @@ import * as SecureStore from 'expo-secure-store';
 import { getPlanningSuccess, getPlanningRequest, getPlanningFailure } from '../actions/planning';
 import ApiUrl from '../config/api';
 
-export const getPlanning = async (dispatch, id) => {
+export const getPlanning = async (dispatch, resolve, reject) => {
   dispatch(getPlanningRequest());
   const headers = { 'Content-Type': 'application/json' };
   const uid = await SecureStore.getItemAsync('userId');
-  return axios(`${ApiUrl}/api/planning/${id}`,
+  return axios(`${ApiUrl}/api/meal_plans`,
     {
       headers,
       params: {
@@ -17,8 +17,10 @@ export const getPlanning = async (dispatch, id) => {
       },
     }).then((response) => {
     dispatch(getPlanningSuccess(response));
+    resolve();
   }).catch((error) => {
     dispatch(getPlanningFailure(error));
+    reject();
   });
 };
 
