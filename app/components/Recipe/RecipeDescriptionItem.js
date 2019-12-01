@@ -47,7 +47,7 @@ class RecipeDescriptionItem extends Component {
 
   render() {
     const {
-      recipe, onPress, navigation, displayRecipeAdviceModal,
+      recipe, onPress, onSearch, navigation, displayRecipeAdviceModal,
       currentUser, bookVisible, listVisible, dropDownInfo,
     } = this.props;
 
@@ -146,6 +146,7 @@ class RecipeDescriptionItem extends Component {
               title="Ajouter à une liste de course existante"
               onPress={() => {
                 this.setModalVisible(!listVisible);
+                onSearch();
               }}
               buttonStyle={style.btnSendForm}
               fontSize={15}
@@ -155,6 +156,7 @@ class RecipeDescriptionItem extends Component {
               title="Ajouter à un carnet recette"
               onPress={() => {
                 this.setBookVisible(!bookVisible);
+                onSearch();
               }}
               buttonStyle={style.btnSendForm}
               fontSize={15}
@@ -192,11 +194,10 @@ class RecipeDescriptionItem extends Component {
                       {ing.ingredient.name}
                       {''}
                       <Text style={{ color: colors.primaryRed, fontWeight: 'bold' }}>
-                        {'('}
+                        {' ( '}
                         {ing.allergen.map(all => (
                           <Text>
-                            {' '}
-                            {all.name }
+                            {all.name.replace(/_/g, ' ')}
                             {' '}
                           </Text>
                         ))}
@@ -221,7 +222,7 @@ class RecipeDescriptionItem extends Component {
           recipe.steps.map((step, index) => (
             <SectionList
               key={index.toString()}
-              keyExtractor={(item, oindex) => index}
+              keyExtractor={() => index}
               sections={[
                 { title: `Etape ${index + 1}`, data: [step] },
               ]}
@@ -295,6 +296,8 @@ RecipeDescriptionItem.propTypes = {
   recipe: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   onPress: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  onSearch: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.object.isRequired,
   displayRecipeAdviceModal: PropTypes.bool.isRequired,

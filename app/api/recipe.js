@@ -243,8 +243,6 @@ export const updateShoppingList = async (dispatch, ingredientList, listId, navig
 
 export const updateCheckbox = async (dispatch, list, ingredient) => {
   dispatch(updateCheckboxRequest());
-  console.log("ANDUIN");
-  console.log(ingredient);
   return axios({
     method: 'post',
     url: `${ApiUrl}/api/shopping_lists/${list.id}/update_item_checkbox`,

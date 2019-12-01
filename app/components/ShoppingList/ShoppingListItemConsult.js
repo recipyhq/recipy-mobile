@@ -16,7 +16,12 @@ const ShoppingListItemConsult = ({
       {' '}
     </Text>
     <FlatList
-      data={list.sort((x, y) => ((x.checked === y.checked) ? 0 : x ? -1 : 1))}
+      data={
+        list.sort((a) => {
+          if (a.checked === true) return 1;
+          if (a.checked === false) return -1;
+          return 0;
+        })}
       extraData={list}
       renderItem={({ item }) => (
         <View style={style.listItem}>
@@ -24,7 +29,7 @@ const ShoppingListItemConsult = ({
           <CheckBox
             value={item.checked}
             checked={item.checked}
-            onChange={() => {
+            onValueChange={() => {
               updateCheckbox(dispatch, baseList, item.ingredient, navigation);
             }}
           />
@@ -46,7 +51,7 @@ ShoppingListItemConsult.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   navigation: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  tag: PropTypes.string.isRequired,
+  tag: PropTypes.object.isRequired,
 };
 
 export default ShoppingListItemConsult;

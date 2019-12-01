@@ -69,6 +69,7 @@ const initialState = {
   isLoading: false,
   userAdvice: null,
   isRefreshing: false,
+  checkbox: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -303,7 +304,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-
+        checkbox: !state.checkbox,
       };
     case UPDATE_CHECKBOX_FAILURE:
       return {
