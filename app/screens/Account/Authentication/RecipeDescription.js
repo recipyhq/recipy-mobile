@@ -36,6 +36,9 @@ class RecipeDescription extends Component {
           onPress={() => (
             this.handlePressShop(recipe))
           }
+          onSearch={() => (
+            this.handlePressSearchButton())
+          }
           navigation={navigation}
         />
       </View>
