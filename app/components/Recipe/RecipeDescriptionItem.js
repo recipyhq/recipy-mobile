@@ -182,6 +182,16 @@ class RecipeDescriptionItem extends Component {
                     {'-'}
                     {ing.ingredient.name}
                     {' '}
+                    <Text style={{ color: colors.primaryRed, fontWeight: 'bold' }}>
+                      {' ( '}
+                      {ing.allergen.map(all => (
+                        <Text>
+                          {all.name.replace(/_/g, ' ')}
+                          {' '}
+                        </Text>
+                      ))}
+                      {')'}
+                    </Text>
                   </Text>
                 )
                   : (
