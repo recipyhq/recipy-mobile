@@ -17,6 +17,9 @@ import {
   GetCurrentUserRequest,
   GetCurrentUserSuccess,
   GetCurrentUserFailure,
+  GetUserProfileRequest,
+  GetUserProfileSuccess,
+  GetUserProfileFailure,
 } from '../actions/user';
 
 export const getCurrentUser = async (dispatch) => {
@@ -27,6 +30,16 @@ export const getCurrentUser = async (dispatch) => {
       dispatch(GetCurrentUserSuccess(response));
     }).catch((error) => {
       dispatch(GetCurrentUserFailure(error));
+    });
+};
+
+export const getUserProfile = async (dispatch, userId) => {
+  dispatch(GetUserProfileRequest());
+  return axios.get(`${ApiUrl}/api/user/info?user_id=${userId}`)
+    .then((response) => {
+      dispatch(GetUserProfileSuccess(response));
+    }).catch((error) => {
+      dispatch(GetUserProfileFailure(error));
     });
 };
 

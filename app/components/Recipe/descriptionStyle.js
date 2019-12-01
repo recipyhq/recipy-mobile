@@ -93,9 +93,14 @@ const descriptionStyle = EStyleSheet.create({
     marginTop: 2,
     marginBottom: 2,
   },
-  btnSendForm: {
+  btnGrey: {
     width: '100%',
     backgroundColor: colors.primaryGrey,
+    padding: 10,
+  },
+  btnOrange: {
+    width: '100%',
+    backgroundColor: colors.primaryOrange,
     padding: 10,
   },
   modalContainer: {

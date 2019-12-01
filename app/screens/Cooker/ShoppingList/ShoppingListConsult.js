@@ -45,10 +45,10 @@ class ShoppingListConsult extends Component {
       legumes: 'Légumineuses',
     };
     const list = navigation.getParam('item', 'NO-ID');
-    const shelf_tag = [];
-    list.ingredients.filter(ingredient => shelf_tag.push(ingredient.ingredient.shelf_tag));
-    const shelf_tag_unique = [...new Set(shelf_tag)];
-    shelf_tag_unique.sort();
+    const shelfTag = [];
+    list.ingredients.filter(ingredient => shelfTag.push(ingredient.ingredient.shelf_tag));
+    const shelfTagUnique = [...new Set(shelfTag)];
+    shelfTagUnique.sort();
     list.ingredients.sort((a, b) => {
       if (a.ingredient.name.toLowerCase() < b.ingredient.name.toLowerCase()) return -1;
       if (a.ingredient.name.toLowerCase() > b.ingredient.name.toLowerCase()) return 1;
@@ -72,10 +72,12 @@ class ShoppingListConsult extends Component {
           { list.name }
         </Text>
         <View style={styles.container}>
-          {shelf_tag_unique.map(tag => (
+          {shelfTagUnique.map(tag => (
             <View style={{ backgroundColor: colors.primaryWhite, paddingTop: 5 }} key={tag}>
               <ShoppingListItemConsult
-                list={list.ingredients.filter(ingredient => ingredient.ingredient.shelf_tag === tag)}
+                list={list.ingredients.filter(ingredient => (
+                  ingredient.ingredient.shelf_tag === tag
+                ))}
                 dispatch={dispatch}
                 navigation={navigation}
                 tag={dTag[tag]}

@@ -136,9 +136,9 @@ class RecipeDescriptionItem extends Component {
           currentUser && (
           <View style={style.buttonContainer}>
             <ButtonStd
-              title="Créer un liste de course à partir de la recette"
+              title="Créer une liste de course à partir de la recette"
               onPress={onPress}
-              buttonStyle={style.btnSendForm}
+              buttonStyle={style.btnOrange}
               fontSize={15}
               color={colors.primaryWhite}
             />
@@ -148,7 +148,7 @@ class RecipeDescriptionItem extends Component {
                 this.setModalVisible(!listVisible);
                 onSearch();
               }}
-              buttonStyle={style.btnSendForm}
+              buttonStyle={style.btnGrey}
               fontSize={15}
               color={colors.primaryWhite}
             />
@@ -158,7 +158,7 @@ class RecipeDescriptionItem extends Component {
                 this.setBookVisible(!bookVisible);
                 onSearch();
               }}
-              buttonStyle={style.btnSendForm}
+              buttonStyle={style.btnOrange}
               fontSize={15}
               color={colors.primaryWhite}
             />
@@ -265,21 +265,24 @@ class RecipeDescriptionItem extends Component {
             )
           }
           {
-            recipe.scores.map(advice => (
-              <RecipeAdviceItem
-                key={advice.value.toString()}
-                navigation={navigation}
-                data={{
-                  author: {
-                    first_name: '',
-                    image: advice.user.avatar,
-                  },
-                  message: {
-                    content: advice.content,
-                    date: Moment(advice.updatedAt).format('DD/MM/YYYY'),
-                  },
-                }}
-              />
+            recipe.scores.map((advice, idx) => (
+              advice.content && (
+                <RecipeAdviceItem
+                /* eslint-disable-next-line react/no-array-index-key */
+                  key={idx}
+                  navigation={navigation}
+                  data={{
+                    author: {
+                      first_name: advice.user.first_name,
+                      image: advice.user.avatar,
+                    },
+                    message: {
+                      content: advice.content,
+                      date: Moment(advice.updatedAt).format('DD/MM/YYYY'),
+                    },
+                  }}
+                />
+              )
             ))
           }
           {
@@ -302,8 +305,26 @@ class RecipeDescriptionItem extends Component {
 }
 
 RecipeDescriptionItem.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  recipe: PropTypes.object.isRequired,
+  recipe: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    image_url: PropTypes.string,
+    preparation_time: PropTypes.number,
+    scores: PropTypes.arrayOf(PropTypes.shape({
+      mark: PropTypes.number,
+      content: PropTypes.string,
+      updatedAt: PropTypes.string,
+    })),
+    steps: PropTypes.arrayOf(PropTypes.string),
+    cooking_time: PropTypes.number,
+    person: PropTypes.number,
+    difficulty: PropTypes.number,
+    utensils: PropTypes.arrayOf(
+      PropTypes.shape({}),
+    ),
+    ingredients: PropTypes.arrayOf(PropTypes.shape({})),
+    description: PropTypes.string,
+  }),
   // eslint-disable-next-line react/forbid-prop-types
   onPress: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
@@ -323,7 +344,7 @@ RecipeDescriptionItem.defaultProps = {
   currentUser: null,
   listVisible: false,
   bookVisible: false,
-
+  recipe: null,
 };
 
 function mapStateToProps(state) {

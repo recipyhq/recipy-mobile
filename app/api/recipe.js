@@ -1,7 +1,7 @@
-/* eslint-disable no-unused-vars */
 import axios from 'axios';
 import qs from 'qs';
 import * as SecureStore from 'expo-secure-store';
+import { Alert } from 'react-native';
 import {
   searchRecipeFailure,
   searchRecipeRequest,
@@ -35,8 +35,13 @@ import {
   updateShoppingListFailure,
   updateCheckboxRequest,
   updateCheckboxSuccess,
-  updateCheckboxFailure, saveRecipeAdviceRequest, saveRecipeAdviceSuccess, saveRecipeAdviceFailure,
-  searchQuantityTypeRequest, searchQuantityTypeSuccess, searchQuantityTypeFailure,
+  updateCheckboxFailure,
+  saveRecipeAdviceRequest,
+  saveRecipeAdviceSuccess,
+  saveRecipeAdviceFailure,
+  searchQuantityTypeRequest,
+  searchQuantityTypeSuccess,
+  searchQuantityTypeFailure,
 } from '../actions/recipe';
 import ApiUrl from '../config/api';
 
@@ -118,12 +123,9 @@ export const searchForQuantityType = (dispatch, search, resolve, reject) => {
 export const getUserRecipeList = async (dispatch, uid) => {
   dispatch(GetUserRecipeListRequest());
   const headers = { 'Content-Type': 'application/json' };
-  return axios(`${ApiUrl}/api/my_recipes`,
+  return axios(`${ApiUrl}/api/my_recipes?user_id=${uid}`,
     {
       headers,
-      params: {
-        user_id: uid,
-      },
     }).then((response) => {
     dispatch(GetUserRecipeListSuccess(response));
   }).catch((error) => {
@@ -152,10 +154,10 @@ export const getRecipe = (dispatch, id, resolve, reject) => {
       headers,
     }).then((response) => {
     dispatch(getRecipeSuccess(response));
-    resolve();
+    if (resolve !== undefined) resolve();
   }).catch((error) => {
     dispatch(getRecipeFailure(error));
-    reject('Error');
+    if (reject !== undefined) reject('Error');
   });
 };
 
@@ -273,17 +275,34 @@ export const deleteShoppingList = (dispatch, id, navigation) => {
 };
 
 export const saveRecipeAdvice = async (dispatch, currentRecipe, userAdvice) => {
+  if (userAdvice.mark && (userAdvice.mark > 5 || userAdvice.mark < 0)) {
+    Alert.alert('Note invalide', 'Merci pour avis. Malheuresement celui-ci n\'est pas valide, veuillez fournir une note entre 0 et 5');
+    return;
+  }
   dispatch(saveRecipeAdviceRequest());
-  return axios({
-    method: 'post',
-    url: `${ApiUrl}/api/recipes/${currentRecipe.id}/feedback`,
-    data: {
-      mark: userAdvice.mark,
-      comment: userAdvice.comment,
+  const accessToken = await SecureStore.getItemAsync('access-token');
+  const client = await SecureStore.getItemAsync('client');
+  const uid = await SecureStore.getItemAsync('uid');
+  const headers = {
+    'Content-Type': 'application/json',
+    uid,
+    'token-type': 'Bearer',
+    'access-token': accessToken,
+    client,
+  };
+  const data = {
+    recipe_score: {
+      value: userAdvice.mark,
+      content: userAdvice.comment,
     },
-    config: { headers: { 'Content-Type': 'application/json' } },
-  }).then((response) => {
+  };
+  axios.post(`${ApiUrl}/api/recipes/${currentRecipe.id}/feedback`,
+    data,
+    {
+      headers,
+    }).then((response) => {
     dispatch(saveRecipeAdviceSuccess(response));
+    getRecipe(dispatch, currentRecipe.id);
   }).catch((error) => {
     dispatch(saveRecipeAdviceFailure(error));
   });

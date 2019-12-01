@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import styles from './style';
+import { userDefaultProfileImage } from '../../config/constants';
 
 class RecipeAdviceItem extends Component {
   static get propTypes() {
@@ -27,7 +28,7 @@ class RecipeAdviceItem extends Component {
         <View style={styles.imageContainer}>
           <TouchableWithoutFeedback onPress={() => this.handlePressAuthorPicture()}>
             <Image
-              source={{ uri: data.author.image }}
+              source={{ uri: (data.author.image) ? data.author.image : userDefaultProfileImage }}
               style={styles.authorImage}
               borderRadius={100}
             />
