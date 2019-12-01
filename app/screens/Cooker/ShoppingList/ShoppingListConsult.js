@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, ScrollView,
+  View, ScrollView, Text,
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
@@ -10,6 +10,7 @@ import { deleteShoppingList } from '../../../api/recipe';
 import ButtonStd from '../../../components/Buttons/ButtonStd';
 import Loader from '../../../components/Loaders/Loader/Loader';
 import style from '../../../components/Recipe/descriptionStyle';
+import styles from '../../Account/Authentication/styles';
 
 class ShoppingListConsult extends Component {
   get isLoading() {
@@ -24,7 +25,35 @@ class ShoppingListConsult extends Component {
 
   render() {
     const { navigation, dispatch, currentShoppingList } = this.props;
+    const dTag = {
+      meat: 'Viandes',
+      fish: 'Poissons',
+      veggie: 'Légumes',
+      fruit: 'Fruits',
+      drink: 'Boissons',
+      cereal: 'Céréales',
+      grocery: 'Epicerie',
+      dairy: 'Produits laitiers',
+      egg: 'Oeufs',
+      dry: 'Produits secs',
+      herb: 'Herbes',
+      crustacean: 'Crustacés',
+      baking: 'Boulangerie',
+      fresh: 'Rayon frais',
+      alcohol: 'Alcools',
+      freezer: 'Surgelé',
+      legumes: 'Légumineuses',
+    };
     const list = navigation.getParam('item', 'NO-ID');
+    const shelfTag = [];
+    list.ingredients.filter(ingredient => shelfTag.push(ingredient.ingredient.shelf_tag));
+    const shelfTagUnique = [...new Set(shelfTag)];
+    shelfTagUnique.sort();
+    list.ingredients.sort((a, b) => {
+      if (a.ingredient.name.toLowerCase() < b.ingredient.name.toLowerCase()) return -1;
+      if (a.ingredient.name.toLowerCase() > b.ingredient.name.toLowerCase()) return 1;
+      return 0;
+    });
     return (
       <ScrollView style={{ backgroundColor: colors.primaryWhite }}>
         <Loader isLoading={this.isLoading} />
@@ -39,12 +68,23 @@ class ShoppingListConsult extends Component {
             color={colors.primaryWhite}
           />
         </View>
-        <View style={{ backgroundColor: colors.primaryWhite, paddingTop: 5 }}>
-          <ShoppingListItemConsult
-            list={list}
-            dispatch={dispatch}
-            navigation={navigation}
-          />
+        <Text style={style.pageTitleList}>
+          { list.name }
+        </Text>
+        <View style={styles.container}>
+          {shelfTagUnique.map(tag => (
+            <View style={{ backgroundColor: colors.primaryWhite, paddingTop: 5 }} key={tag}>
+              <ShoppingListItemConsult
+                list={list.ingredients.filter(ingredient => (
+                  ingredient.ingredient.shelf_tag === tag
+                ))}
+                dispatch={dispatch}
+                navigation={navigation}
+                tag={dTag[tag]}
+                baseList={list}
+              />
+            </View>
+          ))}
         </View>
       </ScrollView>
     );

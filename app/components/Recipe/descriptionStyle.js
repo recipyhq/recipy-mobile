@@ -19,12 +19,22 @@ const descriptionStyle = EStyleSheet.create({
     paddingLeft: 45,
     fontSize: 15,
   },
-
+  tagTitle: {
+    fontWeight: 'bold',
+    fontSize: 22,
+    color: colors.primaryGrey,
+  },
   pageTitle: {
     fontWeight: 'bold',
     fontSize: 30,
     textAlign: 'center',
     color: colors.primaryWhite,
+  },
+  pageTitleList: {
+    fontWeight: 'bold',
+    fontSize: 30,
+    textAlign: 'center',
+    color: colors.primaryGrey,
   },
   pageTitleBlack: {
     fontWeight: 'bold',
