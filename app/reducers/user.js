@@ -18,7 +18,12 @@ import {
   SIGN_OUT_USER,
   GET_CURRENT_USER_REQUEST,
   GET_CURRENT_USER_FAILURE,
-  GET_CURRENT_USER_SUCCESS, CHANGE_FIRST_NAME, CHANGE_LAST_NAME,
+  GET_CURRENT_USER_SUCCESS,
+  CHANGE_FIRST_NAME,
+  CHANGE_LAST_NAME,
+  GET_USER_PROFILE_REQUEST,
+  GET_USER_PROFILE_SUCCESS,
+  GET_USER_PROFILE_FAILURE,
 } from '../actions/user';
 
 const initialState = {
@@ -30,6 +35,7 @@ const initialState = {
   id: 0,
   isLoading: false,
   currentUser: null,
+  currentProfileUser: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -140,6 +146,23 @@ const reducer = (state = initialState, action) => {
       return {
         isLoading: false,
         ...state,
+      };
+    case GET_USER_PROFILE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GET_USER_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        currentProfileUser: action.currentUserProfile,
+      };
+    case GET_USER_PROFILE_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        currentUserProfile: action.currentUserProfile,
       };
     case SIGN_OUT_USER:
       return initialState;

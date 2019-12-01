@@ -33,6 +33,10 @@ export const GET_CURRENT_USER_REQUEST = 'GET_CURRENT_USER_REQUEST';
 export const GET_CURRENT_USER_SUCCESS = 'GET_CURRENT_USER_SUCCESS';
 export const GET_CURRENT_USER_FAILURE = 'GET_CURRENT_USER_FAILURE';
 
+export const GET_USER_PROFILE_REQUEST = 'GET_USER_PROFILE_REQUEST';
+export const GET_USER_PROFILE_SUCCESS = 'GET_USER_PROFILE_SUCCESS';
+export const GET_USER_PROFILE_FAILURE = 'GET_USER_PROFILE_FAILURE';
+
 // SIGN_OUT
 export const SIGN_OUT_USER = 'SIGN_OUT_USER';
 
@@ -277,4 +281,17 @@ export const GetCurrentUserSuccess = (response) => {
 
 export const GetCurrentUserFailure = () => ({
   type: GET_CURRENT_USER_FAILURE,
+});
+
+export const GetUserProfileRequest = () => ({
+  type: GET_USER_PROFILE_REQUEST,
+});
+
+export const GetUserProfileSuccess = response => ({
+  type: GET_USER_PROFILE_SUCCESS,
+  currentUserProfile: response.data.data,
+});
+
+export const GetUserProfileFailure = () => ({
+  type: GET_USER_PROFILE_FAILURE,
 });

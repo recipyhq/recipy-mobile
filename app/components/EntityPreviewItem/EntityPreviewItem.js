@@ -33,10 +33,14 @@ const EntityPreviewItem = ({ image, text, onPress }) => (
   <View style={styles.container}>
     <TouchableHighlight onPress={onPress}>
       <View>
-        <Image
-          source={{ uri: image }}
-          style={styles.image}
-        />
+        {
+          image && (
+          <Image
+            source={{ uri: image }}
+            style={styles.image}
+          />
+          )
+        }
         <Text style={styles.text}>{text}</Text>
       </View>
     </TouchableHighlight>
@@ -44,9 +48,13 @@ const EntityPreviewItem = ({ image, text, onPress }) => (
 );
 
 EntityPreviewItem.propTypes = {
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
   text: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
+};
+
+EntityPreviewItem.defaultProps = {
+  image: null,
 };
 
 export default EntityPreviewItem;

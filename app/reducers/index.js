@@ -4,7 +4,7 @@ import ingredient from './ingredient';
 import recipe from './recipe';
 import recipebook from './recipebook';
 import planning from './planning';
-
+import pointOfSale from './point_of_sale';
 
 export default combineReducers({
   user,
@@ -12,4 +12,5 @@ export default combineReducers({
   recipe,
   recipebook,
   planning,
+  pointOfSale,
 });

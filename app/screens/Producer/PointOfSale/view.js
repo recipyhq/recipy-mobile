@@ -7,10 +7,15 @@ import {
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Moment from 'moment';
 import colors from '../../../config/colors';
 import ContainerView from '../../../components/ContainerView/ContainerView';
 import OvalSquare from '../../../components/Shapes/OvalSquare';
 import EntityPreviewItem from '../../../components/EntityPreviewItem/EntityPreviewItem';
+import { getPointOfSale } from '../../../api/point_of_sale';
+import 'moment/locale/fr';
+import 'moment/locale/fr-ca';
+import 'moment/locale/fr-ch';
 
 const styleOpeningHours = EStyleSheet.create({
   container: {
@@ -60,8 +65,6 @@ const styles = EStyleSheet.create({
   producerPicture: {
     width: 150,
     height: 150,
-  },
-  ovalSquare: {
   },
   pointOfSaleHeaderInfoContainer: {
     paddingLeft: 15,
@@ -115,6 +118,12 @@ const styles = EStyleSheet.create({
 });
 
 class Profile extends Component {
+  componentDidMount() {
+    const { navigation, dispatch } = this.props;
+    const id = navigation.getParam('id', null);
+    getPointOfSale(dispatch, id);
+  }
+
   get isLoading() {
     const { isLoading } = this.props;
     return isLoading;
@@ -124,10 +133,88 @@ class Profile extends Component {
     return {
       // eslint-disable-next-line react/forbid-prop-types
       isLoading: PropTypes.bool.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
+      navigation: PropTypes.any.isRequired,
+      dispatch: PropTypes.func.isRequired,
+      currentPointOfSale: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        address: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
+          entilted: PropTypes.string,
+          city: PropTypes.string,
+          country: PropTypes.string,
+          state: PropTypes.string,
+          zip: PropTypes.string,
+        }),
+        openning_hours: PropTypes.arrayOf(PropTypes.shape({
+          close: PropTypes.string,
+          day: PropTypes.string,
+          id: PropTypes.number.isRequired,
+          open: PropTypes.string,
+        })),
+        products: PropTypes.arrayOf(PropTypes.shape({
+          id: PropTypes.number.isRequired,
+          name: PropTypes.string,
+        })),
+        user: PropTypes.shape({
+          id: PropTypes.number.isRequired,
+          first_name: PropTypes.string.isRequired,
+          last_name: PropTypes.string.isRequired,
+          url: PropTypes.string,
+        }),
+      }),
     };
   }
 
+  static get defaultProps() {
+    return {
+      currentPointOfSale: null,
+    };
+  }
+
+  get pointOfSale() {
+    const { currentPointOfSale } = this.props;
+    return currentPointOfSale;
+  }
+
+  get pointOfSaleName() {
+    return (this.pointOfSale && this.pointOfSale.name) ? this.pointOfSale.name : '';
+  }
+
+  get producer() {
+    return (this.pointOfSale && this.pointOfSale.user) ? this.pointOfSale.user : null;
+  }
+
+  get producerName() {
+    return (this.producer) ? `${this.producer.first_name} ${this.producer.last_name}` : '';
+  }
+
+  get pointOfSaleFullAddress() {
+    return (this.pointOfSale && this.pointOfSale.address)
+      ? `${this.pointOfSale.address.entilted} à ${this.pointOfSale.address.city} (${this.pointOfSale.address.zip}), ${this.pointOfSale.address.country}` : null;
+  }
+
+  get pointOfSaleLatitude() {
+    return (
+      this.pointOfSale
+      && this.pointOfSale.address
+      && this.pointOfSale.address.latitude
+    ) ? this.pointOfSale.address.latitude : 48.8534;
+  }
+
+  get pointOfSaleLongitude() {
+    return (
+      this.pointOfSale
+      && this.pointOfSale.address
+      && this.pointOfSale.address.longitude
+    ) ? this.pointOfSale.address.longitude : 2.3488;
+  }
+
   render() {
+    Moment.locale('fr');
     return (
       <ContainerView>
         <ScrollView>
@@ -142,12 +229,11 @@ class Profile extends Component {
               </View>
               <View style={styles.headerRight}>
                 <Text style={styles.producerName}>
-                  Biocoop
+                  {this.pointOfSaleName}
                 </Text>
               </View>
             </View>
             <OvalSquare
-              style={styles.ovalSquare}
               color={colors.primaryGrey}
               bgColor={colors.primaryOrange}
             />
@@ -155,86 +241,53 @@ class Profile extends Component {
               <View style={styles.pointOfSaleHeaderRow}>
                 <Icon style={styles.headerIcon} name="user" size={30} color={colors.primaryOrange} />
                 <Text style={styles.placeholder}>
-                  Biocoop est propriétaire de ce point de vente
+                  {`${this.producerName} est propriétaire de ce point de vente`}
                 </Text>
               </View>
               <View style={styles.pointOfSaleHeaderRow}>
                 <Icon style={styles.headerIcon} name="map-marker" size={30} color={colors.primaryOrange} />
                 <Text style={styles.location}>
-                  180 rue de Tolbiac, 75013 Paris, France
+                  {this.pointOfSaleFullAddress}
                 </Text>
               </View>
               <View style={styles.pointOfSaleHeaderRow}>
                 <Icon style={styles.headerIcon} name="clock-o" size={30} color={colors.primaryOrange} />
                 <View style={styleOpeningHours.container}>
-                  <View style={styleOpeningHours.entry}>
-                    <Text style={styleOpeningHours.day}>
-                      Lundi
-                    </Text>
-                    <Text style={styleOpeningHours.time}>
-                      09:00 12:00 | 14:00 20:00
-                    </Text>
-                  </View>
-                  <View style={styleOpeningHours.entry}>
-                    <Text style={styleOpeningHours.day}>
-                      Mardi
-                    </Text>
-                    <Text style={styleOpeningHours.time}>
-                      09:00 12:00 | 14:00 20:00
-                    </Text>
-                  </View>
-                  <View style={styleOpeningHours.entry}>
-                    <Text style={styleOpeningHours.day}>
-                      Mercredi
-                    </Text>
-                    <Text style={styleOpeningHours.time}>
-                      09:00 12:00 | 14:00 20:00
-                    </Text>
-                  </View>
-                  <View style={styleOpeningHours.entry}>
-                    <Text style={styleOpeningHours.day}>
-                      Jeudi
-                    </Text>
-                    <Text style={styleOpeningHours.time}>
-                      09:00 12:00 | 14:00 20:00
-                    </Text>
-                  </View>
-                  <View style={styleOpeningHours.entry}>
-                    <Text style={styleOpeningHours.day}>
-                      Vendredi
-                    </Text>
-                    <Text style={styleOpeningHours.time}>
-                      09:00 12:00 | 14:00 20:00
-                    </Text>
-                  </View>
-                  <View style={styleOpeningHours.entry}>
-                    <Text style={styleOpeningHours.day}>
-                      Samedi
-                    </Text>
-                    <Text style={styleOpeningHours.time}>
-                      09:00 12:00 | 14:00 20:00
-                    </Text>
-                  </View>
+                  {
+                    this.pointOfSale
+                    && this.pointOfSale.openning_hours
+                    && this.pointOfSale.openning_hours.map(openingHour => (
+                      <View style={styleOpeningHours.entry} key={openingHour.id}>
+                        <Text style={styleOpeningHours.day}>
+                          {openingHour.day}
+                        </Text>
+                        <Text style={styleOpeningHours.time}>
+                          { `de ${Moment(openingHour.open).format('HH:mm')} à ${Moment(openingHour.close).format('HH:mm')}` }
+                        </Text>
+                      </View>
+                    ))
+                  }
                 </View>
               </View>
             </View>
           </View>
           <View style={styles.container}>
             <Text style={styles.sectionTitle}>
-              Produits populaires
+              Produits disponibles
             </Text>
           </View>
           <ScrollView horizontal style={styles.pointOfSalesContainer}>
-            <EntityPreviewItem
-              image="https://cdn4.fermedesaintemarthe.com/I-Autre-23623_1200x1200-carotte-nantaise-2-ab.net.jpg"
-              onPress={() => this.handlePressPointOfSale()}
-              text="Carottes"
-            />
-            <EntityPreviewItem
-              image="https://www.avogel.fr/blog/wp-content/uploads/2014/11/le-jus-de-pomme-de-terre-l-allie-de-votre-estomac-1-1580x770.jpg"
-              onPress={() => this.handlePressPointOfSale()}
-              text="Pommes de terre"
-            />
+            {
+              this.pointOfSale
+              && this.pointOfSale.products
+              && this.pointOfSale.products.map(product => (
+                <EntityPreviewItem
+                  onPress={() => {}}
+                  text={product.id.toString()}
+                  key={product.id}
+                />
+              ))
+            }
           </ScrollView>
           <View style={styles.container}>
             <Text style={styles.sectionTitle}>
@@ -242,28 +295,39 @@ class Profile extends Component {
             </Text>
           </View>
           <View style={styles.mapContainer}>
-            <MapView
-              provider={PROVIDER_GOOGLE}
-              style={styles.map}
-              region={{
-                latitude: 50.6319422,
-                longitude: 3.057544,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-              }}
-              scrollEnabled={false}
-            >
-              <Marker
-                title="Biocoop"
-                pinColor={colors.primaryOrange}
-                coordinate={{
-                  latitude: 50.6319422,
-                  longitude: 3.057544,
-                  latitudeDelta: 0.015,
-                  longitudeDelta: 0.0121,
-                }}
-              />
-            </MapView>
+            {
+              this.pointOfSaleLatitude && this.pointOfSaleLongitude && (
+                <MapView
+                  provider={PROVIDER_GOOGLE}
+                  style={styles.map}
+                  region={{
+                    latitude: this.pointOfSaleLatitude,
+                    longitude: this.pointOfSaleLongitude,
+                    latitudeDelta: 0.015,
+                    longitudeDelta: 0.0121,
+                  }}
+                  scrollEnabled={false}
+                >
+                  {
+                    this.pointOfSale
+                    && this.pointOfSale.address
+                    && this.pointOfSale.address.latitude
+                    && this.pointOfSale.address.longitude && (
+                      <Marker
+                        title={this.pointOfSaleName}
+                        pinColor={colors.primaryOrange}
+                        coordinate={{
+                          latitude: this.pointOfSaleLatitude,
+                          longitude: this.pointOfSaleLongitude,
+                          latitudeDelta: 0.015,
+                          longitudeDelta: 0.0121,
+                        }}
+                      />
+                    )
+                  }
+                </MapView>
+              )
+            }
           </View>
         </ScrollView>
       </ContainerView>
@@ -274,6 +338,7 @@ class Profile extends Component {
 function mapStateToProps(state) {
   return {
     isLoading: state.recipe.isLoading,
+    currentPointOfSale: state.pointOfSale.currentPointOfSale,
   };
 }
 

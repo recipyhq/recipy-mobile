@@ -31,7 +31,7 @@ class RecipeAdviceFormModal extends Component {
 
   handleChangeMark(mark) {
     const { dispatch } = this.props;
-    dispatch(changeUserRecipeMark(mark));
+    dispatch(changeUserRecipeMark(parseInt(mark, 10)));
   }
 
   handleChangeComment(comment) {
@@ -50,11 +50,12 @@ class RecipeAdviceFormModal extends Component {
         <View style={style.container}>
           <Text style={style.modalTitle}>Laisser un avis</Text>
           <Input
-            placeholder="0/10"
+            placeholder="Une note sur 5"
             inputStyle={style.input}
             onChangeText={(mark) => {
               this.handleChangeMark(mark);
             }}
+            keyboardType="numeric"
           />
           <Input
             placeholder="Commentaire de la recette"
