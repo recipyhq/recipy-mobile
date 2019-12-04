@@ -10,7 +10,6 @@ To install the project and the dependencies use the following command
 yarn install
 ```
 
-
 ## Get started
 
 To start the server use the following command in a terminal
