@@ -29,7 +29,7 @@ class ExistingListModal extends Component {
       currentRecipe.ingredients.map(ing => (
         uItem.includes(ing.ingredient.id) ? null : uItem.push(ing.ingredient.id)
       ));
-      updateShoppingList(dispatch, uItem, item.id.toString(), navigation);
+      updateShoppingList(dispatch, uItem, item.id.toString(), navigation, currentRecipe.id);
     }
   }
 

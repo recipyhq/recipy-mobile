@@ -221,16 +221,15 @@ export const createShoppingList = async (dispatch, listTitle,
   });
 };
 
-export const updateShoppingList = async (dispatch, ingredientList, listId, navigation) => {
+export const updateShoppingList = async (dispatch, ingredientList, listId, navigation, id) => {
   dispatch(updateShoppingListRequest());
-  const uid = await SecureStore.getItemAsync('userId');
   return axios({
-    method: 'put',
-    url: `${ApiUrl}/api/shopping_lists/${listId}`,
+    method: 'post',
+    url: `${ApiUrl}/api/recipes/${id}/add_ingredients_to_list`,
     data: {
-      shopping_list: {
-        user_id: uid,
-        ingredient_ids: ingredientList,
+      recipe: {
+        id,
+        shopping_lists: listId,
       },
     },
     config: { headers: { 'Content-Type': 'application/json' } },
