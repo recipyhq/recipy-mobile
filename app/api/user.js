@@ -19,7 +19,7 @@ import {
   GetCurrentUserFailure,
   GetUserProfileRequest,
   GetUserProfileSuccess,
-  GetUserProfileFailure,
+  GetUserProfileFailure, followProducerSuccess, followProducerFailure, followProducerRequest,
 } from '../actions/user';
 
 export const getCurrentUser = async (dispatch) => {
@@ -135,5 +135,27 @@ export const editUser = async (dispatch, user, errorManager) => {
     dispatch(editUserSuccess(response, errorManager));
   }).catch((error) => {
     dispatch(editUserFailure(error, errorManager));
+  });
+};
+
+export const followProducer = async (dispatch, producerId) => {
+  dispatch(followProducerRequest());
+  const currentUserId = await SecureStore.getItemAsync('userId');
+  if (!currentUserId) dispatch(followProducerFailure('Vous devez être connecté pour suivre un producteur.'));
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+  const data = {
+    user_id: currentUserId,
+    producer_id: producerId,
+  };
+  return axios.post(`${ApiUrl}/api/user/follow_producer`,
+    data,
+    {
+      headers,
+    }).then((response) => {
+    dispatch(followProducerSuccess(response));
+  }).catch((error) => {
+    dispatch(followProducerFailure(error));
   });
 };

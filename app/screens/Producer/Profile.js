@@ -13,9 +13,10 @@ import ContainerView from '../../components/ContainerView/ContainerView';
 import colors from '../../config/colors';
 import OvalSquare from '../../components/Shapes/OvalSquare';
 import EntityPreviewItem from '../../components/EntityPreviewItem/EntityPreviewItem';
-import { getUserProfile } from '../../api/user';
+import { followProducer, getCurrentUser, getUserProfile } from '../../api/user';
 import { userDefaultProfileImage } from '../../config/constants';
 import { getPointOfSales } from '../../api/point_of_sale';
+import ButtonStd from '../../components/Buttons/ButtonStd';
 
 const styles = EStyleSheet.create({
   header: {
@@ -86,12 +87,14 @@ const styles = EStyleSheet.create({
 
 class Profile extends Component {
   componentDidMount() {
-    this.fetchData();
+    const { navigation } = this.props;
+    const id = navigation.getParam('producerId', null);
+    this.fetchData(id);
   }
 
   get producer() {
-    const { currentProducer } = this.props;
-    return currentProducer;
+    const { producer } = this.props;
+    return producer;
   }
 
   get producerPointsOfSale() {
@@ -106,7 +109,7 @@ class Profile extends Component {
 
   static get defaultProps() {
     return {
-      currentProducer: null,
+      producer: null,
       producerPointsOfSale: [],
     };
   }
@@ -117,18 +120,26 @@ class Profile extends Component {
       isLoading: PropTypes.bool.isRequired,
       // eslint-disable-next-line react/forbid-prop-types
       navigation: PropTypes.object.isRequired,
-      currentProducer: PropTypes.shape({
+      producer: PropTypes.shape({
         id: PropTypes.number.isRequired,
         first_name: PropTypes.string.isRequired,
         last_name: PropTypes.string.isRequired,
         url: PropTypes.string,
         bio: PropTypes.string,
       }),
+
       producerPointsOfSale: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
         latitude: PropTypes.number,
         longitude: PropTypes.number,
+      })),
+
+      currentUser: PropTypes.shape(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        followed_users: PropTypes.arrayOf(PropTypes.shape({
+          id: PropTypes.string.isRequired,
+        })),
       })),
       dispatch: PropTypes.func.isRequired,
     };
@@ -150,11 +161,13 @@ class Profile extends Component {
     return this.producerPointsOfSale.filter(elem => elem.latitude && elem.longitude);
   }
 
-  async fetchData() {
+  async fetchData(id) {
+    let userId = id;
     const { dispatch } = this.props;
-    const uid = await SecureStore.getItemAsync('userId');
-    getUserProfile(dispatch, uid);
-    getPointOfSales(dispatch, uid);
+    if (id === undefined || id === null) userId = await SecureStore.getItemAsync('userId');
+    getCurrentUser(dispatch);
+    getUserProfile(dispatch, userId);
+    getPointOfSales(dispatch, userId);
   }
 
   handlePressPointOfSale(id) {
@@ -189,6 +202,17 @@ class Profile extends Component {
           <Text style={styles.shortDescription}>
             {this.producerDescription}
           </Text>
+          {
+            this.props.currentUser.followed_users.filter(user => this.producer.id === user.id).length > 0 & (
+              <ButtonStd
+                title="Suivre ce producteur"
+                onPress={() => {
+                  const { dispatch } = this.props;
+                  followProducer(dispatch, this.producer.id);
+                }}
+              />
+            )
+          }
         </View>
         <View style={styles.container}>
           <Text style={styles.sectionTitle}>
@@ -200,8 +224,8 @@ class Profile extends Component {
             provider={PROVIDER_GOOGLE}
             style={styles.map}
             region={{
-              latitude: 50.6319422,
-              longitude: 3.057544,
+              latitude: 48.8534,
+              longitude: 2.3488,
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
             }}
@@ -249,7 +273,8 @@ function mapStateToProps(state) {
   return {
     isLoading: state.recipe.isLoading,
     producerPointsOfSale: state.pointOfSale.pointsOfSale,
-    currentProducer: state.user.currentProfileUser,
+    producer: state.user.currentProfileUser,
+    currentUser: state.user.currentUser,
   };
 }
 

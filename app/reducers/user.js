@@ -24,6 +24,9 @@ import {
   GET_USER_PROFILE_REQUEST,
   GET_USER_PROFILE_SUCCESS,
   GET_USER_PROFILE_FAILURE,
+  FOLLOW_PRODUCER_REQUEST,
+  FOLLOW_PRODUCER_SUCCESS,
+  FOLLOW_PRODUCER_FAILURE,
 } from '../actions/user';
 
 const initialState = {
@@ -163,6 +166,21 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         currentUserProfile: action.currentUserProfile,
+      };
+    case FOLLOW_PRODUCER_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case FOLLOW_PRODUCER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case FOLLOW_PRODUCER_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
     case SIGN_OUT_USER:
       return initialState;

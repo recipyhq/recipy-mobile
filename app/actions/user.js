@@ -28,6 +28,11 @@ export const EDIT_USER_REQUEST = 'EDIT_USER_REQUEST';
 export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';
 export const EDIT_USER_FAILURE = 'EDIT_USER_FAILURE';
 
+// FOLLOW_PRODUCER
+export const FOLLOW_PRODUCER_REQUEST = 'FOLLOW_PRODUCER_REQUEST';
+export const FOLLOW_PRODUCER_SUCCESS = 'FOLLOW_PRODUCER_SUCCESS';
+export const FOLLOW_PRODUCER_FAILURE = 'FOLLOW_PRODUCER_FAILURE';
+
 // GET CURRENT USER
 export const GET_CURRENT_USER_REQUEST = 'GET_CURRENT_USER_REQUEST';
 export const GET_CURRENT_USER_SUCCESS = 'GET_CURRENT_USER_SUCCESS';
@@ -294,4 +299,16 @@ export const GetUserProfileSuccess = response => ({
 
 export const GetUserProfileFailure = () => ({
   type: GET_USER_PROFILE_FAILURE,
+});
+
+export const followProducerRequest = () => ({
+  type: FOLLOW_PRODUCER_REQUEST,
+});
+
+export const followProducerSuccess = () => ({
+  type: FOLLOW_PRODUCER_SUCCESS,
+});
+
+export const followProducerFailure = () => ({
+  type: FOLLOW_PRODUCER_FAILURE,
 });
