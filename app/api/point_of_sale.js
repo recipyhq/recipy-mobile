@@ -14,6 +14,7 @@ export const getPointOfSales = async (dispatch) => {
   const accessToken = await SecureStore.getItemAsync('access-token');
   const client = await SecureStore.getItemAsync('client');
   const uid = await SecureStore.getItemAsync('uid');
+  const userId = await SecureStore.getItemAsync('userId');
   const headers = {
     'Content-Type': 'application/json',
     uid,
@@ -22,7 +23,7 @@ export const getPointOfSales = async (dispatch) => {
     client,
   };
   return axios.get(
-    `${ApiUrl}/api/point_of_sales?user_id=3`,
+    `${ApiUrl}/api/point_of_sales?user_id=${userId}`,
     {
       headers,
     },
